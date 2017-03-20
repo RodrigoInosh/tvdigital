@@ -1,0 +1,828 @@
+html, body, #viewDiv {
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	width: 100%;
+	
+}
+input{
+	height: 12px;
+}
+button{
+	background-color: beige;
+}
+#dialog {
+	display: none;
+	
+}
+
+#dialog span {
+	color: green;
+}
+
+#tools {
+	height: 40px;
+	width: 100%;
+	box-shadow: 0px 5px 5px #888888;
+}
+
+#botonHerramientas{
+	position: absolute;
+	left: 10px;
+	top: 130px;
+	cursor: pointer;
+}
+
+#basemapToggleDiv {
+	position: absolute;
+	top: 70px;
+	right: 20px;
+	z-index: 50;
+	
+}
+#caltool {
+	position: absolute;
+	top: 100px;
+	left: 150px;
+	background-color: white;
+	height: 360px;
+	width: 440px;
+	box-shadow: 5px 5px 5px #888888;
+	border-radius: 10px;
+	border-style: solid;
+	border-width: 1px;
+	padding-left: 15px;
+	display: none;
+}
+#curtainCaltool{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-color: white;
+	height: 360px;
+	width: 455px;
+	box-shadow: 5px 5px 5px #888888;
+	border-radius: 10px;
+	opacity: 0.5;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+    display: none;
+}
+#titulocaltool{
+	padding-top: 10px;
+	font-family: Arial;
+	font-size: 11px;
+	font-weight: bold;
+	padding-left: 9px;
+	width: 420px;
+	position: relative;
+}
+#selectorconmod{
+
+	padding-left: 5px;
+	height: 20px;
+}
+#selectorconmod ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;	
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;
+}
+#selectorconmod ul li{
+	width: 105px;
+	float: left;
+}
+#tabdatos{
+	margin-top: 5px;
+	border-width: 1px;
+	width: 440px;
+	height: 420px;
+}
+#tabdatos ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	font-family: Arial;
+	font-size: 11px;
+}
+#tabdatos ul li{
+	float: left;
+	text-align: center;
+	height: 16px;
+	padding-top:3px;
+    border-top: solid 1px #C0C0C0;
+	background-color: #DCDCDC;
+}
+#tabdatos ul li a{
+	text-decoration:none;
+	color: black;
+}
+
+#tabdatos .ui-tabs-active {
+	background-color: white;
+}
+
+#tab1 {
+	border: solid 1px #C0C0C0;
+	height: 265px;
+	position: relative;
+	width: 423px;
+}	
+#tab1 ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	padding-left: 10px;
+}
+#tab1 ul li{
+	background-color: white;
+	border: none;
+	list-style-type: none;
+	padding: 0;
+	padding-left: 10px;
+	padding-top: 5px;
+	height: 21px;
+	
+}
+#tab1 ul li label{
+	height: 20px;
+	position: relative;
+	top: 3px;
+}
+
+#subbox1{
+	border:solid 1px #C0C0C0; 
+	margin-left: 10px; 
+	margin-right:10px; 
+	height: 125px;
+	width: 400px;
+	position: relative;
+}
+
+#subbox1left {
+	float: left;
+	width: 160px;
+}
+
+#subbox1left ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+#subbox1left ul li{
+	background-color: white;
+	border: none;
+	list-style-type: none;
+	padding: 0;
+	padding-left: 10px;
+	padding-top: 4px;
+	height: 19px;	
+}
+#subbox1left ul li label{
+	height: 20px;
+	position: relative;
+	top: 3px;
+}
+
+#subbox1right{
+	float: left;
+	width: 240px;
+	top: 22px;
+	position: relative;
+}
+
+#subbox1right ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+#subbox1right ul li{
+	background-color: white;
+	border: none;
+	list-style-type: none;
+	height: 19px;	
+	text-align: left;
+	padding-top: 4px;
+}
+#subbox1right ul li label{
+	height: 20px;
+	position: relative;
+	top: 3px;
+}
+
+#pestanaTab1{
+	width: 130px;
+	border-right: solid 1px #C0C0C0;
+	border-left: solid 1px #C0C0C0;
+}
+
+#pestanaTab2{
+	width: 130px; 
+	border-right: solid 1px #C0C0C0;
+	border-left: 0px;
+	display: none;
+}
+
+#pestanaTab3{
+	width: 130px; 
+	border-left: none; 
+	border-right: solid 1px #C0C0C0;
+	display: none;
+}
+
+#separador{ 
+	clear: both;
+}
+#closeImage{
+	position: relative;
+	right: 0px;
+}
+#tab2 {
+	border: solid 1px #C0C0C0;
+	height: 265px;
+	padding-top: 10x;
+	position: relative;
+	width: 423px;
+}
+#tab2 ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	padding-left: 10px;
+}
+#tab2 ul li{
+	background-color: white;
+	border: none;
+	list-style-type: none;
+	padding: 0;
+	padding-left: 5px;
+	padding-top: 5px;
+	height: 18px;
+	
+}
+#tab2 ul li label{
+	height: 20px;
+	position: relative;
+	top: 3px;
+}
+#tab2 ul li button{
+	font-family: Arial;
+	font-size: 11px;
+}
+#tab3 {
+	border: solid 1px #C0C0C0;
+	height: 265px;
+	width: 423px;
+}
+#tab3 ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	padding-left: 10px;
+}
+#tab3 ul li{
+	background-color: white;
+	border: none;
+	list-style-type: none;
+	padding: 0;
+	padding-left: 5px;
+	padding-top: 5px;
+	height: 19px;
+	
+}
+#tab3 ul li label{
+	height: 20px;
+	position: relative;
+	top: 3px;
+}
+#tab3 ul li button{
+	font-family: Arial;
+	font-size: 11px;
+}
+#separador2 {
+	clear: both;
+	border: solid 1px #C0C0C0;
+}
+#frame18PerdidasLobulos{
+	height: 205px;
+	width: 260px;
+	display: none; 
+	position: absolute; 
+	top: 90px; 
+	right: 80px;
+	background-color: white;
+	border: 1px solid black;
+	box-shadow: 5px 5px 5px #888888;
+	border-radius: 10px;
+	padding: 7px;
+}
+#frame8PerdidasLobulos{
+	height: 155px;
+	width: 175px;
+	display: none; 
+	position: absolute; 
+	top: 100px; 
+	right: 130px;
+	background-color: white;
+	border: 1px solid black;
+	box-shadow: 5px 5px 5px #888888;
+	border-radius: 10px;
+	padding: 7px;
+}
+#frame72PerdidasLobulos{
+	height: 350px;
+	width: 510px;
+	display: none; 
+	position: absolute; 
+	top: 30px; 
+	right: -75px;
+	background-color: white;
+	border: 1px solid black;
+	box-shadow: 5px 5px 5px #888888;
+	border-radius: 10px;
+	padding: 7px;
+}
+#frame72PerdidasLobulos ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;	
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;	
+}
+#frame72PerdidasLobulos ul li{
+	float: left;
+	padding: 3px;
+}
+#frame18Radiales{
+	height: 175px;
+	width: 260px;
+	display: none; 
+	position: absolute; 
+	top: 100px; 
+	right: 90px;
+	background-color: white;
+	border: 1px solid black;
+	box-shadow: 5px 5px 5px #888888;
+	border-radius: 10px;
+	padding: 7px;
+	display: none; 
+}
+#frame18Radiales ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;	
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;	
+}
+#frame18Radiales ul li{
+	float: left;
+	padding: 3px;
+}
+#frame72Radiales {
+    height: 315px;
+    width: 510px;
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: -70px;
+    background-color: white;
+    border: 1px solid black;
+    box-shadow: 5px 5px 5px #888888;
+    border-radius: 10px;
+    padding: 6px;
+}
+#frame72Radiales ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;	
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;	
+}
+#frame72Radiales ul li{
+	float: left;
+	padding: 3px;
+}
+#frame8PerdidasLobulos ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;	
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;	
+}
+#frame8PerdidasLobulos ul li{
+	float: left;
+	padding: 3px;
+}
+#frame18PerdidasLobulos ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;	
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;	
+}
+#frame18PerdidasLobulos ul li{
+	float: left;
+	padding: 3px;
+}
+#subbox2left {
+	float: left;
+	width: 230px;
+}
+
+#subbox2right{
+	float: right;
+	width: 193px;
+}
+#subbox2middle{
+	border:solid 1px #C0C0C0; 
+	margin-left: 10px; 
+	margin-right: 10px; 
+	padding-bottom: 5px;
+	height: 60px;
+	width: 400px;
+	margin-top: 5px;
+}
+#subbox2middle ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	padding-left: 5px;
+}
+#subbox2middle ul li{
+	background-color: white;
+	border: none;
+	list-style-type: none;
+	padding: 0;
+	padding-left: 5px;
+	padding-top: 5px;
+	height: 18px;
+}
+#subbox2bottom1{
+	border:solid 1px #C0C0C0; 
+	width: 400px;
+	position: relative;
+	margin-left: 10px;
+	margin-top: 5px;
+	height: 60px;
+}
+#subbox2bottom1 ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	padding-left: 5px;
+}
+#subbox2bottom1 ul li{
+	background-color: white;
+	border: none;
+	list-style-type: none;
+	padding: 0;
+	padding-left: 5px;
+	padding-top: 5px;
+	height: 18px;
+}
+#subbox2bottom1 ul li a:link{
+	color: blue;
+	font-weight: bold;
+	text-decoration: underline;
+	top: 8px;
+	left: 8px;
+	position: relative;
+}
+
+#subbox2bottom1 ul li a:visited{
+	color: blue;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+#subbox2bottom2{
+	width: 412px;
+	position: relative;
+	float: left;
+	width: 412px;
+}
+#subbox2bottom2 ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	float: right;
+}
+#subbox2bottom2 ul li{
+	background-color: white;
+	border: none;
+	list-style-type: none;
+	padding: 0;
+	padding-left: 5px;
+	padding-top: 5px;
+	height: 18px;
+}
+#subbox2bottom2 ul li a:link{
+	color: blue;
+	font-weight: bold;
+	text-decoration: underline;
+	position: relative;
+	top: 6px;
+	left: 0px;
+}
+
+#subbox2bottom2 ul li a:visited{
+	color: blue;
+	font-weight: bold;
+	text-decoration: underline;
+}
+#subbox3bottom{
+	width: 412px;
+	position: relative;	
+	padding-top: 3px;
+}
+#subbox3bottom ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	float: right;
+}
+#subbox3bottom ul li{
+	background-color: white;
+	border: none;
+	list-style-type: none;
+	padding: 0;
+	height: 18px;
+	padding-left: 5px;
+}
+#subbox3bottom1{
+	height: 50px;
+	width: 400px;
+	padding-left: 5px;
+}
+#subbox3bottom1 ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	padding-left: 5px;
+}
+#subbox3bottom1 ul li{
+	background-color: white;
+	border: none;
+	list-style-type: none;
+	padding: 0;
+	padding-left: 5px;
+	padding-top: 5px;
+	height: 18px;
+}
+#distanciaKilometro8{
+	height: 155px;
+	width: 175px;
+	display: none; 
+	position: absolute; 
+	top: 100px; 
+	right: 130px;
+	background-color: white;
+	border: 1px solid black;
+	box-shadow: 5px 5px 5px #888888;
+	border-radius: 10px;
+	padding: 7px;
+}
+#distanciaKilometro8 ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;	
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;	
+}
+#distanciaKilometro8 ul li{
+	float: left;
+	padding: 3px;
+}
+#distanciaKilometro18{
+	height: 175px;
+	width: 260px;
+	display: none; 
+	position: absolute; 
+	top: 100px; 
+	right: 75px;
+	background-color: white;
+	border: 1px solid black;
+	box-shadow: 5px 5px 5px #888888;
+	border-radius: 10px;
+	padding: 7px;
+	display: none; 
+}
+#distanciaKilometro18 ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;	
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;	
+}
+#distanciaKilometro18 ul li{
+	float: left;
+	padding: 3px;
+}
+#distanciaKilometro72 {
+    height: 315px;
+    width: 510px;
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: -70px;
+    background-color: white;
+    border: 1px solid black;
+    box-shadow: 5px 5px 5px #888888;
+    border-radius: 10px;
+    padding: 6px;
+}
+#distanciaKilometro72 ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;	
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;	
+}
+#distanciaKilometro72 ul li{
+	float: left;
+	padding: 3px;
+}
+#subbox3top{
+	position: relative;
+	border:solid 1px #C0C0C0; 
+	width: 400px;
+	height: 68px;
+	position: relative;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+#subbox3topleft{
+	float: left;
+	width: 200px;
+	height: auto;
+	clear: both;
+	margin-left: 5px;
+}
+#subbox3topleft ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+#subbox3topleft ul li{
+	background-color: white;
+	border: none;
+	list-style-type: none;
+	padding: 0;
+	height: 22px;
+}
+#subbox3topright{
+	float: left;
+	width: 170px;
+	margin-top: 22px;
+}
+#subbox3topright ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+#subbox3topright ul li{
+	background-color: white;
+	border: none;
+	list-style-type: none;
+	padding: 0;
+	height: 22px;
+	float: left;
+}
+
+#opcionesAvanzadas{
+	height: 120px;
+	width: 430px;
+	position: absolute; 
+	top: 120px; 
+	right: 5px;
+	background-color: white;
+	border: 1px solid black;
+	box-shadow: 5px 5px 5px #888888;
+	border-radius: 10px;
+	padding: 7px;
+	display: none; 
+}
+
+#opcionesAvanzadas ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;	
+	font-family: Arial;
+	font-size: 11px;
+}
+#opcionesAvanzadas ul li{
+	float: left;
+	padding: 3px;
+}
+#datospostulante {
+
+}
+#datospostulante ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	padding-left: 10px;
+	position: relative;
+}
+#datospostulante ul li{
+	background-color: white;
+	border: none;
+	list-style-type: none;
+	padding: 0;
+	padding-left: 5px;
+	padding-top: 5px;
+	height: 19px;
+	float: left;
+	text-align: left;
+}
+
+#loader {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	display: none;
+	left: 0px;
+	top: 0px;
+}
+
+#curtainloader{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background-color: black;
+	opacity: 0.8;
+    filter: alpha(opacity=80);	
+}
+
+#loadbox{
+	z-index: 10000;
+	position: absolute;
+	top: 40%;
+  	left: 40%;
+  	background-color: white;
+  	border-radius: 10px;
+}
+
+#loadboxcontent {
+	width: 265px;
+	height: 95px;
+	position: relative;
+}
+
+#loadboximage{
+	float: left;
+	width: auto;
+	height: auto;
+	margin: 5px;
+	padding: 5px;
+}
+
+#loadboxright {
+	float: left;
+	width: 140px;
+	height: 40px;
+	padding-top: 24px;
+	font-family: Arial;
+	font-size: 15px;
+	padding-left: 10px;
+	font-style: italic;
+	text-align: justify;
+}
+#msgbox {
+    height: 36px;
+    width: 160px;
+    display: none;
+    position: absolute;
+    top: 229px;
+    right: 3px;
+    background-color: white;
+    border: 1px solid black;
+    box-shadow: 5px 5px 5px #888888;
+    border-radius: 7px;
+    padding: 0px;
+    font-family: Arial;
+    font-size: 12px;
+}
+#topGobRed {
+	padding-top: 2px;
+    background-color: #EB3646;
+}
+
+#topGobBlue {
+    width: 30%;
+    height: 2px;
+    background-color: #0f69b4;
+    margin-top: -2px;
+}
