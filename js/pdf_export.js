@@ -11,7 +11,9 @@ function getPDF(form_elements) {
         ]
     }
 
-    pdfMake.createPdf(doc).download('safa.pdf');
+    var pdf_name = getFileName();
+
+    pdfMake.createPdf(doc).download(pdf_name+'.pdf');
 }
 
 function getPage1(title, form_elements) {
@@ -305,4 +307,16 @@ function getRadialsTableRowData(title, form_elements, init_grade, added_grades, 
     }
     
     return aux;
+}
+
+function getFileName() {
+
+	var date_in_milis = new Date();
+	var year = date_in_milis.getFullYear();
+	var month = date_in_milis.getMonth();
+	var day = date_in_milis.getDay();
+	var hour = date_in_milis.getHours();
+	var minutes = date_in_milis.getMinutes();
+
+	return year+"-"+month+"-"+day+"_"+hour+"_"+minutes;
 }

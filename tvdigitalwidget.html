@@ -54,9 +54,9 @@
 					<li style="padding-top: 5px; font-weight: 100; width: 117px; text-align: right;">Recomendación: </li>
 					<li style="padding-top: 2px; width: 50px;">
 						<select name="recomendacion" id="recomendacion" style="width: 65px;">
-							<option value="370">370</option>
+							<!-- <option value="370">370</option> -->
 							<option value="1546" selected="true">1546</option>
-							<option value="1546+">1546+</option>
+							<!-- <option value="1546+">1546+</option> -->
 						</select>	
 					</li>
 				</ul>
@@ -182,7 +182,7 @@
 					<div id="separador"></div>
 					<div id="subbox2middle">
 						<ul>
-							<li><label>Coordenadas de Ubicación Propuesta para Planta TxWGS84:</label></li>
+							<li><label>Coordenadas de Ubicación Digital para Planta TxWGS84:</label></li>
 							<div id="separador"></div>
 							<li><label>Latitud:</label></li>
 							<li><input type="text" value="" id="latitudGradosM" style="width: 30px;"/>°</li>
@@ -218,7 +218,7 @@
 					<div id="subbox2bottom2">
 						<ul>
 							<li style="width: 170px; text-align: left;" id="opcionesAvanzadasButton"><a href="#">Parámetros Avanzados</a></li>
-							<li><button type="button" id="calculaZonaMax" style="width: 120px;" disabled="disabled">Nueva zona máxima</button></li>
+							<li></li>
 							<li><button type="button" id="calculaPoligono" style="width: 100px;" disabled="disabled">Calcular Zona</button></li>
 						</ul>
 					</div>
@@ -227,7 +227,7 @@
 					<div id="subbox3top">
 						<div id="subbox3topleft">
 							<ul>
-								<li><label><b><u>Zona Propuesta Calculada</u></b></label></li>
+								<li><label><b><u>Zona Digital Calculada</u></b></label></li>
 								<div id="separador" style="height: 1px;"></div>					
 								<li><label>Localidad: &nbsp;</label></li>
 								<li style="font-weight: bold"><label id="localidadI"></label></li>
@@ -250,7 +250,7 @@
 					<div id="separador"></div>
 					<div id="subbox3bottom1">
 						<ul>
-							<li><label><u>Coordenadas de Ubicación Propuesta para Planta TxWGS84</u></label></li>
+							<li><label><u>Coordenadas de Ubicación Digital para Planta TxWGS84</u></label></li>
 							<div id="separador"></div>
 							<li><label>Latitud:</label></li>
 							<li><input id="latitudI" type="text" value="" style="width: 100px;" disabled="disabled"/></li>
@@ -322,7 +322,7 @@
 			<div id="frame18PerdidasLobulos">
 				<img id="closeImage18" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>
-					<li><label><b><u>18 Radiales</u></b></label></li>
+					<li><label><b><u>18 Radiales [dB]</u></b></label></li>
 					<div id="separador"></div>
 					<li>&nbsp; &nbsp; 0°</li>
 					<li><input type="text" value="0" id="I18PL0" style="width: 40px" /></li>
@@ -375,7 +375,7 @@
 			<div id="frame72PerdidasLobulos">
 				<img id="closeImage72" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">	
 				<ul>
-					<li><label><b><u>72 Radiales</u></b></label></li>
+					<li><label><b><u>72 Radiales [dB]</u></b></label></li>
 					<div id="separador"></div>
 					<li>&nbsp; &nbsp; 0°</li>
 					<li><input type="text" value="0" id="I72PL0" style="width: 40px"/></li>

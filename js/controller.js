@@ -1089,12 +1089,12 @@ function showInitPestana(){
 
 function activeAll(){
 	$("#normaAnteriorM").prop("disabled", false);
-	$("#calculaZonaMax").prop("disabled", false);
+	// $("#calculaZonaMax").prop("disabled", false);
 }
 
 function disabledAll(){
 	$("#normaAnteriorM").prop("disabled", true);
-	$("#calculaZonaMax").prop("disabled", true);
+	// $("#calculaZonaMax").prop("disabled", true);
 }
 
 function setTwoNumberDecimal(){

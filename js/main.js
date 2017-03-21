@@ -1,4 +1,6 @@
 var superView={};
+var ajaxCall1 = {};
+var ajaxCall2 = {};
 var circleFunction;
 
 require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle",
@@ -100,32 +102,34 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		}
 	});
 
+	
+	var identificador = "Identificadores3";
 	//ListaConcursos (0)
-	var identificadores20 = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Identificadores2/MapServer/0";
+	var identificadores20 = `http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/${identificador}/MapServer/0`;
 	//ListaConcursosTV (1)
-	var identificadores21 = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Identificadores2/MapServer/1";
+	var identificadores21 = `http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/${identificador}/MapServer/1`;
 	//Identificador_Concursos (2)
-	var identificadores22 = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Identificadores2/MapServer/2";
+	var identificadores22 = `http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/${identificador}/MapServer/2`;
 	//Identificador_Modificacion_1546 (3)
-	var identificadores23 = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Identificadores2/MapServer/3";
+	var identificadores23 = `http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/${identificador}/MapServer/3`;
 	//Identificador_Modificacion_1546mas (4)
-	var identificadores24 = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Identificadores2/MapServer/4";
+	var identificadores24 = `http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/${identificador}/MapServer/4`;
 	//Identificador_Modificacion_370 (5)
-	var identificadores25 = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Identificadores2/MapServer/5";
+	var identificadores25 = `http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/${identificador}/MapServer/5`;
 	//Zonas_Concursos (6)
-	var identificadores26 = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Identificadores2/MapServer/6";
+	var identificadores26 = `http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/${identificador}/MapServer/6`;
 	//Zonas_Modificacion_1546 (7)
-	var identificadores27 = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Identificadores2/MapServer/7";
+	var identificadores27 = `http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/${identificador}/MapServer/7`;
 	//Zonas_Modificacion_1546_30p (8)
-	var identificadores28 = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Identificadores2/MapServer/8";
+	var identificadores28 = `http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/${identificador}/MapServer/8`;
 	//Zonas_Modificacion_1546mas (9)
-	var identificadores29 = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Identificadores2/MapServer/8";
+	var identificadores29 = `http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/${identificador}/MapServer/8`;
 	//Zonas_Modificacion_1546mas_30p (10)
-	var identificadores210 = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Identificadores2/MapServer/8";
+	var identificadores210 = `http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/${identificador}/MapServer/8`;
 	//Zonas_Modificacion_370 (11)
-	var identificadores211 = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Identificadores2/MapServer/8";
+	var identificadores211 = `http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/${identificador}/MapServer/8`;
 	//Zonas_Modificacion_370_30p (12)
-	var identificadores212 = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Identificadores2/MapServer/8";
+	var identificadores212 = `http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/${identificador}/MapServer/8`;
 	
 	var gpCalculoPredictivo = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/calculozona/GPServer/CalculoPredictivo72";
 	var ptReporte = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Imprimir/GPServer/Imprimir";
@@ -254,6 +258,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		}
 		if(modificacionM){
 			setComboRegion(false);
+			
 		}
 	}
 	
@@ -408,19 +413,42 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 					renderer:modificacionRenderer,
 					definitionExpression: "IDENTIFICADOR='"+idIdentificador+"'"
 				});
-				map.add(radio1);	
+				map.add(radio1);
+				
+				var ajaxCall1 = new XMLHttpRequest();
+				ajaxCall1.addEventListener("load", function(datLoad) {
+					eval("datosExtraidos = " + ajaxCall1.response);
+					superView.zonaMaxima1 = datosExtraidos.features[0].geometry;					
+				});
+				//console.debug(urlRadio1 + "/" + `query?f=json&where=IDENTIFICADOR%3D%27${idIdentificador}%27&returnGeometry=true`);
+				ajaxCall1.open("GET", urlRadio1 + "/" + `query?f=json&where=IDENTIFICADOR%3D%27${idIdentificador}%27&returnGeometry=true`); 
+				ajaxCall1.send();
+				
+				
 				var radio2 = new FeatureLayer({
 					url: urlRadio2,
 					renderer:concursoRenderer,
 					definitionExpression: "IDENTIFICADOR='"+idIdentificador+"'"
 				});
-				map.add(radio2);			
+				map.add(radio2);
+
+				var ajaxCall2 = new XMLHttpRequest();
+				ajaxCall2.addEventListener("load", function(datLoad) {
+					eval("datosExtraidos = " + ajaxCall2.response);
+					superView.zonaMaxima2 = datosExtraidos.features[0].geometry;					
+				});
+				//console.debug(urlRadio2 + "/" + `query?f=json&where=IDENTIFICADOR%3D%27${idIdentificador}%27&returnGeometry=true`);
+				ajaxCall2.open("GET", urlRadio2 + "/" + `query?f=json&where=IDENTIFICADOR%3D%27${idIdentificador}%27&returnGeometry=true`); 
+				ajaxCall2.send();
+				
 				var queryData = new Query();
 				queryData.returnGeometry = true;
 				queryData.outFields = ["*"];
 				queryData.where = queryString;					
 				queryTask3.execute(queryData).then(function(data){
-					superView.niIdea = data;
+					superView.punto = data;					
+					//console.debug("data en modificacion");
+					//console.debug(data);
 					activeAll();
 					setDataIdentificador(data.features[0].attributes, coords);
 					view.zoom = setZoom(data.features[0].attributes);
@@ -453,7 +481,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				});
 			map.add(capaCalculoPuntos);
 			latitud = event.mapPoint.latitude;
-			longitud = event.mapPoint.longitude;
+			longitud = event.mapPoint.longitude;			
 			var coordsPoint = new GeoPoint( longitud, latitud);
 			var coords = [coordsPoint.lonDeg, coordsPoint.latDeg];
 			setPuntoCoordenadas(coords);
@@ -478,10 +506,10 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		map.add(capaCalculoPuntos);
 	}
 	
-	function calculaZonaMaximaClick(){
-		calculoZonaMaxima = true;
-		clickCalculaPoligonoClick();
-	}
+	// function calculaZonaMaximaClick(){
+	// 	calculoZonaMaxima = true;
+	// 	clickCalculaPoligonoClick();
+	// }
 
 	function clickCalculaPoligonoClick(){
 		showLoader(true);
@@ -493,6 +521,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			var recomendacion = '370';
 		}
 		cambiaNuevaCoordenada(mapParametros.latitud,mapParametros.longitud);
+		
+		superView.puntoNuevo = {"longitud": mapParametros.longitud, "latitud": mapParametros.latitud };
 		var params = {
           "latitud": mapParametros.latitud,
           "longitud": mapParametros.longitud,
@@ -728,53 +758,12 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 	
 	function imprimirCalculoClick(){
-		
 		var mapReporte = getParametersReport();
 		getPDF(mapReporte);
-		// var printTask = new PrintTask({
-		//    url: ptReporte
-		// })
-
-		// var template = new PrintTemplate({
-		// 	format: "pdf",
-		// 	exportOptions: { 
-		// 		dpi: 96 
-		// 	},
-		// 	outputSize:[800, 1100],
-		// 	layout: "",
-		// 	layoutOptions: {
-		// 		titleText: "", 
-		// 		authorText: ""
-		// 	}
-		// });	
-		// console.debug( view );
-		// var params = new PrintParameters({
-		// 	view: view,
-		// 	template: template,
-		// 	extraParameters: {
-		// 		"pPerdidaCablesConectores" : mapReporte.pPerdidaCablesConectores,
-		// 		"pOtrasPerdidas" : mapReporte.pOtrasPerdidas,
-		// 		"pFrecuencia" : mapReporte.pFrecuencia,
-		// 		"pGanancia" : mapReporte.pGanancia,
-		// 		"f" : "json",
-		// 		"pPotencia" : mapReporte.pPotencia,
-		// 		"pAlturaAntenaTx" : mapReporte.pAlturaAntenaTx,
-		// 		"pRut" : mapReporte.pRut,
-		// 		"pLobulos" : setRadiansString(mapReporte),
-		// 		"pDivisorPotencia" : mapReporte.pDivisorPotencia,
-		// 		"pLocalidad" : mapReporte.pLocalidad,
-		// 		"pDistancias" : setDistanciaString(mapReporte),
-		// 		"pRazonSocial" : mapReporte.pRazonSocial,
-		// 		"pLatitud" : mapReporte.pLatitud,
-		// 		"pIntensidadCampo" : mapReporte.pIntensidadCampo,
-		// 		"pLongitud" : mapReporte.pLongitud
-		// 	}
-		// });		
-		// printTask.execute(params).then(sendRequestImprimir, showError);
 	}
 
 	function sendRequestImprimir(data){		
-		console.debug( data );
+		//console.debug( data );
 		//showDocument(data.url);
 		
 	}
@@ -802,16 +791,30 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				authorText: ""
 			}
 		});
-		console.log(view);
+		//console.log(view);
 		var params = new PrintParameters({
 			view: view,
 			template: template
 		});
 		
 		// JCD
+		var datos = { 
+			"poligonos": {
+				"zonaServicio": "",
+				"zonaMaximaServicio":"",
+				"zonaMaximaExistente":"",
+				"":""
+			},
+			"puntos": {
+				"existente": {},
+				"nuevo": {}
+			}
+		};
 		var poligono1="";
 		var poligono2="";
-		console.debug(Circulo);
+		var poligonoM1="";
+		var poligonoM2="";
+		//console.debug(Circulo);
 		
 		var ubicacion = {x: superView.punto.features[0].geometry.longitude, 
 						 y: superView.punto.features[0].geometry.latitude};
@@ -819,24 +822,41 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			"radius": 60000,
 			geodesic: true
 		  });
-		console.debug( circleGeometry );
+		//console.debug( circleGeometry );
 		circleGeometry.rings[0].map( x => {
-			console.debug(x);
-			result = toGeographic(x[0], x[1]);
-			console.debug(result);
+			//result = toGeographic(x[0], x[1]);
 			//poligono1 += result.x + "," + result.y + ",10 \n";
 			poligono1 += x[0] + "," + x[1] + ",10 \n";
 		});
 		
+		if ( superView.zonaMaxima1!=null ) {
+			superView.zonaMaxima1.rings[0].map( x => {
+				//result = toGeographic(x[0], x[1]);
+				poligonoM1 += x[0] + "," + x[1] + ",10 \n";
+			});	
+		}
+		if ( superView.zonaMaxima2!=null ) {
+			superView.zonaMaxima2.rings[0].map( x => {
+				//result = toGeographic(x[0], x[1]);
+				poligonoM2 += x[0] + "," + x[1] + ",10 \n";
+			});	
+		}
+				
 		superView.zonaPropuesta.geometry.rings[0].map( x => {
 			result = toGeographic(x[0], x[1]);
 			poligono2 += result.x + "," + result.y + ",10 \n";
 	    });		
 		
-		var data = new Blob([ getTemplateKML(poligono1,
-											 poligono2, 
-											 ubicacion.x, 
-											 ubicacion.y) ]);
+		datos.poligonos.zonaServicio = poligono2;
+		datos.poligonos.zonaMaximaServicio = poligono1;
+		datos.poligonos.zonaMaximaExistente = poligonoM1;
+		datos.poligonos.zonaMaximaExistenteExtendida = poligonoM2;
+		datos.puntos.existente.longitud = ubicacion.x;
+		datos.puntos.existente.latitud = ubicacion.y;
+		datos.puntos.nuevo.longitud = superView.puntoNuevo.longitud; // 
+		datos.puntos.nuevo.latitud = superView.puntoNuevo.latitud;
+		
+		var data = new Blob([ getTemplateKML(datos) ]);
 		var a = URL.createObjectURL( data );
 		var name = "calculoZonaServicio.kml";
 		var link = document.createElement('a');
@@ -862,7 +882,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	on(dom.byId("normaAnteriorM"), "change", changeCambiaNormaClick);
 	on(dom.byId("regiones"), "change", changeConcursoRegionesClick);
 	on(dom.byId("calculaPoligono"), "click", clickCalculaPoligonoClick); 
-	on(dom.byId("calculaZonaMax"), "click", calculaZonaMaximaClick); 
+	// on(dom.byId("calculaZonaMax"), "click", calculaZonaMaximaClick); 
 	on(dom.byId("imprimirCalculo"), "click", imprimirCalculoClick);
 	on(dom.byId("exportarKMZ"), "click", exportKMZClick);
 });
