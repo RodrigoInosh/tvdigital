@@ -520,6 +520,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		if(calculoZonaMaxima && dom.byId("normaAnteriorM").checked){
 			var recomendacion = '370';
 		}
+
 		cambiaNuevaCoordenada(mapParametros.latitud,mapParametros.longitud);
 		
 		superView.puntoNuevo = {"longitud": mapParametros.longitud, "latitud": mapParametros.latitud };
@@ -694,6 +695,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 		
 	function sendRequestPolygon(data) {
+		console.log("request");
 		areaCalculo = 0;
 		var jobId = data.jobId;
 		var MAX_VALUE = 100000;
@@ -711,10 +713,11 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		showLoader(false);
 	}
 	
-	function setPolygon(data){		
+	function setPolygon(data){
 		var polygonGraphic1 = null;
 		var polygonGraphic2 = null;
 		areaCalculo = redondea(Number(data.value.features[0].attributes.area),2);
+		console.log(calculoZonaMaxima);
 		if(calculoZonaMaxima){
 			map.removeAll();
 			map.add(pointRegion);

@@ -451,8 +451,8 @@ function setDataIdentificador(data, coords){
 	$("#divisorPotenciaI").text("0");
 	$("#perdidaCableConectoI").text(data.PERDIDA_CABLE_CONECTOR);
 	$("#otrasPerdidasI").text("0");
-	$("#latitudI").val(coords[1].replace("-",""));
-	$("#longitudI").val(coords[0].replace("-",""));
+	// $("#latitudI").val(coords[1].replace("-",""));
+	// $("#longitudI").val(coords[0].replace("-",""));
 	$("#calculaPoligono").prop("disabled", false);
 	$("#verRadiales").prop("disabled", false);
 	$("#pestanaTab2").show();
@@ -911,10 +911,16 @@ function getMapParameters(){
 	mapOut["porcentajeUbicacion"] = porcentajeUbicacion;
 	mapOut["recomendacion"] = recomendacion;
 	mapOut["radiales"] = radiales;
+
+	$("#latitudI").val($("#longitudGradosM").val() + "° "+ $("#longitudMinutosM").val() + "' " + $("#longitudSegundosM").val() + "''");
+	$("#longitudI").val($("#latitudGradosM").val() + "° "+ $("#latitudMinutosM").val() + "' " + $("#latitudSegudosM").val() + "''");
+
 	var longitudGMS = ComponeCoordenadaNumero($("#longitudGradosM").val(),$("#longitudMinutosM").val(),$("#longitudSegundosM").val());
 	var latitudGMS = ComponeCoordenadaNumero($("#latitudGradosM").val(),$("#latitudMinutosM").val(),$("#latitudSegudosM").val());
+
 	mapOut["longitud"] = longitudGMS;
 	mapOut["latitud"] = latitudGMS;
+
 	if(radiales == 8){
 		mapOut["M8PL0"] = perdidasLobulos8Map["M8PL0"];
 		mapOut["M8PL45"] = perdidasLobulos8Map["M8PL45"];
