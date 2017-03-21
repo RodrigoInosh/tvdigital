@@ -6,7 +6,7 @@
 <title>Subsecretaria de Telecomunicaciones</title>
 <link rel="icon" href="../favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/>
-<link href="css/main.css" rel="stylesheet" type="text/css">  
+<link href="css/main.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://js.arcgis.com/4.1/esri/css/main.css">
 
 <script src="js/jquery-1.10.2.js"></script>
@@ -14,13 +14,14 @@
 <script src="js/template_kml.js"></script>
 <script src="js/pdfmake.min.js"></script>
 <script src="js/vfs_fonts.js"></script>
-<script src="https://js.arcgis.com/4.2/"></script>
+<script src="js/init.js"></script>
 <script src="js/main.js"></script>
 <script src="js/geopoint.js"></script>
 <script src="js/zoom.js"></script>
 <script src="js/controller.js"></script>
 <script src="js/pdf_export.js"></script>
 <script src="js/interpolacion.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </head>
 <body>
 	<div id="loader">
@@ -192,7 +193,7 @@
 							<li><input type="text" value="" id="longitudGradosM" style="width: 30px;"/>°</li>
 							<li><input type="text" value="" id="longitudMinutosM" style="width: 30px;"/>'</li>
 							<li><input type="text" value="" id="longitudSegundosM" style="width: 30px;"/>''</li> 
-							<li><button type="button" id="cambioUbicacionM" style="width: 20px; height: 20px; padding-top: 0px; padding-left:4px;"> + </button></li>
+							<li><button type="button" id="cambioUbicacionM" style="width: 20px; height: 20px; padding-top: 0px; padding-left:4px;" title="Ubicar en Mapa"> ? </button></li>
 						</ul>
 					</div>		
 					<div id="subbox2bottom1">
@@ -1014,7 +1015,7 @@
 					<li style="width: 75px; float: right;"><button type="button" style="width: 70px;" id="saveParametrosAvanzadosButton">Aceptar</button></li>
 				</ul>
 			</div>
-			<div id="msgbox"><p>Seleccione en el mapa</p></div>
+			<div id="msgbox"><p>Ubique el PTx en el mapa para generar las coordenadas</p></div>
 		</div>
 	</div>
 	<!--div id="dialog2" title="Basic dialog" style="display: none">
