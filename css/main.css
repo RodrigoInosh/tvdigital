@@ -801,8 +801,8 @@ button{
 	text-align: justify;
 }
 #msgbox {
-    height: 36px;
-    width: 160px;
+   /* height: 36px;
+    width: 160px*/;
     display: none;
     position: absolute;
     top: 229px;

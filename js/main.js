@@ -45,6 +45,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	var default72 = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0";
 	var default18 = "0,0,0,0,0,0,0,0,0,0";
 	var default8 = "0,0,0,0,0,0,0,0";
+	var 
 
 	var map = new Map({
 		
@@ -811,6 +812,12 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			"puntos": {
 				"existente": {},
 				"nuevo": {}
+			},
+			"general": {
+				"localidad": "",
+				"frecuencia": "",
+				"intensidad": "",
+				"nombre": ""
 			}
 		};
 		var poligono1="";
@@ -856,12 +863,19 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		datos.poligonos.zonaMaximaExistenteExtendida = poligonoM2;
 		datos.puntos.existente.longitud = ubicacion.x;
 		datos.puntos.existente.latitud = ubicacion.y;
-		datos.puntos.nuevo.longitud = superView.puntoNuevo.longitud; // 
+		datos.puntos.nuevo.longitud = superView.puntoNuevo.longitud;
 		datos.puntos.nuevo.latitud = superView.puntoNuevo.latitud;
+
+		var form_data = getMapParameters();
+		console.log(form_data);
+		datos.general.localidad = form_data.localidad;
+		datos.general.frecuencia = form_data.frecuenciaM;
+		datos.general.intensidad = form_data.intensidadCampoM;
+		datos.general.nombre = getKMLNameSite(form_data.intensidadCampoM);
 		
 		var data = new Blob([ getTemplateKML(datos) ]);
 		var a = URL.createObjectURL( data );
-		var name = "calculoZonaServicio.kml";
+		var name = $("#identificadores").val();
 		var link = document.createElement('a');
 		link.style = 'position: fixed; left -10000px;'; // making it invisible
 		link.href = a; //'data:application/octet-stream,' + encodeURIComponent(address); // forcing content type
@@ -888,4 +902,27 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	// on(dom.byId("calculaZonaMax"), "click", calculaZonaMaximaClick); 
 	on(dom.byId("imprimirCalculo"), "click", imprimirCalculoClick);
 	on(dom.byId("exportarKMZ"), "click", exportKMZClick);
+
+	$("#frecuenciaM").on('change', function(){
+		
+		var value = this.value;
+
+		if(value == ""){
+			this.value = "0";
+		}
+	});
+
+	function getKMLNameSite(intensidad){
+		var name = "";
+
+		if(intensidad == "48") {
+			name = "CalculoZonaServicio";
+		} else if (intensidad == "40") {
+			name = "CalculoZonaCobertura";
+		} else if(inteisdad = "55") {
+			name = "CalculoContornoUrbano";
+		}
+
+		return name;
+	}
 });

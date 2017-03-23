@@ -892,6 +892,7 @@ function getMapParameters(){
 	otrasPerdidasM = $("#otrasPerdidasM").val();		
 	recomendacion = $("#recomendacion option:selected").text();
 	radiales = $("input[name=radialesRadio]:checked").val();
+	localidad = $("#localidadC").val();
 	radialesCalculo = radiales;
 	var mapOut = {};
 	mapOut["potenciaM"] = potenciaM;
@@ -911,9 +912,10 @@ function getMapParameters(){
 	mapOut["porcentajeUbicacion"] = porcentajeUbicacion;
 	mapOut["recomendacion"] = recomendacion;
 	mapOut["radiales"] = radiales;
+	mapOut["localidad"] = localidad;
 
-	$("#latitudI").val($("#longitudGradosM").val() + "° "+ $("#longitudMinutosM").val() + "' " + $("#longitudSegundosM").val() + "''");
-	$("#longitudI").val($("#latitudGradosM").val() + "° "+ $("#latitudMinutosM").val() + "' " + $("#latitudSegudosM").val() + "''");
+	$("#longitudI").val($("#longitudGradosM").val() + "° "+ $("#longitudMinutosM").val() + "' " + $("#longitudSegundosM").val() + "''");
+	$("#latitudI").val($("#latitudGradosM").val() + "° "+ $("#latitudMinutosM").val() + "' " + $("#latitudSegudosM").val() + "''");
 
 	var longitudGMS = ComponeCoordenadaNumero($("#longitudGradosM").val(),$("#longitudMinutosM").val(),$("#longitudSegundosM").val());
 	var latitudGMS = ComponeCoordenadaNumero($("#latitudGradosM").val(),$("#latitudMinutosM").val(),$("#latitudSegudosM").val());
@@ -1036,7 +1038,7 @@ function getParametersReport(){
 	mapOut["pPerdidaCablesConectores"] = $("#perdidaCableConectoI").text();
 	mapOut["pOtrasPerdidas"] = $("#otrasPerdidasI").text();
 	mapOut["pFrecuencia"] =  $("#frecuenciaI").text();
-	mapOut["pGanancia"] = $("#ganaciaM").text();              
+	mapOut["pGanancia"] = $("#ganaciaM").text();
 	mapOut["pPotencia"] = $("#potenciaI").text();
 	mapOut["pAlturaAntenaTx"] = $("#alturaAntenaI").text();
 	mapOut["pRut"] = $("#iRutRazon").val();
@@ -1049,7 +1051,6 @@ function getParametersReport(){
 	mapOut["pDomicilio"] = $("#idomicilio").val();
 	//----->
 	mapOut["pLatitud"]  = $("#latitudI").val();
-	mapOut["pIntensidadCampo"] = $("#intensidadCampoI").text();          
 	mapOut["pLongitud"] = $("#longitudI").val();
 	var radial = $("input[name=radialesRadio]:checked").val();
 	mapOut["radiales"] = radial;
