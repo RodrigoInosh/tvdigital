@@ -74,18 +74,22 @@ $(document).ready(function() {
 			botonHerramientasShow = true;
 		}
 	});
+
 	$("#closeImage8").click(function() {
 		$("#frame8PerdidasLobulos").hide();
 		$("#curtainCaltool").hide();
 	});
+
 	$("#closeImage18").click(function() {
 		$("#frame18PerdidasLobulos").hide();
 		$("#curtainCaltool").hide();
 	});
+
 	$("#closeImage72").click(function() {
 		$("#frame72PerdidasLobulos").hide();
 		$("#curtainCaltool").hide();
 	});
+
 	$("#show72PerdidasLobulos").click(function() {
 		$("#72PerdidasLobulos").prop("checked", true);
 		var interpola72 = null;
@@ -98,6 +102,7 @@ $(document).ready(function() {
 		$("#curtainCaltool").show();
 		plCheckActual = 72;
 	});
+
 	$("#show18PerdidasLobulos").click(function() {
 		$("#18PerdidasLobulos").prop("checked", true);
 		var interpola18 = null;
@@ -110,6 +115,7 @@ $(document).ready(function() {
 		$("#curtainCaltool").show();
 		plCheckActual = 18;
 	});
+
 	$("#show8PerdidasLobulos").click(function() {
 		$("#8PerdidasLobulos").prop("checked", true);
 		var interpola8 = null;
@@ -122,18 +128,22 @@ $(document).ready(function() {
 		$("#curtainCaltool").show();
 		plCheckActual = 8;
 	});
+
 	$("#save72PerdidasLobulosButton").click(function() {
 		save72PerdidasLobulos();
 		$("#curtainCaltool").hide();
 	});
+
 	$("#save18PerdidasLobulosButton").click(function() {
 		save18PerdidasLobulos();
 		$("#curtainCaltool").hide();
 	});
+
 	$("#save8PerdidasLobulosButton").click(function() {
 		save8PerdidasLobulos();
 		$("#curtainCaltool").hide();
 	});
+
 	$("#closeImage1").click(function() {
 		$("#caltool").hide("drop");
 		botonHerramientasShow = false;

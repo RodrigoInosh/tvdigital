@@ -45,7 +45,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	var default72 = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0";
 	var default18 = "0,0,0,0,0,0,0,0,0,0";
 	var default8 = "0,0,0,0,0,0,0,0";
-	var 
+	var concursoModificacion = "Concurso";
+	 
 
 	var map = new Map({
 		
@@ -248,9 +249,11 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		map.removeAll();
 		concursoC = dom.byId("concursoC").checked;
 		modificacionM = dom.byId("modificacionM").checked;	
+
 		setCombosToStart();
 		removeDataConcurso();
 		if(concursoC){
+			concursoModificacion = "Concurso";
 			var query1 = new Query();
 			query1.returnGeometry = true;
 			query1.outFields = ["nombre, id_concurso"];
@@ -259,6 +262,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			setComboRegion(true);
 		}
 		if(modificacionM){
+			concursoModificacion = "Modificacion";
 			setComboRegion(false);
 			
 		}
@@ -422,7 +426,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 					eval("datosExtraidos = " + ajaxCall1.response);
 					superView.zonaMaxima1 = datosExtraidos.features[0].geometry;					
 				});
-				//console.debug(urlRadio1 + "/" + `query?f=json&where=IDENTIFICADOR%3D%27${idIdentificador}%27&returnGeometry=true`);
+
 				ajaxCall1.open("GET", urlRadio1 + "/" + `query?f=json&where=IDENTIFICADOR%3D%27${idIdentificador}%27&returnGeometry=true`); 
 				ajaxCall1.send();
 				
@@ -439,7 +443,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 					eval("datosExtraidos = " + ajaxCall2.response);
 					superView.zonaMaxima2 = datosExtraidos.features[0].geometry;					
 				});
-				//console.debug(urlRadio2 + "/" + `query?f=json&where=IDENTIFICADOR%3D%27${idIdentificador}%27&returnGeometry=true`);
+
 				ajaxCall2.open("GET", urlRadio2 + "/" + `query?f=json&where=IDENTIFICADOR%3D%27${idIdentificador}%27&returnGeometry=true`); 
 				ajaxCall2.send();
 				
@@ -449,8 +453,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				queryData.where = queryString;					
 				queryTask3.execute(queryData).then(function(data){
 					superView.punto = data;					
-					//console.debug("data en modificacion");
-					//console.debug(data);
 					activeAll();
 					setDataIdentificador(data.features[0].attributes, coords);
 					view.zoom = setZoom(data.features[0].attributes);
@@ -766,11 +768,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		getPDF(mapReporte);
 	}
 
-	function sendRequestImprimir(data){		
-		//console.debug( data );
-		//showDocument(data.url);
-		
-	}
 	function showDocument(data){
 		showDocumentPopUp(data);
 		setPosicionTools();
@@ -795,7 +792,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				authorText: ""
 			}
 		});
-		//console.log(view);
+
 		var params = new PrintParameters({
 			view: view,
 			template: template
@@ -817,14 +814,14 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				"localidad": "",
 				"frecuencia": "",
 				"intensidad": "",
-				"nombre": ""
+				"nombre": "",
+				"concursoModificacion": concursoModificacion
 			}
 		};
 		var poligono1="";
 		var poligono2="";
 		var poligonoM1="";
 		var poligonoM2="";
-		//console.debug(Circulo);
 		
 		var ubicacion = {x: superView.punto.features[0].geometry.longitude, 
 						 y: superView.punto.features[0].geometry.latitude};
@@ -832,7 +829,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			"radius": 60000,
 			geodesic: true
 		  });
-		//console.debug( circleGeometry );
+		
 		circleGeometry.rings[0].map( x => {
 			//result = toGeographic(x[0], x[1]);
 			//poligono1 += result.x + "," + result.y + ",10 \n";
@@ -867,7 +864,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		datos.puntos.nuevo.latitud = superView.puntoNuevo.latitud;
 
 		var form_data = getMapParameters();
-		console.log(form_data);
 		datos.general.localidad = form_data.localidad;
 		datos.general.frecuencia = form_data.frecuenciaM;
 		datos.general.intensidad = form_data.intensidadCampoM;
@@ -886,7 +882,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		document.body.removeChild(link);
 		
 		showLoader(false);
-		//printTask.execute(params).then(sendRequestImprimir, showError);
 	}
 	
 	on(dom.byId("concursos"), "change", changeComboConcursoClick);
@@ -898,15 +893,13 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	on(dom.byId("normaActualM"), "change", changeCambiaNormaClick);
 	on(dom.byId("normaAnteriorM"), "change", changeCambiaNormaClick);
 	on(dom.byId("regiones"), "change", changeConcursoRegionesClick);
-	on(dom.byId("calculaPoligono"), "click", clickCalculaPoligonoClick); 
-	// on(dom.byId("calculaZonaMax"), "click", calculaZonaMaximaClick); 
+	on(dom.byId("calculaPoligono"), "click", clickCalculaPoligonoClick);
 	on(dom.byId("imprimirCalculo"), "click", imprimirCalculoClick);
 	on(dom.byId("exportarKMZ"), "click", exportKMZClick);
 
 	$("#frecuenciaM").on('change', function(){
 		
 		var value = this.value;
-
 		if(value == ""){
 			this.value = "0";
 		}
@@ -925,4 +918,14 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 		return name;
 	}
+
+	$('input[type="radio"][id="18PerdidasLobulos"]').change(function() {
+
+		$("#calculaPoligono").text("Calcular Zona [18 radiales]");
+     });
+
+	$('input[type="radio"][id="72PerdidasLobulos"]').on('change',function() {
+		$("#calculaPoligono").text("Calcular Zona [72 radiales]");
+     });
+
 });

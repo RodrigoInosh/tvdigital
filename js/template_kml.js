@@ -1,7 +1,5 @@
 function getTemplateKML ( datos )  {
-console.log(datos);
-console.log(datos.general.localidad);
-	return `<?xml version="1.0" encoding="UTF-8"?>
+	var kml = `<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
 <Folder>
 	<name>Caldera_575</name>
@@ -156,10 +154,10 @@ console.log(datos.general.localidad);
 		</Style>
 		<Style id="sn_ylw-pushpin">
 			<LineStyle>
-				<color>00000000</color>
+				<color>ff7f0000</color>
 			</LineStyle>
 			<PolyStyle>
-				<color>00000000</color>
+				<color>ff7f0000</color>
 				<fill>0</fill>
 			</PolyStyle>
 		</Style>
@@ -171,51 +169,6 @@ console.log(datos.general.localidad);
 				<color>ff000000</color>
 			</PolyStyle>
 		</Style>
-		<Placemark>
-			<name>Restriccion Zona de Servicio</name>
-			<styleUrl>#failed</styleUrl>
-			<Polygon>
-				<extrude>1</extrude>
-				<gx:drawOrder>1</gx:drawOrder>
-				<outerBoundaryIs>
-					<LinearRing>
-						<coordinates>
-							${datos.poligonos.zonaMaximaServicio}
-						</coordinates>
-					</LinearRing>
-				</outerBoundaryIs>
-			</Polygon>
-		</Placemark>
-		<Placemark>
-			<name>Zona Analogica +30%</name>
-			<styleUrl>#msn_ylw-pushpin</styleUrl>
-			<Polygon>
-				<extrude>1</extrude>
-				<gx:drawOrder>3</gx:drawOrder>
-				<outerBoundaryIs>
-					<LinearRing>
-						<coordinates>
-							${datos.poligonos.zonaMaximaExistenteExtendida}
-						</coordinates>
-					</LinearRing>
-				</outerBoundaryIs>
-			</Polygon>
-		</Placemark>
-		<Placemark>
-			<name>Zona Analogica -30%</name>
-			<styleUrl>#failed3</styleUrl>
-			<Polygon>
-				<extrude>1</extrude>
-				<gx:drawOrder>3</gx:drawOrder>
-				<outerBoundaryIs>
-					<LinearRing>
-						<coordinates>
-							${datos.poligonos.zonaMaximaExistente}
-						</coordinates>
-					</LinearRing>
-				</outerBoundaryIs>
-			</Polygon>
-		</Placemark>
 		<Placemark>
 			<name>Zona Digital</name>
 			<styleUrl>#failed2</styleUrl>
@@ -230,8 +183,30 @@ console.log(datos.general.localidad);
 					</LinearRing>
 				</outerBoundaryIs>
 			</Polygon>
-		</Placemark>
-		<Placemark>
+		</Placemark>`;
+
+kml += getKMLelements(datos);
+
+kml += `</Document>
+</Folder>
+</kml>`;
+
+return kml;
+}
+
+function getKMLelements(datos) {
+	var kml_elements = "";
+	if (datos.general.concursoModificacion == 'Concurso') {
+		kml_elements += getPtxZones(datos);
+	} else if(datos.general.concursoModificacion == 'Modificacion') {
+		kml_elements = kml_elements + getServiceZoneRestriction(datos) + getAnalogZonePlus30(datos) + getAnalogZoneMinus30(datos);
+	}
+
+	return kml_elements;
+} 
+
+function getPtxZones(datos) {
+	var ptx_zones = `<Placemark>
 			<name>PTx Zona Analogica</name>
 			<LookAt>
 				<longitude>${datos.puntos.existente.longitud}</longitude>
@@ -266,9 +241,67 @@ console.log(datos.general.localidad);
 				<gx:drawOrder>5</gx:drawOrder>
 				<coordinates>${datos.puntos.nuevo.longitud},${datos.puntos.nuevo.latitud},0</coordinates>
 			</Point>
-		</Placemark>
-	</Document>
-</Folder>
-</kml>`;
+		</Placemark>`;
 
+	return ptx_zones;
+}
+
+function getServiceZoneRestriction(datos) {
+	var restriction_zone = `<Placemark>
+			<name>Restriccion Zona de Servicio</name>
+			<styleUrl>#failed</styleUrl>
+			<Polygon>
+				<extrude>1</extrude>
+				<gx:drawOrder>1</gx:drawOrder>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							${datos.poligonos.zonaMaximaServicio}
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>`;
+
+	return restriction_zone;
+}
+
+function getAnalogZonePlus30(datos) {
+	var analog_zone = `<Placemark>
+			<name>Zona Analogica +30%</name>
+			<styleUrl>#msn_ylw-pushpin</styleUrl>
+			<Polygon>
+				<extrude>1</extrude>
+				<gx:drawOrder>3</gx:drawOrder>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							${datos.poligonos.zonaMaximaExistenteExtendida}
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>`;
+
+	return analog_zone;
+}
+
+function getAnalogZoneMinus30(datos) {
+	var analog_zone = `<Placemark>
+			<name>Zona Analogica -30%</name>
+			<styleUrl>#failed3</styleUrl>
+			<Polygon>
+				<extrude>1</extrude>
+				<gx:drawOrder>3</gx:drawOrder>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							${datos.poligonos.zonaMaximaExistente}
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>`;
+
+	return analog_zone;
 }
