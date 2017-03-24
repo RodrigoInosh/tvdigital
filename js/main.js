@@ -196,8 +196,13 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		query3.where = "CONCURSO='"+idConcurso+"' AND TIPO_SERVICIO = '"+idTipoServicio+"'";
 		query3.orderByFields = ["IDENTIFICADOR"];		
 		queryTask2.execute(query3).then(function(data){
-			changeComboConcurso(data);			
+			changeComboConcurso(data);
 			setIndentificadorConcurso();
+			console.log(data.features);
+			console.log(data.features.length);
+			if(data.features.length == 0){
+				resetSelect('concursos', 'seleccione');
+			}
 		});			
 	}
 
@@ -238,21 +243,33 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			query3.where = "CONCURSO='"+idConcurso+"' AND TIPO_SERVICIO = '"+idTipoServicio+"'";
 			query3.orderByFields = ["IDENTIFICADOR"];
 			queryTask2.execute(query3).then(function(data){
-				changeListaIdentificadores(data);
-				setIndentificadorConcurso();			
-			});	
+				console.log(data);
+			console.log(data.features.length);
+				changeListaIdentificadores(data.features);
+				setIndentificadorConcurso();		
+				if(data.features.length == 0){
+					resetSelect('concursos', 'seleccione');
+				}	
+			});
 		}
 		if(modificacionM){
 			var query3 = new Query();
 			query3.returnGeometry = true;
 			query3.outFields = ["IDENTIFICADOR"];
 			query3.where = "REG='"+idRegion+"' AND TIPO_SERVICIO = '"+idTipoServicio+"'";
+			console.log(query3.where);
 			query3.orderByFields = ["IDENTIFICADOR"];
+			console.log("A");
 			queryTask3.execute(query3).then(function(data){
+				console.log(data.features);
+			console.log(data.features.length);
 				changeListaIdentificadores(data);
-				setIndentificadorRegion();			
+				setIndentificadorRegion();
+				if(data.features.length == 0){
+					resetSelect('regiones', '0');
+				}
 			});		
-		}	
+		}
 	}
 	
 	function changeConcursoModificacionClick(){
@@ -353,28 +370,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 					setDataIdentificador(data.features[0].attributes, coords);
 					view.zoom = setZoom(data.features[0].attributes);
 				});				
-				
-				
-				/*pointConcurso = new Graphic({
-					geometry: data.features[0].geometry,
-					symbol: markerSymbolConcurso
-				});
-				capaPuntos = new GraphicsLayer({
-				graphics: [pointConcurso]
-				});
-				map.add(capaPuntos);
-				/*var queryZona = new Query();
-				queryZona.returnGeometry = true;
-				queryZona.outFields = ["IDENTIFICADOR"];
-				queryZona.where = queryStringZona;
-				queryTask6.execute(queryZona).then(function(zona){
-					capaPoligonos = new Graphic({
-						geometry: zona.features[0].geometry
-						
-					});
-					map.add(capaPoligonos);		
-				});*/
-				
+
 				var queryData = new Query();
 				queryData.returnGeometry = true;
 				queryData.outFields = ["*"];
@@ -928,6 +924,10 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		}
 
 		return name;
+	}
+
+	function resetSelect(select_name) {
+		$("#"+select_name).val('seleccione');
 	}
 
 	$('input[type="radio"][id="18PerdidasLobulos"]').change(function() {

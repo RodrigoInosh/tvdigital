@@ -461,8 +461,6 @@ function setDataIdentificador(data, coords){
 	$("#divisorPotenciaI").text("0");
 	$("#perdidaCableConectoI").text(data.PERDIDA_CABLE_CONECTOR);
 	$("#otrasPerdidasI").text("0");
-	// $("#latitudI").val(coords[1].replace("-",""));
-	// $("#longitudI").val(coords[0].replace("-",""));
 	$("#calculaPoligono").prop("disabled", false);
 	$("#verRadiales").prop("disabled", false);
 	$("#pestanaTab2").show();
@@ -472,9 +470,8 @@ function setDataIdentificador(data, coords){
 	toleranciaZonasSombras = data.TOLERANCIA_SOMBRA;
 	resolucionCalculo = data.RESOLUCION_CALCULO;
 	porcentajeTiempo = 50;
-	
-	//$("#tabdatos").tabs({active: 1});
 }
+
 function setDataPLOB(data){
 	if(numeroRadiales == 72){
 		perdidasLobulos72Map["M72PL0"] = redondea(Number(data.PLOB0),2);
@@ -881,14 +878,6 @@ function setPosicionTools(){
 
 function showErrorMessage(value){
 	alert("Hubo un problema generando el cálculo de zona.");
-	/*$( "#dialog" ).dialog({
-	  modal: true,
-	  buttons: {
-		Ok: function() {
-		  $( this ).dialog( "close" );
-		}
-	  }
-	});*/
 }
 
 function getMapParameters(){
@@ -1055,11 +1044,9 @@ function getParametersReport(){
 	mapOut["pDivisorPotencia"] = $("#divisorPotenciaI").text();
 	mapOut["pLocalidad"] = $("#localidadI").text();
 	mapOut["pRazonSocial"] = $("#iNombreRazon").val();
-	//<---Agregados 17-03-2017
 	mapOut["pEmail"] = $("#iemail").val();
 	mapOut["pFono"] = $("#ifono").val();
 	mapOut["pDomicilio"] = $("#idomicilio").val();
-	//----->
 	mapOut["pLatitud"]  = $("#latitudI").val();
 	mapOut["pLongitud"] = $("#longitudI").val();
 	var radial = $("input[name=radialesRadio]:checked").val();
@@ -1068,8 +1055,6 @@ function getParametersReport(){
 
 	for(i=0;i<radial;i++){
 		mapOut["DIS"+grados*i] = redondea(distanciaKilometros["MDKPL"+(grados*i)],2);
-		// if(i>8)
-	 //        mapOut["DIS"+twenty*i] = 0;
 	}
 	var llave ="";
 	for(i=0;i<radial;i++){
@@ -1106,12 +1091,10 @@ function showInitPestana(){
 
 function activeAll(){
 	$("#normaAnteriorM").prop("disabled", false);
-	// $("#calculaZonaMax").prop("disabled", false);
 }
 
 function disabledAll(){
 	$("#normaAnteriorM").prop("disabled", true);
-	// $("#calculaZonaMax").prop("disabled", true);
 }
 
 function setTwoNumberDecimal(){
