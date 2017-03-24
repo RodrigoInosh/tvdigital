@@ -16,7 +16,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		 SimpleRenderer, PrintTask, PrintTemplate, PrintParameters,GraphicsLayer,Home, dom, on) {
 	 
 
- 
 	var idConcurso = 0;
 	var idIdentificador = 0;
 	var idTipoServicio = 0;
@@ -189,7 +188,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		removeDataConcurso();
 		idConcurso = dom.byId("concursos").value;
 		idIdentificador = 0;
-		idTipoServicio = dom.byId("tipoServicio").value;
+		idTipoServicio = getServiceType();
 		var query3 = new Query();
 		query3.returnGeometry = true;
 
@@ -201,6 +200,18 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			setIndentificadorConcurso();
 		});			
 	}
+
+	function getServiceType() {
+    	var service_type = dom.byId("tipoServicio").value;
+    	if(service_type == "" && concursoModificacion == 'Concurso') {
+    		service_type = "ISDBT";
+    		$("#tipoServicio").val('ISDBT');
+    	} else if (service_type == "" && concursoModificacion == 'Modificacion') {
+    		service_type = "VHF";
+    		$("#tipoServicio").val('VHF');
+    	}
+    	return service_type;
+    }
 	
 	function changeComboIdentificadorClick(){		
 		concursoC = dom.byId("concursoC").checked;
@@ -285,7 +296,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	
 	function changeConcursoRegionesClick(){
 		idRegion = dom.byId("regiones").value;
-		idTipoServicio = dom.byId("tipoServicio").value;
+		idTipoServicio = getServiceType();
 		var query3 = new Query();
 		query3.returnGeometry = true;
 		query3.outFields = ["IDENTIFICADOR"];
