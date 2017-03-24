@@ -198,8 +198,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		queryTask2.execute(query3).then(function(data){
 			changeComboConcurso(data);
 			setIndentificadorConcurso();
-			console.log(data.features);
-			console.log(data.features.length);
 			if(data.features.length == 0){
 				resetSelect('concursos', 'seleccione');
 			}
@@ -243,8 +241,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			query3.where = "CONCURSO='"+idConcurso+"' AND TIPO_SERVICIO = '"+idTipoServicio+"'";
 			query3.orderByFields = ["IDENTIFICADOR"];
 			queryTask2.execute(query3).then(function(data){
-				console.log(data);
-			console.log(data.features.length);
 				changeListaIdentificadores(data.features);
 				setIndentificadorConcurso();		
 				if(data.features.length == 0){
@@ -257,12 +253,9 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			query3.returnGeometry = true;
 			query3.outFields = ["IDENTIFICADOR"];
 			query3.where = "REG='"+idRegion+"' AND TIPO_SERVICIO = '"+idTipoServicio+"'";
-			console.log(query3.where);
 			query3.orderByFields = ["IDENTIFICADOR"];
-			console.log("A");
+
 			queryTask3.execute(query3).then(function(data){
-				console.log(data.features);
-			console.log(data.features.length);
 				changeListaIdentificadores(data);
 				setIndentificadorRegion();
 				if(data.features.length == 0){
@@ -909,6 +902,9 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		var value = this.value;
 		if(value == ""){
 			this.value = "0";
+		} else {
+			value = value.replace(",", ".");
+			this.value = Math.round(value);
 		}
 	});
 

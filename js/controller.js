@@ -213,6 +213,7 @@ $(document).ready(function() {
 function init(){
 	setOmni();
 }
+
 function cursorCross(){
 	$("#msgbox").show();
 	$("#caltool").css("cursor","default");
@@ -308,11 +309,6 @@ function setOmni(){
 }
 
 function setFrameRadiales(){
-	
-	/*if(numeroRadiales == 8){
-		for(i=0;i<72;i++){
-		$("#I8RA"+(fortyFive*i)).val(radiales18Map["M8PL"+(fortyFive*i)]);
-	}*/
 	if(numeroRadiales == 18){
 		for(i=0;i<18;i++)
 			$("#I18RA"+(twenty*i)).val(radiales18Map["M18PL"+(twenty*i)]);
@@ -321,28 +317,6 @@ function setFrameRadiales(){
 		for(i=0;i<72;i++)
 			$("#I72RA"+(five*i)).val(radiales72Map["M72PL"+(five*i)]);
 	}
-	/*for(i=0;i<18;i++){
-		$("#I18RA"+(twenty*i).val(radiales18Map["M18PL0"]);
-		perdidasLobulos18Map["M18PL"+(twenty*i)] = 0;
-	}*/
-	/*$("#I18RA0").val(radiales18Map["M18PL0"]);
-	$("#I18RA20").val(radiales18Map["M18PL20"]);
-	$("#I18RA40").val(radiales18Map["M18PL40"]);
-	$("#I18RA60").val(radiales18Map["M18PL60"]);
-	$("#I18RA80").val(radiales18Map["M18PL80"]);
-	$("#I18RA100").val(radiales18Map["M18PL100"]);
-	$("#I18RA120").val(radiales18Map["M18PL120"]);
-	$("#I18RA140").val(radiales18Map["M18PL140"]);
-	$("#I18RA160").val(radiales18Map["M18PL160"]);
-	$("#I18RA180").val(radiales18Map["M18PL180"]);
-	$("#I18RA200").val(radiales18Map["M18PL200"]);
-	$("#I18RA220").val(radiales18Map["M18PL220"]);
-	$("#I18RA240").val(radiales18Map["M18PL240"]);
-	$("#I18RA260").val(radiales18Map["M18PL260"]);
-	$("#I18RA280").val(radiales18Map["M18PL280"]);
-	$("#I18RA300").val(radiales18Map["M18PL300"]);
-	$("#I18RA320").val(radiales18Map["M18PL320"]);
-	$("#I18RA340").val(radiales18Map["M18PL340"]);*/
 }
 
 function save72PerdidasLobulos(){
@@ -439,7 +413,7 @@ function setDataIdentificador(data, coords){
 	setDataPLOB(data);
 	$("#potenciaM").val(data.POTENCIA);
 	$("#ganaciaM").val(data.G_ANT_DBD);
-	$("#frecuenciaM").val(data.FRECUENCIA);
+	$("#frecuenciaM").val(Math.round(data.FRECUENCIA));
 	$("#intensidadCampoM").val(data.CAMPO_LIMITE);
 	$("#alturaAntenaTransmisoraM").val(data.ALTURA_TX);
 	$("#latitudGradosM").val((coords[1].split(" ")[0].replace("°", "")).replace("-",""));
