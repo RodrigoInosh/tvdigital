@@ -67,9 +67,9 @@ $(document).ready(function() {
 		if(botonHerramientasShow){
 			$("#caltool").hide("drop");
 			botonHerramientasShow = false;
-		}else{		
+		}else{
 			$("#caltool").css("top", "15px");
-			$("#caltool").css("left", "55px");			
+			$("#caltool").css("left", "55px");
 			$("#caltool").show("drop", {}, 500, callback);
 			botonHerramientasShow = true;
 		}
@@ -92,6 +92,7 @@ $(document).ready(function() {
 
 	$("#show72PerdidasLobulos").click(function() {
 		$("#72PerdidasLobulos").prop("checked", true);
+		$("#calculaPoligono").text("Calcular Zona [72 radiales]");
 		var interpola72 = null;
 		if(plCheckActual == 8)
 			interpola72 = interpola_8_to_72(perdidasLobulos8Map);
@@ -105,6 +106,7 @@ $(document).ready(function() {
 
 	$("#show18PerdidasLobulos").click(function() {
 		$("#18PerdidasLobulos").prop("checked", true);
+		$("#calculaPoligono").text("Calcular Zona [18 radiales]");
 		var interpola18 = null;
 		if(plCheckActual == 8)
 			interpola18 = interpola_8_to_18(perdidasLobulos8Map);
@@ -149,7 +151,7 @@ $(document).ready(function() {
 		botonHerramientasShow = false;
 	});
 	$("#verRadiales").click(function() {
-		
+
 		$("#curtainCaltool").show();
 		setFrameRadiales();
 		if(numeroRadiales == 18)
@@ -166,18 +168,18 @@ $(document).ready(function() {
 		$("#curtainCaltool").hide();
 	});
 	$("#closeImageDK8").click(function() {
-		$("#distanciaKilometro8").hide();	
-		$("#curtainCaltool").hide();	
+		$("#distanciaKilometro8").hide();
+		$("#curtainCaltool").hide();
 	});
 	$("#closeImageDK18").click(function() {
-		$("#distanciaKilometro18").hide();	
-		$("#curtainCaltool").hide();	
+		$("#distanciaKilometro18").hide();
+		$("#curtainCaltool").hide();
 	});
 	$("#closeImageDK72").click(function() {
-		$("#distanciaKilometro72").hide();	
-		$("#curtainCaltool").hide();	
+		$("#distanciaKilometro72").hide();
+		$("#curtainCaltool").hide();
 	});
-	$("#18PerdidasLobulos").prop("checked", true);	
+	$("#18PerdidasLobulos").prop("checked", true);
 	$("#concursoC").prop("checked", true);
 	$("#recomendacion option:eq(3)").attr("selected", "selected");
 	$("#verDistancia").click(function() {
@@ -191,9 +193,9 @@ $(document).ready(function() {
 		$("#curtainCaltool").show();
 		setOpcionesAvanzadas();
 	});
-	$("#closeImageOA").click(function() {		
-		$("#opcionesAvanzadas").hide();	
-		$("#curtainCaltool").hide();	
+	$("#closeImageOA").click(function() {
+		$("#opcionesAvanzadas").hide();
+		$("#curtainCaltool").hide();
 	});
 	$("#omni8").click(function(){
 		setOmni();
@@ -206,7 +208,7 @@ $(document).ready(function() {
 	})
 	$("#saveParametrosAvanzadosButton").click(function(){
 		saveParametrosAvanzados();
-	});	
+	});
 	init();
 });
 
@@ -373,7 +375,7 @@ function changeComboConcurso(data){
 	}	
 }	
 
-function changeListaIdentificadores(data){		
+function changeListaIdentificadores(data){
 	var identificadores = $("#identificadores");
 	identificadores.empty();
 	if(data.features.length == 0){
@@ -386,15 +388,15 @@ function changeListaIdentificadores(data){
 	}	
 }
 
-function setDataIdentificador(data, coords){
+function setDataIdentificador(data, coords, decimales){
 	interpola = true;
-	plCheckActual = $("input[name=radialesRadio]:checked").val();	
-	$("#tipoServicio option:contains("+data.TIPO_SERVICIO+")").prop("selected",true);		
+	plCheckActual = $("input[name=radialesRadio]:checked").val();
+	$("#tipoServicio option:contains("+data.TIPO_SERVICIO+")").prop("selected",true);
 	$("#localidadC").val(data.LOCALIDAD);
-	$("#frecuenciaC").val(redondea(data.FRECUENCIA,1));
+	$("#frecuenciaC").val(redondea(data.FRECUENCIA, decimales));
 	$("#potenciaMaximaC").val(data.POTENCIA);
 	$("#intensidadCampoC").val(data.CAMPO_LIMITE);
-	$("#latitudC").val((coords[1].replace("-", "")).replace(".00",""));	
+	$("#latitudC").val((coords[1].replace("-", "")).replace(".00",""));
 	$("#longitudC").val((coords[0].replace("-", "")).replace(".00",""));
 	latitudM = coords[1];
 	longitudM = coords[0];
@@ -408,8 +410,8 @@ function setDataIdentificador(data, coords){
 		numeroRadiales = data.RADIALES;
 		setRadialesModificacion(data);
 		porcentajeUbicacion = data.PORCENTAJE_UBICACION 
-	}	
-	
+	}
+
 	setDataPLOB(data);
 	$("#potenciaM").val(data.POTENCIA);
 	$("#ganaciaM").val(data.G_ANT_DBD);
@@ -429,9 +431,9 @@ function setDataIdentificador(data, coords){
 	$("#identificadorI").text($("#concursos option:selected").text());
 	$("#potenciaI").text(data.POTENCIA);
 	$("#frecuenciaI").text(redondea(data.FRECUENCIA, 2));
-	$("#intensidadCampoI").text(data.CAMPO_LIMITE);		
-	$("#alturaAntenaI").text(data.ALTURA_TX);	
-	$("#gananciaI").text(data.G_ANT_DBD);			
+	$("#intensidadCampoI").text(data.CAMPO_LIMITE);
+	$("#alturaAntenaI").text(data.ALTURA_TX);
+	$("#gananciaI").text(data.G_ANT_DBD);
 	$("#divisorPotenciaI").text("0");
 	$("#perdidaCableConectoI").text(data.PERDIDA_CABLE_CONECTOR);
 	$("#otrasPerdidasI").text("0");
@@ -766,9 +768,9 @@ function removeDataInforme(){
 	$("#identificadorI").text("");
 	$("#potenciaI").text("");
 	$("#frecuenciaI").text("");
-	$("#intensidadCampoI").text("");		
-	$("#alturaAntenaI").text("");	
-	$("#gananciaI").text("");			
+	$("#intensidadCampoI").text("");
+	$("#alturaAntenaI").text("");
+	$("#gananciaI").text("");
 	$("#divisorPotenciaI").text("");
 	$("#perdidaCableConectoI").text("");
 	$("#otrasPerdidasI").text("");
@@ -777,7 +779,7 @@ function removeDataInforme(){
 	$("#tabdatos").tabs({active: 0 });
 }
 function removeDataConcurso(){
-	interpola = false;	
+	interpola = false;
 	$("#normaActualM").prop('checked', true);
 	$("#tipoServicio option:contains(...)").prop("selected",true);
 	$("#localidadC").val("");
@@ -809,11 +811,11 @@ function removeDataConcurso(){
 	showInitPestana();
 }	
 
-function setComboRegion(value){	
+function setComboRegion(value){
 	removeDataConcurso();
 	if(value){
 		concurso = true;
-		
+
 		$("#concursoLabel").show();
 		$("#concursoSelect").show();
 		$("#regionesLabel").hide();
@@ -831,11 +833,18 @@ function setComboRegion(value){
 		$("#labelRadioCircuferencia").hide();
 		$("#labelInfoRadiales").show();
 	}
-}	
+}
 	
-function setCombosToStart(){
+function setCombosToStart(is_modificacion){
 	$("#regiones").val(0);
-	$("#tipoServicio").val("FM");
+	$("#tipoServicio").find('option')
+		.remove();
+
+	$("#tipoServicio").append($("<option></option>", {'value':''}).text('...'));
+	$("#tipoServicio").append($("<option></option>", {'value':'ISDBT'}).text('ISDBT'));
+	if(is_modificacion) {
+		$("#tipoServicio").append($("<option></option>", {'value':'VHF'}).text('VHF'));
+	}
 }
 
 function showLoader(value){
@@ -862,7 +871,7 @@ function getMapParameters(){
 	alturaAntenaTransmisoraM = $("#alturaAntenaTransmisoraM").val();
 	perdidasCablesConectoresM = $("#perdidasCablesConectoresM").val();
 	divisorPotenciaM = $("#divisorPotenciaM").val();
-	otrasPerdidasM = $("#otrasPerdidasM").val();		
+	otrasPerdidasM = $("#otrasPerdidasM").val();
 	recomendacion = $("#recomendacion option:selected").text();
 	radiales = $("input[name=radialesRadio]:checked").val();
 	localidad = $("#localidadC").val();

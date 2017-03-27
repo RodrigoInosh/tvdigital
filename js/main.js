@@ -21,7 +21,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	var idTipoServicio = 0;
 	var concursoC = 0;
 	var modificacionM = 0;
-	var geoProcessor = null;	
+	var geoProcessor = null;
 	var printTaskRepore  = null;
 	var geoScriptExportarKMZ = null;
 	var longitud = 0;
@@ -48,7 +48,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	 
 
 	var map = new Map({
-		
+	
 		basemap : "topo"
 	});
 	
@@ -76,7 +76,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			width: 1
 		}
     });
-		
+
 	var concursoRenderer = new SimpleRenderer({
 		symbol: fillSymbolConcurso
 	});
@@ -136,8 +136,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	var ptReporte = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Imprimir/GPServer/Imprimir";
 	var gpScriptExportarKMZ = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/ScriptExportarKMZ/GPServer/ScriptExportarKMZ/";
 	
-	var queryTask1 = new QueryTask({ url: identificadores21 });	
-	var queryTask2 = new QueryTask({ url: identificadores22 });	
+	var queryTask1 = new QueryTask({ url: identificadores21 });
+	var queryTask2 = new QueryTask({ url: identificadores22 });
 	var queryTask3 = new QueryTask({ url: identificadores23 });
 	var queryTask6 = new QueryTask({ url: identificadores26 });
 	
@@ -146,7 +146,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	queryConcursos.outFields = ["NOMBRE, CONCURSO"];
 	queryConcursos.where = "1=1";
 	queryTask1.execute(queryConcursos).then(setComboConcursos);
-		
+	
 	var view = new MapView({
 		container : "viewDiv",
 		map : map,
@@ -194,14 +194,14 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 		query3.outFields = ["IDENTIFICADOR"];
 		query3.where = "CONCURSO='"+idConcurso+"' AND TIPO_SERVICIO = '"+idTipoServicio+"'";
-		query3.orderByFields = ["IDENTIFICADOR"];		
+		query3.orderByFields = ["IDENTIFICADOR"];
 		queryTask2.execute(query3).then(function(data){
 			changeComboConcurso(data);
 			setIndentificadorConcurso();
 			if(data.features.length == 0){
 				resetSelect('concursos', 'seleccione');
 			}
-		});			
+		});
 	}
 
 	function getServiceType() {
@@ -216,24 +216,24 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
     	return service_type;
     }
 	
-	function changeComboIdentificadorClick(){		
+	function changeComboIdentificadorClick(){
 		concursoC = dom.byId("concursoC").checked;
-		modificacionM = dom.byId("modificacionM").checked;		
+		modificacionM = dom.byId("modificacionM").checked;
 		if(concursoC){
 			setIndentificadorConcurso();
 		}
 		if(modificacionM){
 			setIndentificadorRegion();
-		}	
+		}
 	}
 	
 	function changeComboTipoServicioClick(){
 		view.graphics.removeAll();
 		concursoC = dom.byId("concursoC").checked;
-		modificacionM = dom.byId("modificacionM").checked;	
+		modificacionM = dom.byId("modificacionM").checked;
 		idConcurso = dom.byId("concursos").value;
-		idTipoServicio = dom.byId("tipoServicio").value;	
-		idRegion = dom.byId("regiones").value;	
+		idTipoServicio = dom.byId("tipoServicio").value;
+		idRegion = dom.byId("regiones").value;
 		if(concursoC){
 			var query3 = new Query();
 			query3.returnGeometry = true;
@@ -242,10 +242,10 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			query3.orderByFields = ["IDENTIFICADOR"];
 			queryTask2.execute(query3).then(function(data){
 				changeListaIdentificadores(data.features);
-				setIndentificadorConcurso();		
+				setIndentificadorConcurso();
 				if(data.features.length == 0){
 					resetSelect('concursos', 'seleccione');
-				}	
+				}
 			});
 		}
 		if(modificacionM){
@@ -261,7 +261,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				if(data.features.length == 0){
 					resetSelect('regiones', '0');
 				}
-			});		
+			});
 		}
 	}
 	
@@ -271,7 +271,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		concursoC = dom.byId("concursoC").checked;
 		modificacionM = dom.byId("modificacionM").checked;	
 
-		setCombosToStart();
+		setCombosToStart(modificacionM);
 		removeDataConcurso();
 		if(concursoC){
 			concursoModificacion = "Concurso";
@@ -285,13 +285,12 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		if(modificacionM){
 			concursoModificacion = "Modificacion";
 			setComboRegion(false);
-			
 		}
 	}
 	
 	function changeCantidadRadialesClick(){
 		radiales8 = dom.byId("8radiales").checked;
-		radiales18 = dom.byId("18radiales").checked;	
+		radiales18 = dom.byId("18radiales").checked;
 		if(radiales8){
 			set8Radiales();
 		}
@@ -322,20 +321,20 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		var queryCenter = new Query();
 		idIdentificador = dom.byId("identificadores").value;
 		tipoServicio = dom.byId("tipoServicio").value;
-		var queryString = "IDENTIFICADOR='"+idIdentificador+"' AND TIPO_SERVICIO = '"+tipoServicio+"'";	
+		var queryString = "IDENTIFICADOR='"+idIdentificador+"' AND TIPO_SERVICIO = '"+tipoServicio+"'";
 		var queryStringZona = "IDENTIFICADOR='"+idIdentificador+"'";
 		queryCenter.returnGeometry = true;
 		queryCenter.outFields = ["IDENTIFICADOR"];
 		queryCenter.where = queryString;
-		queryTask2.execute(queryCenter).then(function(data){		
-			showLoader(true);	
+		queryTask2.execute(queryCenter).then(function(data){
+			showLoader(true);
 			map.removeAll();
-			if(data.features.length == 0){					
-				removeDataConcurso();					
+			if(data.features.length == 0){
+				removeDataConcurso();
 			}else{
 				longitud = data.features[0].geometry.x;
-				latitud = data.features[0].geometry.y;		
-				view.center = [longitud, latitud];				
+				latitud = data.features[0].geometry.y;
+				view.center = [longitud, latitud];
 				var coordsPoint = new GeoPoint(longitud, latitud);
 				var coords = [coordsPoint.lonDeg, coordsPoint.latDeg]
 
@@ -343,7 +342,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 					title: "CapaPoligonos",
 					url: identificadores22,
 					definitionExpression: queryString
-				});					
+				});
 				map.add(pointConcurso); 
 				var radio = new FeatureLayer({
 					title: "CapaPoligonos",
@@ -353,32 +352,32 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				});
 				
 				map.add(radio);
-				superView.pelota = radio;				
+				superView.pelota = radio;
 				var queryData = new Query();
 				queryData.returnGeometry = true;
 				queryData.outFields = ["*"];
-				queryData.where = queryString;					
+				queryData.where = queryString;
 				queryTask2.execute(queryData).then(function(data){
 					superView.punto = data;
-					setDataIdentificador(data.features[0].attributes, coords);
+					setDataIdentificador(data.features[0].attributes, coords, 1);
 					view.zoom = setZoom(data.features[0].attributes);
 				});				
 
 				var queryData = new Query();
 				queryData.returnGeometry = true;
 				queryData.outFields = ["*"];
-				queryData.where = queryString;					
+				queryData.where = queryString;
 				queryTask2.execute(queryData).then(function(data){
 					superView.circulo = data;
-					setDataIdentificador(data.features[0].attributes, coords);
+					setDataIdentificador(data.features[0].attributes, coords, 1);
 					view.zoom = setZoom(data.features[0].attributes);
-				});				
+				});
 			}
 			setPosicionTools();
-			showLoader(false);				
-		});		
+			showLoader(false);
+		});
 	}
-	
+
 	function setIndentificadorRegion(){
 		var urlRadio1 = "";
 		var urlRadio2 = "";
@@ -389,30 +388,30 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		if(dom.byId("normaAnteriorM").checked){
 			urlRadio1 = identificadores211;
 			urlRadio2 = identificadores212;
-			
-		}	
+		}
+
 		var queryCenter = new Query();
 		idIdentificador = dom.byId("identificadores").value;
 		tipoServicio = dom.byId("tipoServicio").value;
-		var queryString = "IDENTIFICADOR='"+idIdentificador+"' AND TIPO_SERVICIO = '"+tipoServicio+"'";	
+		var queryString = "IDENTIFICADOR='"+idIdentificador+"' AND TIPO_SERVICIO = '"+tipoServicio+"'";
 		queryCenter.returnGeometry = true;
 		queryCenter.outFields = ["*"];
 		queryCenter.where = queryString;
 		queryTask3.execute(queryCenter).then(function(data){
 			showLoader(true);
 			map.removeAll();
-			if(data.features.length == 0){				
-				removeDataConcurso();					
+			if(data.features.length == 0){
+				removeDataConcurso();
 			}else{
 				longitud = data.features[0].geometry.x;
-				latitud = data.features[0].geometry.y;				
+				latitud = data.features[0].geometry.y;
 				view.center = [longitud, latitud];
 				var coordsPoint = new GeoPoint(longitud, latitud);
 				var coords = [coordsPoint.lonDeg, coordsPoint.latDeg]
 				pointRegion = new FeatureLayer({
 					url: identificadores23,
 					definitionExpression: queryString
-				});			
+				});
 				map.add(pointRegion); 
 				var radio1 = new FeatureLayer({
 					url: urlRadio1,
@@ -420,17 +419,16 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 					definitionExpression: "IDENTIFICADOR='"+idIdentificador+"'"
 				});
 				map.add(radio1);
-				
+
 				var ajaxCall1 = new XMLHttpRequest();
 				ajaxCall1.addEventListener("load", function(datLoad) {
 					eval("datosExtraidos = " + ajaxCall1.response);
-					superView.zonaMaxima1 = datosExtraidos.features[0].geometry;					
+					superView.zonaMaxima1 = datosExtraidos.features[0].geometry;
 				});
 
 				ajaxCall1.open("GET", urlRadio1 + "/" + `query?f=json&where=IDENTIFICADOR%3D%27${idIdentificador}%27&returnGeometry=true`); 
 				ajaxCall1.send();
-				
-				
+
 				var radio2 = new FeatureLayer({
 					url: urlRadio2,
 					renderer:concursoRenderer,
@@ -441,20 +439,20 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				var ajaxCall2 = new XMLHttpRequest();
 				ajaxCall2.addEventListener("load", function(datLoad) {
 					eval("datosExtraidos = " + ajaxCall2.response);
-					superView.zonaMaxima2 = datosExtraidos.features[0].geometry;					
+					superView.zonaMaxima2 = datosExtraidos.features[0].geometry;
 				});
 
 				ajaxCall2.open("GET", urlRadio2 + "/" + `query?f=json&where=IDENTIFICADOR%3D%27${idIdentificador}%27&returnGeometry=true`); 
 				ajaxCall2.send();
-				
+
 				var queryData = new Query();
 				queryData.returnGeometry = true;
 				queryData.outFields = ["*"];
-				queryData.where = queryString;					
+				queryData.where = queryString;
 				queryTask3.execute(queryData).then(function(data){
-					superView.punto = data;					
+					superView.punto = data;
 					activeAll();
-					setDataIdentificador(data.features[0].attributes, coords);
+					setDataIdentificador(data.features[0].attributes, coords, 2);
 					view.zoom = setZoom(data.features[0].attributes);
 				});
 			}
@@ -462,13 +460,13 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			showLoader(false);
 		});
 	}
-	
+
 	function cambiaUbicacionClick(){
 		nuevaCoordenada = true;
 		cursorCross();
 		view.on("click", obtieneNuevaCoordenada);
 	}
-	
+
 	function obtieneNuevaCoordenada(event){        
 		if(nuevaCoordenada){
 			map.remove(capaCalculoPuntos);
@@ -485,7 +483,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				});
 			map.add(capaCalculoPuntos);
 			latitud = event.mapPoint.latitude;
-			longitud = event.mapPoint.longitude;			
+			longitud = event.mapPoint.longitude;
 			var coordsPoint = new GeoPoint( longitud, latitud);
 			var coords = [coordsPoint.lonDeg, coordsPoint.latDeg];
 			setPuntoCoordenadas(coords);
@@ -509,24 +507,19 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			});
 		map.add(capaCalculoPuntos);
 	}
-	
-	// function calculaZonaMaximaClick(){
-	// 	calculoZonaMaxima = true;
-	// 	clickCalculaPoligonoClick();
-	// }
 
 	function clickCalculaPoligonoClick(){
 		showLoader(true);
 		map.remove(capaCalculoPoligonos);
 		var mapParametros = getMapParameters();
-		geoProcessor = new Geoprocessor(gpCalculoPredictivo);	
+		geoProcessor = new Geoprocessor(gpCalculoPredictivo);
 		var recomendacion = mapParametros.recomendacion;
 		if(calculoZonaMaxima && dom.byId("normaAnteriorM").checked){
 			var recomendacion = '370';
 		}
 
 		cambiaNuevaCoordenada(mapParametros.latitud,mapParametros.longitud);
-		
+
 		superView.puntoNuevo = {"longitud": mapParametros.longitud, "latitud": mapParametros.latitud };
 		var params = {
           "latitud": mapParametros.latitud,
@@ -552,9 +545,9 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		  "env:outSR": 102100,
 		  "f": 'json'
         };
-		geoProcessor.submitJob(params).then(sendRequestPolygon, showError);		
+		geoProcessor.submitJob(params).then(sendRequestPolygon, showError);
 	}
-			
+
 	function setRadiansString(data){
 		var radiales = "";
 		if(data.radiales == 72){
@@ -672,9 +665,9 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			radiales += data.M8PL270 + ","
 			radiales += data.M8PL315;
 			return radiales;
-		}				
+		}
 	}
-	
+
 	function setDistanciaString(data){
 		var distancias = "";
 		distancias += data.DIS0 + ","
@@ -695,9 +688,9 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		distancias += data.DIS300 + ","
 		distancias += data.DIS320 + ","
 		distancias += data.DIS340;
-		return distancias;		
+		return distancias;
 	}
-		
+
 	function sendRequestPolygon(data) {
 		areaCalculo = 0;
 		var jobId = data.jobId;
@@ -705,22 +698,22 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		geoProcessor.getResultData(jobId, "area").then(setPolygon, showError);
 		geoProcessor.getResultData(jobId, "distancias").then(setDataReporteOut, showError);
 	}
-	
+
 	function getStatus(data){
-		
+
 	}
-	
+
 	function showError(data){
 		showErrorMessage(data);
 		setPosicionTools();
 		showLoader(false);
 	}
-	
+
 	function setPolygon(data){
 		var polygonGraphic1 = null;
 		var polygonGraphic2 = null;
 		areaCalculo = redondea(Number(data.value.features[0].attributes.area),2);
-		
+
 		if(calculoZonaMaxima){
 			map.removeAll();
 			map.add(pointRegion);
@@ -752,17 +745,17 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		calculoZonaMaxima = false;
 		setPosicionTools();
 		showLoader(false);
-		
+
 	}
-		
+
 	function setDataReporteOut(data){
 		setDataReporte(data);
-	}	
-	
+	}
+
 	function setZoom(value){
 		return new Zoom().getZoom(value);
 	}
-	
+
 	function imprimirCalculoClick(){
 		var mapReporte = getParametersReport();
 		getPDF(mapReporte);
@@ -773,7 +766,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		setPosicionTools();
 		showLoader(false);
 	}
-	
+
 	function exportKMZClick(){
 		showLoader(true);
 		var printTask = new PrintTask({
@@ -797,7 +790,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			view: view,
 			template: template
 		});
-		
+
 		// JCD
 		var datos = { 
 			"poligonos": {
@@ -822,38 +815,38 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		var poligono2="";
 		var poligonoM1="";
 		var poligonoM2="";
-		
+
 		var ubicacion = {x: superView.punto.features[0].geometry.longitude, 
 						 y: superView.punto.features[0].geometry.latitude};
 		var circleGeometry = new Circulo([superView.punto.features[0].geometry.longitude, superView.punto.features[0].geometry.latitude],{
 			"radius": 60000,
 			geodesic: true
 		  });
-		
+
 		circleGeometry.rings[0].map( x => {
 			//result = toGeographic(x[0], x[1]);
 			//poligono1 += result.x + "," + result.y + ",10 \n";
 			poligono1 += x[0] + "," + x[1] + ",10 \n";
 		});
-		
+
 		if ( superView.zonaMaxima1!=null ) {
 			superView.zonaMaxima1.rings[0].map( x => {
 				//result = toGeographic(x[0], x[1]);
 				poligonoM1 += x[0] + "," + x[1] + ",10 \n";
-			});	
+			});
 		}
 		if ( superView.zonaMaxima2!=null ) {
 			superView.zonaMaxima2.rings[0].map( x => {
 				//result = toGeographic(x[0], x[1]);
 				poligonoM2 += x[0] + "," + x[1] + ",10 \n";
-			});	
+			});
 		}
-				
+
 		superView.zonaPropuesta.geometry.rings[0].map( x => {
 			result = toGeographic(x[0], x[1]);
 			poligono2 += result.x + "," + result.y + ",10 \n";
-	    });		
-		
+	    });
+
 		datos.poligonos.zonaServicio = poligono2;
 		datos.poligonos.zonaMaximaServicio = poligono1;
 		datos.poligonos.zonaMaximaExistente = poligonoM1;
@@ -868,7 +861,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		datos.general.frecuencia = form_data.frecuenciaM;
 		datos.general.intensidad = form_data.intensidadCampoM;
 		datos.general.nombre = getKMLNameSite(form_data.intensidadCampoM);
-		
+
 		var data = new Blob([ getTemplateKML(datos) ]);
 		var a = URL.createObjectURL( data );
 		var name = $("#identificadores").val();
@@ -880,10 +873,10 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		document.body.appendChild(link);
 		link.click();
 		document.body.removeChild(link);
-		
+
 		showLoader(false);
 	}
-	
+
 	on(dom.byId("concursos"), "change", changeComboConcursoClick);
 	on(dom.byId("identificadores"), "change", changeComboIdentificadorClick);
 	on(dom.byId("tipoServicio"), "change", changeComboTipoServicioClick);
@@ -898,13 +891,21 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	on(dom.byId("exportarKMZ"), "click", exportKMZClick);
 
 	$("#frecuenciaM").on('change', function(){
-		
+
 		var value = this.value;
 		if(value == ""){
 			this.value = "0";
 		} else {
 			value = value.replace(",", ".");
 			this.value = Math.round(value);
+		}
+	});
+
+	$("#potenciaM").on('change', function(){
+
+		var value = this.value;
+		if(value == ""){
+			this.value = "0";
 		}
 	});
 
