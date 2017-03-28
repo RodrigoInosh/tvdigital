@@ -273,6 +273,13 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 		setCombosToStart(modificacionM);
 		removeDataConcurso();
+		console.log("sfsasfasf");
+		if(!$('#pestanaTab2').is(':visible'))
+		{
+			console.log("visible");
+		} else {
+			console.log("no visible");
+		}
 		if(concursoC){
 			concursoModificacion = "Concurso";
 			var query1 = new Query();

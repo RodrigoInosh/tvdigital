@@ -128,6 +128,7 @@ function getPage1(title, form_elements) {
 }
 
 function getTableTechnicalSystemFeature(title, radials, form_elements) {
+    console.log(form_elements);
     var ganancia = typeof form_elements.pGanancia != 'undefined' ? form_elements.pGanancia : "";
     var potencia = typeof form_elements.pPotencia != 'undefined' ? form_elements.pPotencia : "";
     var frecuencia = typeof form_elements.pFrecuencia != 'undefined' ? form_elements.pFrecuencia : "";
