@@ -11,7 +11,7 @@ function getTemplateKML ( datos )  {
 			<IconStyle>
 				<scale>1.3</scale>
 				<Icon>
-					<href>http://maps.google.com/mapfiles/kml/paddle/grn-circle.png</href>
+					<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
 				</Icon>
 				<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
 			</IconStyle>
@@ -36,7 +36,7 @@ function getTemplateKML ( datos )  {
 			<IconStyle>
 				<scale>1.1</scale>
 				<Icon>
-					<href>http://maps.google.com/mapfiles/kml/paddle/grn-circle.png</href>
+					<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
 				</Icon>
 				<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
 			</IconStyle>
@@ -120,7 +120,7 @@ function getTemplateKML ( datos )  {
 			<IconStyle>
 				<scale>1.3</scale>
 				<Icon>
-					<href>http://maps.google.com/mapfiles/kml/paddle/grn-circle.png</href>
+					<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
 				</Icon>
 				<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
 			</IconStyle>
@@ -129,7 +129,7 @@ function getTemplateKML ( datos )  {
 			<IconStyle>
 				<scale>1.1</scale>
 				<Icon>
-					<href>http://maps.google.com/mapfiles/kml/paddle/grn-circle.png</href>
+					<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
 				</Icon>
 				<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
 			</IconStyle>
@@ -309,7 +309,7 @@ function getAnalogZoneMinus30(datos) {
 function getMaxZone(datos) {
 	var max_zone = `<Placemark>
 			<name>Zona Maxima</name>
-			<styleUrl>#msn_ylw-pushpin</styleUrl>
+			<styleUrl>#failed3</styleUrl>
 			<Polygon>
 				<extrude>1</extrude>
 				<gx:drawOrder>3</gx:drawOrder>

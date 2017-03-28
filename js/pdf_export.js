@@ -6,8 +6,9 @@ function getPDF(form_elements) {
     var doc = {
         info: {title: 'prueba'},
         pageSize: 'A4',
-        content: [getPage1(title, form_elements), getTableTechnicalSystemFeature('CARACTERÍSTICAS TÉCNICAS DEL SISTEMA RADIANTE PRINCIPAL', radials, form_elements),
-            getTableTechnicalSystemFeature('CARACTERÍSTICAS TÉCNICAS DEL SISTEMA RADIANTE ADICIONAL 1 (Si aplica)', radials, [])
+        content: [
+            getPage1(title, form_elements), 
+            getTableTechnicalSystemFeature('CARACTERÍSTICAS TÉCNICAS DEL SISTEMA RADIANTE PRINCIPAL', radials, form_elements)
         ]
     }
 
@@ -81,9 +82,9 @@ function getPage1(title, form_elements) {
                     [{text: 'Domicilio Calle:', colSpan: 2, fontSize: 10, border: [true, false, false, false]}, {}, {text: 'N°:', fontSize: 10, border: [false]},
                         {text: 'Comuna:', fontSize: 10, border: [false, false, true, false]}],
                     [{text: 'Pobl. o  lugar:', colSpan: 3, fontSize: 10, border: [true, false, false, false]}, {}, {}, {text: 'Región:', fontSize: 10, border: [false, false, true, false]}],
-                    [{text: 'Latitud Sur:  ' + form_elements.pLatitud, fontSize: 10, border: [true, false, false, true]}, 
-                     {text: 'Longitud Oeste:  ' + form_elements.pLongitud, fontSize: 10, colSpan: 2, border: [false, false, false, true]}, {},
-                        {text: 'Datum:', fontSize: 10, border: [false, false, true, true]}]
+                    [{text: 'Latitud Sur:', fontSize: 10, border: [true, false, false, true]}, 
+                     {text: 'Longitud Oeste:', fontSize: 10, colSpan: 2, border: [false, false, false, true]}, {},
+                        {text: 'Datum: WGS84', fontSize: 10, border: [false, false, true, true]}]
                 ]
             }
         },
@@ -104,20 +105,21 @@ function getPage1(title, form_elements) {
                     [{text: 'Domicilio Calle:', colSpan: 2, fontSize: 10, border: [true, false, false, false]}, {}, {text: 'N°:', fontSize: 10, border: [false]},
                         {text: 'Comuna:', fontSize: 10, border: [false, false, true, false]}],
                     [{text: 'Pobl. o  lugar:', colSpan: 3, fontSize: 10, border: [true, false, false, false]}, {}, {}, {text: 'Región:', fontSize: 10, border: [false, false, true, false]}],
-                    [{text: 'Latitud Sur:', fontSize: 10, border: [true, false, false, true]}, {text: 'Longitud Oeste:', fontSize: 10, border: [false, false, false, true]},
-                        {text: 'Datum:', fontSize: 10, border: [false, false, true, true], colSpan: 2}, {}],
-                    [{text: 'PLANTA TRANSMISORA ADICIONAL 1 (Si aplica)', colSpan: 4, alignment: 'left', bold: true, border: [true, false, true, false]}, {}, {}, {}],
+                    [{text: 'Latitud Sur: ' + form_elements.pLatitud, fontSize: 10, border: [true, false, false, true]}, 
+                        {text: 'Longitud Oeste: ' + form_elements.pLongitud, fontSize: 10, border: [false, false, false, true]},
+                        {text: 'Datum: WGS84', fontSize: 10, border: [false, false, true, true], colSpan: 2}, {}],
+                        [{text: 'PLANTA TRANSMISORA ADICIONAL 1 (Si aplica)', colSpan: 4, alignment: 'left', bold: true, border: [true, false, true, false]}, {}, {}, {}],
                     [{text: 'Domicilio Calle:', colSpan: 2, fontSize: 10, border: [true, false, false, false]}, {}, {text: 'N°:', fontSize: 10, border: [false]},
                         {text: 'Comuna:', fontSize: 10, border: [false, false, true, false]}],
                     [{text: 'Pobl. o  lugar:', colSpan: 3, fontSize: 10, border: [true, false, false, false]}, {}, {}, {text: 'Región:', fontSize: 10, border: [false, false, true, false]}],
                     [{text: 'Latitud Sur:', fontSize: 10, border: [true, false, false, true]}, {text: 'Longitud Oeste:', fontSize: 10, border: [false, false, false, true]},
-                        {text: 'Datum:', fontSize: 10, border: [false, false, true, true], colSpan: 2}, {}],
+                        {text: 'Datum: WGS84', fontSize: 10, border: [false, false, true, true], colSpan: 2}, {}],
                     [{text: 'PLANTA TRANSMISORA ADICIONAL 2 (Si aplica)', colSpan: 4, alignment: 'left', bold: true, border: [true, false, true, false]}, {}, {}, {}],
                     [{text: 'Domicilio Calle:', colSpan: 2, fontSize: 10, border: [true, false, false, false]}, {}, {text: 'N°:', fontSize: 10, border: [false]},
                         {text: 'Comuna:', fontSize: 10, border: [false, false, true, false]}],
                     [{text: 'Pobl. o  lugar:', colSpan: 3, fontSize: 10, border: [true, false, false, false]}, {}, {}, {text: 'Región:', fontSize: 10, border: [false, false, true, false]}],
                     [{text: 'Latitud Sur:', fontSize: 10, border: [true, false, false, true]}, {text: 'Longitud Oeste:', fontSize: 10, border: [false, false, false, true]},
-                        {text: 'Datum:', fontSize: 10, border: [false, false, true, true], colSpan: 2}, {}]
+                        {text: 'Datum: WGS84', fontSize: 10, border: [false, false, true, true], colSpan: 2}, {}]
                 ]
             }
         }, {text: ' ', pageBreak: 'after'}];
@@ -195,8 +197,7 @@ function getTableTechnicalSystemFeature(title, radials, form_elements) {
                     [{text: '% Potencia: Porcentaje de la potencia inyectada al arreglo de antenas, distribuido a la antena respectiva, comprendido entre 0 y 100. La suma de todos los porcentajes debe ser 100.', fontSize: 8, border: [true, false, true, true]}]
                 ]
             }
-        },
-        {text: ' ', pageBreak: 'after'}
+        }
     ];
 
     return page_content;

@@ -1022,9 +1022,9 @@ function getParametersReport(){
 	var mapOut = {};
 	mapOut["pPerdidaCablesConectores"] = $("#perdidaCableConectoI").text();
 	mapOut["pOtrasPerdidas"] = $("#otrasPerdidasI").text();
-	mapOut["pFrecuencia"] =  $("#frecuenciaI").text();
+	mapOut["pFrecuencia"] =  $("#frecuenciaM").text();
 	mapOut["pGanancia"] = $("#gananciaM").val();
-	mapOut["pPotencia"] = $("#potenciaI").text();
+	mapOut["pPotencia"] = $("#potenciaM").text();
 	mapOut["pAlturaAntenaTx"] = $("#alturaAntenaI").text();
 	mapOut["pRut"] = $("#iRutRazon").val();
 	mapOut["pDivisorPotencia"] = $("#divisorPotenciaI").text();
