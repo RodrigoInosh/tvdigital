@@ -2,7 +2,7 @@ function getTemplateKML ( datos )  {
 	var kml = `<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
 <Folder>
-	<name>${datos.general.localidad}_${datos.general.frencuencia}</name>
+	<name>${datos.general.localidad}_${datos.general.frecuencia}</name>
 	<open>1</open>
 	<Document>
 		<name>${datos.general.nombre}</name>
@@ -11,7 +11,7 @@ function getTemplateKML ( datos )  {
 			<IconStyle>
 				<scale>1.3</scale>
 				<Icon>
-					<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+					<href>http://maps.google.com/mapfiles/kml/paddle/grn-circle.png</href>
 				</Icon>
 				<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
 			</IconStyle>
@@ -36,7 +36,7 @@ function getTemplateKML ( datos )  {
 			<IconStyle>
 				<scale>1.1</scale>
 				<Icon>
-					<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+					<href>http://maps.google.com/mapfiles/kml/paddle/grn-circle.png</href>
 				</Icon>
 				<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
 			</IconStyle>
@@ -120,7 +120,7 @@ function getTemplateKML ( datos )  {
 			<IconStyle>
 				<scale>1.3</scale>
 				<Icon>
-					<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+					<href>http://maps.google.com/mapfiles/kml/paddle/grn-circle.png</href>
 				</Icon>
 				<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
 			</IconStyle>
@@ -129,7 +129,7 @@ function getTemplateKML ( datos )  {
 			<IconStyle>
 				<scale>1.1</scale>
 				<Icon>
-					<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+					<href>http://maps.google.com/mapfiles/kml/paddle/grn-circle.png</href>
 				</Icon>
 				<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
 			</IconStyle>
