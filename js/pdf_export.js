@@ -128,7 +128,6 @@ function getPage1(title, form_elements) {
 }
 
 function getTableTechnicalSystemFeature(title, radials, form_elements) {
-    console.log(form_elements);
     var ganancia = typeof form_elements.pGanancia != 'undefined' ? form_elements.pGanancia : "";
     var potencia = typeof form_elements.pPotencia != 'undefined' ? form_elements.pPotencia : "";
     var frecuencia = typeof form_elements.pFrecuencia != 'undefined' ? form_elements.pFrecuencia : "";
@@ -153,7 +152,7 @@ function getTableTechnicalSystemFeature(title, radials, form_elements) {
                         {text: 'Potencia:  '+potencia+' [W]', colSpan: 3, fontSize: 10, border: [false, false, true, false]}, {}, {}
                     ],
                     [{text: '   ', border: [true, false, false, false]},
-                        {text: 'Canal: N°           Frecuencia Central:   '+frecuencia+' [MHz]', colSpan: 3, fontSize: 10, border: [false, false, true, false]}, {}, {}
+                        {text: 'Frecuencia Central:   '+frecuencia+' [MHz]', colSpan: 3, fontSize: 10, border: [false, false, true, false]}, {}, {}
                     ],
                     [{text: 'Tipo de Antena: Panel dipolos [__]', fontSize: 10, border: [true, false, false, false]},
                         {text: 'Ranura [__]', fontSize: 10, border: [false]},
@@ -163,14 +162,14 @@ function getTableTechnicalSystemFeature(title, radials, form_elements) {
                     [{text: 'Log Periódica [__]', colSpan: 2, fontSize: 10, border: [true, false, false, false]}, {},
                         {text: 'Otro [__] (                               )', colSpan: 2, fontSize: 10, border: [false, false, true, false]}, {}
                     ],
-                    [{text: 'Nº de elementos de antena:             Ganancia máxima: '+ganancia+' dBd.                     Polarización:     %H       %V', colSpan: 4, fontSize: 10,
+                    [{text: 'Nº de elementos de antena:             Ganancia máxima:   dBd.                     Polarización:     %H       %V', colSpan: 4, fontSize: 10,
                             border: [true, false, true, false]}, {}, {}, {}
                     ],
                     [{text: 'Tilt eléctrico: Sí [__] No [__]', fontSize: 10, border: [true, false, false, false]},
                         {text: 'Angulo de tilt:          °', fontSize: 10, border: [false]},
-                        {text: 'Ganancia plano horizontal:         [dBd]', colSpan: 2, fontSize: 10, border: [false, false, true, false]}, {}
+                        {text: 'Ganancia plano horizontal: '+ganancia+' [dBd]', colSpan: 2, fontSize: 10, border: [false, false, true, false]}, {}
                     ],
-                    [{text: 'Altura centro radiación:          [m].         Pérdida cables y conectores:      [dB]     Pérdidas del combinador:        [dB]', colSpan: 4,
+                    [{text: 'Altura centro radiación:          [m].         Pérdida cables y conectores:      [dB]', colSpan: 4,
                             fontSize: 10, border: [true, false, true, false]}, {}, {}, {}
                     ],
                     [{text: 'Otras pérdidas:       [dB]. (especificar:                                                  )               Pérdidas totales =       [dB].', colSpan: 4,
