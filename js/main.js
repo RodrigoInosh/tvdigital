@@ -525,7 +525,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
           "latitud": mapParametros.latitud,
           "longitud": mapParametros.longitud,
           "potencia": mapParametros.potenciaM,
-          "ganancia": mapParametros.ganaciaM,
+          "ganancia": mapParametros.gananciaM,
           "alturaAntenaTx": mapParametros.alturaAntenaTransmisoraM,
           "alturaAntenaRx": mapParametros.alturaAntenaRx,
           "perdidaCablesConectores": mapParametros.perdidasCablesConectoresM,
@@ -769,6 +769,10 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 	function exportKMZClick(){
 		showLoader(true);
+
+		var form_data = getMapParameters();
+		var radioMaximo = form_data.radioMaximo;
+
 		var printTask = new PrintTask({
 		   url: gpScriptExportarKMZ
 		})
@@ -811,10 +815,16 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				"concursoModificacion": concursoModificacion
 			}
 		};
+		datos.general.localidad = form_data.localidad;
+		datos.general.frecuencia = form_data.frecuenciaM;
+		datos.general.intensidad = form_data.intensidadCampoM;
+		datos.general.nombre = getKMLNameSite(form_data.intensidadCampoM);
+
 		var poligono1="";
 		var poligono2="";
 		var poligonoM1="";
 		var poligonoM2="";
+		var poligonoMaxZone="";
 
 		var ubicacion = {x: superView.punto.features[0].geometry.longitude, 
 						 y: superView.punto.features[0].geometry.latitude};
@@ -827,6 +837,15 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			//result = toGeographic(x[0], x[1]);
 			//poligono1 += result.x + "," + result.y + ",10 \n";
 			poligono1 += x[0] + "," + x[1] + ",10 \n";
+		});
+
+		var circleMaxZone = new Circulo([superView.punto.features[0].geometry.longitude, superView.punto.features[0].geometry.latitude],{
+			"radius": radioMaximo*1000,
+			geodesic: true
+		  });
+
+		circleMaxZone.rings[0].map( x => {
+			poligonoMaxZone += x[0] + "," + x[1] + ",10 \n";
 		});
 
 		if ( superView.zonaMaxima1!=null ) {
@@ -848,19 +867,14 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	    });
 
 		datos.poligonos.zonaServicio = poligono2;
-		datos.poligonos.zonaMaximaServicio = poligono1;
+		datos.poligonos.zonaRestriccionServicio = poligono1;
+		datos.poligonos.zonaMaxima = poligonoMaxZone;
 		datos.poligonos.zonaMaximaExistente = poligonoM1;
 		datos.poligonos.zonaMaximaExistenteExtendida = poligonoM2;
 		datos.puntos.existente.longitud = ubicacion.x;
 		datos.puntos.existente.latitud = ubicacion.y;
 		datos.puntos.nuevo.longitud = superView.puntoNuevo.longitud;
 		datos.puntos.nuevo.latitud = superView.puntoNuevo.latitud;
-
-		var form_data = getMapParameters();
-		datos.general.localidad = form_data.localidad;
-		datos.general.frecuencia = form_data.frecuenciaM;
-		datos.general.intensidad = form_data.intensidadCampoM;
-		datos.general.nombre = getKMLNameSite(form_data.intensidadCampoM);
 
 		var data = new Blob([ getTemplateKML(datos) ]);
 		var a = URL.createObjectURL( data );
@@ -911,7 +925,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 	function getKMLNameSite(intensidad){
 		var name = "";
-
 		if(intensidad == "48") {
 			name = "CalculoZonaServicio";
 		} else if (intensidad == "40") {

@@ -1,6 +1,6 @@
 var botonHerramientasShow = false;
 var potenciaM = 0;
-var ganaciaM = 0;
+var gananciaM = 0;
 var frecuenciaM = 0;
 var intensidadCampoM = 0;
 var alturaAntenaTransmisoraM = 0;
@@ -401,7 +401,8 @@ function setDataIdentificador(data, coords, decimales){
 	latitudM = coords[1];
 	longitudM = coords[0];
 	$("#radioCircunferenciaMaxina").val(data.RADIO_MAXIMO);
-	$("#"+data.RADIALES+"PerdidasLobulos").attr('checked',true);
+	// $("#"+data.RADIALES+"PerdidasLobulos").attr('checked',true);
+	$("#18PerdidasLobulos").attr('checked',true);
 	if(concurso){
 		numeroRadiales = 18;
 		setRadialesConcurso(data);
@@ -413,9 +414,9 @@ function setDataIdentificador(data, coords, decimales){
 	}
 
 	setDataPLOB(data);
-	$("#potenciaM").val(data.POTENCIA);
-	$("#ganaciaM").val(data.G_ANT_DBD);
-	$("#frecuenciaM").val(Math.round(data.FRECUENCIA));
+	$("#potenciaM").val(0);
+	$("#gananciaM").val(data.G_ANT_DBD);
+	$("#frecuenciaM").val(0);
 	$("#intensidadCampoM").val(data.CAMPO_LIMITE);
 	$("#alturaAntenaTransmisoraM").val(data.ALTURA_TX);
 	$("#latitudGradosM").val((coords[1].split(" ")[0].replace("°", "")).replace("-",""));
@@ -794,7 +795,7 @@ function removeDataConcurso(){
 	$("#identificadores").append(new Option("Seleccione", "seleccione"));
 	$("#identificadores option:contains(seleccione)").prop("selected",true); 
 	$("#potenciaM").val("");
-	$("#ganaciaM").val("");
+	$("#gananciaM").val("");
 	$("#frecuenciaM").val("");
 	$("#intensidadCampoM").val("");
 	$("#alturaAntenaTransmisoraM").val("");
@@ -865,7 +866,7 @@ function showErrorMessage(value){
 
 function getMapParameters(){
 	potenciaM = $("#potenciaM").val();
-	ganaciaM = $("#ganaciaM").val();
+	gananciaM = $("#gananciaM").val();
 	frecuenciaM = $("#frecuenciaM").val();
 	intensidadCampoM = $("#intensidadCampoM").val();
 	alturaAntenaTransmisoraM = $("#alturaAntenaTransmisoraM").val();
@@ -875,10 +876,11 @@ function getMapParameters(){
 	recomendacion = $("#recomendacion option:selected").text();
 	radiales = $("input[name=radialesRadio]:checked").val();
 	localidad = $("#localidadC").val();
+	radioMaximo = $("#radioCircunferenciaMaxina").val();
 	radialesCalculo = radiales;
 	var mapOut = {};
 	mapOut["potenciaM"] = potenciaM;
-	mapOut["ganaciaM"] = ganaciaM;
+	mapOut["gananciaM"] = gananciaM;
 	mapOut["frecuenciaM"] = frecuenciaM;
 	mapOut["intensidadCampoM"] = intensidadCampoM;
 	mapOut["alturaAntenaTransmisoraM"] = alturaAntenaTransmisoraM;
@@ -895,6 +897,7 @@ function getMapParameters(){
 	mapOut["recomendacion"] = recomendacion;
 	mapOut["radiales"] = radiales;
 	mapOut["localidad"] = localidad;
+	mapOut["radioMaximo"] = radioMaximo;
 
 	$("#longitudI").val($("#longitudGradosM").val() + "° "+ $("#longitudMinutosM").val() + "' " + $("#longitudSegundosM").val() + "''");
 	$("#latitudI").val($("#latitudGradosM").val() + "° "+ $("#latitudMinutosM").val() + "' " + $("#latitudSegudosM").val() + "''");
@@ -1020,7 +1023,7 @@ function getParametersReport(){
 	mapOut["pPerdidaCablesConectores"] = $("#perdidaCableConectoI").text();
 	mapOut["pOtrasPerdidas"] = $("#otrasPerdidasI").text();
 	mapOut["pFrecuencia"] =  $("#frecuenciaI").text();
-	mapOut["pGanancia"] = $("#ganaciaM").text();
+	mapOut["pGanancia"] = $("#gananciaM").val();
 	mapOut["pPotencia"] = $("#potenciaI").text();
 	mapOut["pAlturaAntenaTx"] = $("#alturaAntenaI").text();
 	mapOut["pRut"] = $("#iRutRazon").val();
@@ -1030,6 +1033,7 @@ function getParametersReport(){
 	mapOut["pEmail"] = $("#iemail").val();
 	mapOut["pFono"] = $("#ifono").val();
 	mapOut["pDomicilio"] = $("#idomicilio").val();
+	mapOut["pRut"] = $("#iRutRazon").val();
 	mapOut["pLatitud"]  = $("#latitudI").val();
 	mapOut["pLongitud"] = $("#longitudI").val();
 	var radial = $("input[name=radialesRadio]:checked").val();

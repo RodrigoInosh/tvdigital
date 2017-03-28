@@ -2,10 +2,10 @@ function getTemplateKML ( datos )  {
 	var kml = `<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
 <Folder>
-	<name>Caldera_575</name>
+	<name>${datos.general.localidad}_${datos.general.frencuencia}</name>
 	<open>1</open>
 	<Document>
-		<name>CalculoZonaServicio</name>
+		<name>${datos.general.nombre}</name>
 		<open>1</open>
 		<Style id="s_ylw-pushpin_hl">
 			<IconStyle>
@@ -29,7 +29,7 @@ function getTemplateKML ( datos )  {
 				<color>ffc26db0</color>
 			</LineStyle>
 			<PolyStyle>
-				<color>ffffaaff</color>
+				<color>b2ffaaff</color>
 			</PolyStyle>
 		</Style>
 		<Style id="s_ylw-pushpin">
@@ -46,7 +46,7 @@ function getTemplateKML ( datos )  {
 				<color>ffc26db0</color>
 			</LineStyle>
 			<PolyStyle>
-				<color>ffffaaff</color>
+				<color>b2ffaaff</color>
 			</PolyStyle>
 		</Style>
 		<StyleMap id="m_ylw-pushpin">
@@ -61,10 +61,10 @@ function getTemplateKML ( datos )  {
 		</StyleMap>
 		<Style id="sh_ylw-pushpin">
 			<LineStyle>
-				<color>00000000</color>
+				<color>ff000000</color>
 			</LineStyle>
 			<PolyStyle>
-				<color>00000000</color>
+				<color>ff000000</color>
 				<fill>0</fill>
 			</PolyStyle>
 		</Style>
@@ -113,7 +113,7 @@ function getTemplateKML ( datos )  {
 				<color>7f000000</color>
 			</LineStyle>
 			<PolyStyle>
-				<color>ff000000</color>
+				<color>b2000000</color>
 			</PolyStyle>
 		</Style>
 		<Style id="s_ylw-pushpin_hl0">
@@ -154,10 +154,10 @@ function getTemplateKML ( datos )  {
 		</Style>
 		<Style id="sn_ylw-pushpin">
 			<LineStyle>
-				<color>ff7f0000</color>
+				<color>ff000000</color>
 			</LineStyle>
 			<PolyStyle>
-				<color>ff7f0000</color>
+				<color>ff000000</color>
 				<fill>0</fill>
 			</PolyStyle>
 		</Style>
@@ -166,7 +166,7 @@ function getTemplateKML ( datos )  {
 				<color>7f000000</color>
 			</LineStyle>
 			<PolyStyle>
-				<color>ff000000</color>
+				<color>b2000000</color>
 			</PolyStyle>
 		</Style>
 		<Placemark>
@@ -197,7 +197,7 @@ return kml;
 function getKMLelements(datos) {
 	var kml_elements = "";
 	if (datos.general.concursoModificacion == 'Concurso') {
-		kml_elements += getPtxZones(datos);
+		kml_elements = kml_elements + getPtxZones(datos) + getMaxZone(datos);
 	} else if(datos.general.concursoModificacion == 'Modificacion') {
 		kml_elements = kml_elements + getServiceZoneRestriction(datos) + getAnalogZonePlus30(datos) + getAnalogZoneMinus30(datos);
 	}
@@ -256,7 +256,7 @@ function getServiceZoneRestriction(datos) {
 				<outerBoundaryIs>
 					<LinearRing>
 						<coordinates>
-							${datos.poligonos.zonaMaximaServicio}
+							${datos.poligonos.zonaRestriccionServicio}
 						</coordinates>
 					</LinearRing>
 				</outerBoundaryIs>
@@ -304,4 +304,24 @@ function getAnalogZoneMinus30(datos) {
 		</Placemark>`;
 
 	return analog_zone;
+}
+
+function getMaxZone(datos) {
+	var max_zone = `<Placemark>
+			<name>Zona Maxima</name>
+			<styleUrl>#msn_ylw-pushpin</styleUrl>
+			<Polygon>
+				<extrude>1</extrude>
+				<gx:drawOrder>3</gx:drawOrder>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							${datos.poligonos.zonaMaxima}
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>`;
+
+	return max_zone;
 }
