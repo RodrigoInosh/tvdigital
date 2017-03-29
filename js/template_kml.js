@@ -29,7 +29,7 @@ function getTemplateKML ( datos )  {
 				<color>ffc26db0</color>
 			</LineStyle>
 			<PolyStyle>
-				<color>b2ffaaff</color>
+				<color>7fffaaff</color>
 			</PolyStyle>
 		</Style>
 		<Style id="s_ylw-pushpin">
@@ -46,7 +46,7 @@ function getTemplateKML ( datos )  {
 				<color>ffc26db0</color>
 			</LineStyle>
 			<PolyStyle>
-				<color>b2ffaaff</color>
+				<color>7fffaaff</color>
 			</PolyStyle>
 		</Style>
 		<StyleMap id="m_ylw-pushpin">
@@ -155,6 +155,7 @@ function getTemplateKML ( datos )  {
 		<Style id="sn_ylw-pushpin">
 			<LineStyle>
 				<color>ff000000</color>
+				<width>1.9</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>ff000000</color>
@@ -199,15 +200,16 @@ function getKMLelements(datos) {
 	if (datos.general.concursoModificacion == 'Concurso') {
 		kml_elements = kml_elements + getPtxZones(datos) + getMaxZone(datos);
 	} else if(datos.general.concursoModificacion == 'Modificacion') {
-		kml_elements = kml_elements + getServiceZoneRestriction(datos) + getAnalogZonePlus30(datos) + getAnalogZoneMinus30(datos);
+		kml_elements = kml_elements + getPtxZones(datos) + getServiceZoneRestriction(datos) + getAnalogZonePlus30(datos) + getAnalogZoneMinus30(datos);
 	}
 
 	return kml_elements;
 } 
 
 function getPtxZones(datos) {
+	console.log("generando ptx");
 	var ptx_zones = `<Placemark>
-			<name>PTx Zona Analogica</name>
+			<name>PTx Original</name>
 			<LookAt>
 				<longitude>${datos.puntos.existente.longitud}</longitude>
 				<latitude>${datos.puntos.existente.latitud}</latitude>
@@ -226,7 +228,7 @@ function getPtxZones(datos) {
 			</Point>
 		</Placemark>
 		<Placemark>
-			<name>PTx Zona Digital</name>
+			<name>PTx Nueva</name>
 			<LookAt>
 				<longitude>${datos.puntos.nuevo.longitud}</longitude>
 				<latitude>${datos.puntos.nuevo.latitud}</latitude>

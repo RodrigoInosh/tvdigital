@@ -266,32 +266,36 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 	
 	function changeConcursoModificacionClick(){
-		view.graphics.removeAll();
-		map.removeAll();
-		concursoC = dom.byId("concursoC").checked;
-		modificacionM = dom.byId("modificacionM").checked;	
 
-		setCombosToStart(modificacionM);
-		removeDataConcurso();
-		console.log("sfsasfasf");
-		if(!$('#pestanaTab2').is(':visible'))
-		{
-			console.log("visible");
+		concursoC = dom.byId("concursoC").checked;
+		modificacionM = dom.byId("modificacionM").checked;
+		if(validaCambiosCampos()){
+			view.graphics.removeAll();
+			map.removeAll();
+
+			setCombosToStart(modificacionM);
+			removeDataConcurso();
+
+			if(concursoC){
+				concursoModificacion = "Concurso";
+				var query1 = new Query();
+				query1.returnGeometry = true;
+				query1.outFields = ["nombre, id_concurso"];
+				query1.where = "1=1";
+				queryTask1.execute(query1).then(setComboConcursos);
+				setComboRegion(true);
+			}
+			if(modificacionM){
+				concursoModificacion = "Modificacion";
+				setComboRegion(false);
+			}
 		} else {
-			console.log("no visible");
-		}
-		if(concursoC){
-			concursoModificacion = "Concurso";
-			var query1 = new Query();
-			query1.returnGeometry = true;
-			query1.outFields = ["nombre, id_concurso"];
-			query1.where = "1=1";
-			queryTask1.execute(query1).then(setComboConcursos);
-			setComboRegion(true);
-		}
-		if(modificacionM){
-			concursoModificacion = "Modificacion";
-			setComboRegion(false);
+			if(concursoC){
+				$("#modificacionM").prop("checked", true);
+			}
+			if(modificacionM){
+				$("#concursoC").prop("checked", true);
+			}
 		}
 	}
 	
@@ -765,7 +769,12 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 	function imprimirCalculoClick(){
 		var mapReporte = getParametersReport();
-		getPDF(mapReporte);
+		if(concursoModificacion == 'Concurso'){
+			getPDFConcurso(mapReporte);	
+		} else {
+			getPDFModificacion(mapReporte);
+		}
+		
 	}
 
 	function showDocument(data){
@@ -950,10 +959,14 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	$('input[type="radio"][id="18PerdidasLobulos"]').change(function() {
 
 		$("#calculaPoligono").text("Calcular Zona [18 radiales]");
-     });
+    });
 
 	$('input[type="radio"][id="72PerdidasLobulos"]').on('change',function() {
 		$("#calculaPoligono").text("Calcular Zona [72 radiales]");
-     });
+    });
 
+	$('#pdfForm').on('click', function() {
+		$("#openModal").load("form_pdf.html"); 
+		$('#openModal').show();
+	});
 });

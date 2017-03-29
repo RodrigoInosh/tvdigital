@@ -1,0 +1,84 @@
+<html>
+<head>
+<script src="js/prueba.js"></script>
+<link href="css/form_pdf.css" rel="stylesheet" type="text/css">
+<link href="css/main.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<img id="closeImageOA" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+<div id="tabform">
+	<ul>
+		<li id="pestanaGeneralDataTab"><a href="#GeneralDataTab">DATOS GENERALES</a></li>
+		<li id="pestanaPrincipalDesignTab"><a href="#PrincipalDesignTab">ESTUDIO PRINCIPAL</a></li>
+		<li id="pestanaAlternativeDesignTab"><a href="#AlternativeDesignTab">ESTUDIO ALTERNATIVO</a></li>
+	</ul>
+	<div id="separador"></div>
+	<div id="GeneralDataTab">
+		<ul>
+			<li><label><b><u>Representante Legal</u></b></label></li>
+			<div id="separador" style="height: 1px;"></div>
+			<li style="width: 40px; text-align: left">Nombre:</li>
+			<li>
+				<input type="text" value="" id="nombreRepLegal"/>
+			</li>
+			<div id="separador"></div>
+			<li style="width: 40px; text-align: left">RUT:</li>
+			<li>
+				<input type="text" value="" id="rutRepLegal"/>
+			</li>
+			<div id="separador"></div>
+			<li>
+				<label><b><u>Resolución Otorga</u></b></label>
+			</li>
+			<div id="separador"></div>
+			<li style="width: 40px; text-align: left">N°:</li>
+			<li>
+				<input type="text" value="" id="numResOtorga"/>
+			</li>
+			<div id="separador"></div>
+			<li style="width: 40px; text-align: left">Fecha:</li>
+			<li>
+				<input type="text" id="fechaResOtorga"/>
+			</li>
+			<div id="separador"></div>
+			<li style="width: 40px; text-align: left">CNTV:</li>
+			<li>
+				<select id="resOtorgaCNTV">
+					<option value="si">Sí</option>
+					<option value="no">No</option>
+				</select>
+			</li>
+			<div id="separador"></div>
+			<li>
+				<label><b><u>Resolución Modifica</u></b></label>
+			</li>
+			<div id="separador"></div>
+			<li style="width: 40px; text-align: left">N°:</li>
+			<li>
+				<input type="text" value="" id="numResModifica"/>
+			</li>
+			<div id="separador"></div>
+			<li style="width: 40px; text-align: left">Fecha:</li>
+			<li>
+				<input type="text" id="fechaResModifica"/>
+			</li>
+			<div id="separador"></div>
+			<li style="width: 40px; text-align: left">CNTV:</li>
+			<li>
+				<select id="resModificaCNTV">
+					<option value="si">Sí</option>
+					<option value="no">No</option>
+				</select>
+			</li>
+			<li style="width: 75px; float: right;">
+				<button type="button" style="width: 70px;" id="saveFormPDF">Aceptar</button>
+			</li>
+		</ul>
+	</div>
+	<div id="PrincipalDesignTab">
+	</div>
+	<div id="AlternativeDesignTab">
+	</div>
+</div>
+</body>
+</html>

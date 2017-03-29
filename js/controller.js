@@ -1041,7 +1041,7 @@ function getParametersReport(){
 	var grados = 360/radial;
 
 	for(i=0;i<radial;i++){
-		mapOut["DIS"+grados*i] = redondea(distanciaKilometros["MDKPL"+(grados*i)],2);
+		mapOut["DIS"+grados*i] = redondea(distanciaKilometros["MDKPL"+(grados*i)],2); //CAMBIAR A 4
 	}
 	var llave ="";
 	for(i=0;i<radial;i++){
@@ -1086,4 +1086,13 @@ function disabledAll(){
 
 function setTwoNumberDecimal(){
 	this.value = parseFloat(this.value).toFixed(2);
+}
+
+function validaCambiosCampos() {
+	var validate = true;
+	if($('#pestanaTab2').css('display') != 'none')
+	{
+		validate = confirm("Si cambia de sección perderán los datos que haya ingresado");
+	}
+	return validate;
 }

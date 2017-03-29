@@ -9,7 +9,6 @@
 <link href="css/main.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://js.arcgis.com/4.1/esri/css/main.css">
 <link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
 <script src="js/jquery-1.10.2.js"></script>
 <script src="js/jquery-ui.js"></script>
 <script src="js/template_kml.js"></script>
@@ -22,6 +21,8 @@
 <script src="js/controller.js"></script>
 <script src="js/pdf_export.js"></script>
 <script src="js/interpolacion.js"></script>
+<script src="js/concurso_pdf_export.js"></script>
+<script src="js/modificacion_pdf_export.js"></script>
 </head>
 <body>
 	<div id="loader">
@@ -70,7 +71,9 @@
 				</ul>
 				<div id="separador"></div>
 				<div id="tab1">
+
 					<ul>
+					<!-- <li><button type="button" style="font-size: 11px;" id="pdfForm">Agregar Info a PDF</button></li> -->
 						<li id="concursoLabel"><label style="padding-right: 12px;">Concurso:</label></li>
 						<li id="concursoSelect" style="padding-right: 1px;">
 							<select name="concursos" id="concursos" style="width: 170px"></select>
@@ -281,8 +284,9 @@
 					<div id="separador" style="height: 9px"></div>
 					<div id="subbox3bottom">
 						<ul>
-							<li><button type="button" style="width: 95px; font-size: 11px;" id="verDistancia">Ver Resultado</button></li>
+							<li><button type="button" style="font-size: 11px;" id="verDistancia">Ver Resultado</button></li>
 							<li><button type="button" id="exportarKMZ">Exportar a GoogleEarth</button></li>
+							<!-- <li><button type="button" style="font-size: 11px;" id="pdfForm">Agregar Info a PDF</button></li> -->
 							<li><button type="button" id="imprimirCalculo">Generar PDF</button></li>
 						</ul>
 					</div>
@@ -999,8 +1003,8 @@
 					<li><input type="text" value="20" id="obstaculosCircundantesRx" style="width: 25px" disabled /><b>[m]</b></li>
 					<div id="separador"></div>
 					<li style="width: 143px; text-align: left">Tolerancia zonas de sombra:</li>
-					<li><input type="text" value="20" id="toleranciaZonasSombras" style="width: 25px" disabled /><b>[km]</b></li>
-					<li style="width: 148px; text-align: left">Resolución de cálculo:</li>
+					<li><input type="text" value="20" id="toleranciaZonasSombras" style="width: 25px" disabled /><b>[km]</b></li
+>					<li style="width: 148px; text-align: left">Resolución de cálculo:</li>
 					<li><input type="text" value="500" id="resolucionCalculo" style="width: 25px" disabled /><b>[m]</b></li>
 					<div id="separador"></div>
 					<li style="width: 144px; text-align: left">Porcentaje de tiempo:</li>
@@ -1018,18 +1022,9 @@
 			<div id="msgbox"><p>Seleccione nueva ubicación en el mapa</p></div>
 		</div>
 	</div>
-	<!--div id="dialog2" title="Basic dialog" style="display: none">
-		<p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+	<div id="openModal" class="modalForm">
+		
 	</div>
-	<div id="dialog" title="Problema en Calculo">
-		<p>
-		<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
-		Your files have downloaded successfully into the My Downloads folder.
-		</p>
-		<p>
-		Currently using <b>36% of your storage space</b>.
-		</p>
-	</div-->
 </div>
 </body>
 </html>

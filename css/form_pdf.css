@@ -1,0 +1,160 @@
+#tabform{
+	margin-top: 5px;
+	border-width: 1px;
+	width: 440px;
+	height: 420px;
+}
+
+#tabform ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	font-family: Arial;
+	font-size: 11px;
+}
+
+#tabform ul li{
+	float: left;
+	text-align: center;
+	height: 16px;
+	padding-top:3px;
+    border-top: solid 1px #C0C0C0;
+	background-color: #DCDCDC;
+}
+
+#tabform ul li a{
+	text-decoration:none;
+	color: black;
+}
+
+#tabform .ui-tabs-active {
+	background-color: white;
+}
+
+#pestanaGeneralDataTab{
+	width: 130px;
+	border-right: solid 1px #C0C0C0;
+	border-left: solid 1px #C0C0C0;
+}
+
+#pestanaPrincipalDesignTab{
+	width: 130px; 
+	border-right: solid 1px #C0C0C0;
+	border-left: 0px;
+}
+
+#pestanaAlternativeDesignTab{
+	width: 130px; 
+	border-left: none; 
+	border-right: solid 1px #C0C0C0;
+}
+
+#separador{ 
+	clear: both;
+}
+
+#closeImage{
+	position: relative;
+	right: 0px;
+}
+
+#GeneralDataTab {
+	border: solid 1px #C0C0C0;
+	height: 265px;
+	position: relative;
+	width: 423px;
+}
+
+#GeneralDataTab ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	padding-left: 10px;
+}
+
+#GeneralDataTab ul li{
+	background-color: white;
+	border: none;
+	list-style-type: none;
+	padding: 0;
+	padding-left: 10px;
+	padding-top: 5px;
+	height: 21px;
+	
+}
+
+#GeneralDataTab ul li label{
+	height: 20px;
+	position: relative;
+	top: 3px;
+}
+
+#PrincipalDesignTab {
+	border: solid 1px #C0C0C0;
+	height: 265px;
+	padding-top: 10x;
+	position: relative;
+	width: 423px;
+}
+
+#PrincipalDesignTab ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	padding-left: 10px;
+}
+
+#PrincipalDesignTab ul li{
+	background-color: white;
+	border: none;
+	list-style-type: none;
+	padding: 0;
+	padding-left: 5px;
+	padding-top: 5px;
+	height: 18px;
+}
+
+#PrincipalDesignTab ul li label{
+	height: 20px;
+	position: relative;
+	top: 3px;
+}
+
+#PrincipalDesignTab ul li button{
+	font-family: Arial;
+	font-size: 11px;
+}
+
+#AlternativeDesignTab {
+	border: solid 1px #C0C0C0;
+	height: 265px;
+	width: 423px;
+}
+
+#AlternativeDesignTab ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	padding-left: 10px;
+}
+
+#AlternativeDesignTab ul li{
+	background-color: white;
+	border: none;
+	list-style-type: none;
+	padding: 0;
+	padding-left: 5px;
+	padding-top: 5px;
+	height: 19px;
+}
+
+#AlternativeDesignTab ul li label{
+	height: 20px;
+	position: relative;
+	top: 3px;
+}
+
+#AlternativeDesignTab ul li button{
+	font-family: Arial;
+	font-size: 11px;
+}
