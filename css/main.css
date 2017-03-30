@@ -88,7 +88,7 @@ button{
 #selectorconmod ul{
 	list-style-type: none;
 	padding: 0;
-	margin: 0;	
+	margin: 0;
 	font-family: Arial;
 	font-size: 12px;
 	font-weight: bold;
@@ -190,7 +190,7 @@ button{
 	padding: 0;
 	padding-left: 10px;
 	padding-top: 4px;
-	height: 19px;	
+	height: 19px;
 }
 
 #subbox1left ul li label{
@@ -216,7 +216,7 @@ button{
 	background-color: white;
 	border: none;
 	list-style-type: none;
-	height: 19px;	
+	height: 19px;
 	text-align: left;
 	padding-top: 4px;
 }
@@ -331,31 +331,6 @@ button{
 	border: solid 1px #C0C0C0;
 }
 
-.modalForm{
-	position: absolute;
-	top: 120px; 
-	left: 80px;
-	background-color: white;
-	border: 1px solid black;
-	box-shadow: 5px 5px 5px #888888;
-	border-radius: 10px;
-	padding: 7px;
-	display: none;
-}
-
-.modalForm ul{
-	list-style-type: none;
-	padding: 0;
-	margin: 0;	
-	font-family: Arial;
-	font-size: 11px;
-}
-
-.modalForm ul li{
-	float: left;
-	padding: 3px;
-}
-
 #frame18PerdidasLobulos {
 	height: 205px;
 	width: 260px;
@@ -401,10 +376,10 @@ button{
 #frame72PerdidasLobulos ul{
 	list-style-type: none;
 	padding: 0;
-	margin: 0;	
+	margin: 0;
 	font-family: Arial;
 	font-size: 12px;
-	font-weight: bold;	
+	font-weight: bold;
 }
 
 #frame72PerdidasLobulos ul li{
@@ -430,10 +405,10 @@ button{
 #frame18Radiales ul{
 	list-style-type: none;
 	padding: 0;
-	margin: 0;	
+	margin: 0;
 	font-family: Arial;
 	font-size: 12px;
-	font-weight: bold;	
+	font-weight: bold;
 }
 
 #frame18Radiales ul li{
@@ -458,10 +433,10 @@ button{
 #frame72Radiales ul{
 	list-style-type: none;
 	padding: 0;
-	margin: 0;	
+	margin: 0;
 	font-family: Arial;
 	font-size: 12px;
-	font-weight: bold;	
+	font-weight: bold;
 }
 
 #frame72Radiales ul li{
@@ -472,10 +447,10 @@ button{
 #frame8PerdidasLobulos ul{
 	list-style-type: none;
 	padding: 0;
-	margin: 0;	
+	margin: 0;
 	font-family: Arial;
 	font-size: 12px;
-	font-weight: bold;	
+	font-weight: bold;
 }
 
 #frame8PerdidasLobulos ul li{
@@ -486,10 +461,10 @@ button{
 #frame18PerdidasLobulos ul{
 	list-style-type: none;
 	padding: 0;
-	margin: 0;	
+	margin: 0;
 	font-family: Arial;
 	font-size: 12px;
-	font-weight: bold;	
+	font-weight: bold;
 }
 
 #frame18PerdidasLobulos ul li{
@@ -615,7 +590,6 @@ button{
 }
 
 #subbox3bottom{
-	position: fixed;	
 	padding-top: 3px;
 	padding-right: 3px;
 }
@@ -676,10 +650,10 @@ button{
 #distanciaKilometro8 ul{
 	list-style-type: none;
 	padding: 0;
-	margin: 0;	
+	margin: 0;
 	font-family: Arial;
 	font-size: 12px;
-	font-weight: bold;	
+	font-weight: bold;
 }
 
 #distanciaKilometro8 ul li{
@@ -705,10 +679,10 @@ button{
 #distanciaKilometro18 ul{
 	list-style-type: none;
 	padding: 0;
-	margin: 0;	
+	margin: 0;
 	font-family: Arial;
 	font-size: 12px;
-	font-weight: bold;	
+	font-weight: bold;
 }
 
 #distanciaKilometro18 ul li{
@@ -733,10 +707,10 @@ button{
 #distanciaKilometro72 ul{
 	list-style-type: none;
 	padding: 0;
-	margin: 0;	
+	margin: 0;
 	font-family: Arial;
 	font-size: 12px;
-	font-weight: bold;	
+	font-weight: bold;
 }
 
 #distanciaKilometro72 ul li{
@@ -814,7 +788,7 @@ button{
 #opcionesAvanzadas ul{
 	list-style-type: none;
 	padding: 0;
-	margin: 0;	
+	margin: 0;
 	font-family: Arial;
 	font-size: 11px;
 }
@@ -866,7 +840,7 @@ button{
 	z-index: 9999;
 	background-color: black;
 	opacity: 0.8;
-    filter: alpha(opacity=80);	
+    filter: alpha(opacity=80);
 }
 
 #loadbox{

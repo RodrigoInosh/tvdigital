@@ -9,6 +9,7 @@
 <link href="css/main.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://js.arcgis.com/4.1/esri/css/main.css">
 <link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="css/form_pdf.css" rel="stylesheet" type="text/css">
 <script src="js/jquery-1.10.2.js"></script>
 <script src="js/jquery-ui.js"></script>
 <script src="js/template_kml.js"></script>
@@ -40,7 +41,6 @@
 		<div id="topGobBlue"></div>
 	</div>
 	<div id="viewDiv">
-	
 		<div id="botonHerramientas"><img src="images/terra-globe-icon-png-24.png" width="40" height="40" /></div>
 		<div id="caltool">
 			<div id="titulocaltool" style="height: 3px;">
@@ -71,8 +71,8 @@
 				</ul>
 				<div id="separador"></div>
 				<div id="tab1">
-
 					<ul>
+					<li><button type="button" style="font-size: 11px;" id="pdfForm">Agregar Info a PDF</button></li>
 						<li id="concursoLabel"><label style="padding-right: 12px;">Concurso:</label></li>
 						<li id="concursoSelect" style="padding-right: 1px;">
 							<select name="concursos" id="concursos" style="width: 170px"></select>
@@ -1022,7 +1022,6 @@
 		</div>
 	</div>
 	<div id="openModal" class="modalForm">
-		
 	</div>
 </div>
 </body>

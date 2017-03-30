@@ -2,6 +2,7 @@ var superView={};
 var ajaxCall1 = {};
 var ajaxCall2 = {};
 var circleFunction;
+var is_form_modal_first_openend = true;
 
 require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle",
 		"esri/widgets/BasemapToggle", "esri/tasks/support/Query", "esri/tasks/QueryTask", 
@@ -528,7 +529,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		if(calculoZonaMaxima && dom.byId("normaAnteriorM").checked){
 			var recomendacion = '370';
 		}
-
 		cambiaNuevaCoordenada(mapParametros.latitud,mapParametros.longitud);
 
 		superView.puntoNuevo = {"longitud": mapParametros.longitud, "latitud": mapParametros.latitud };
@@ -769,6 +769,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 	function imprimirCalculoClick(){
 		var mapReporte = getParametersReport();
+		console.log(getFormData());
 		if(concursoModificacion == 'Concurso'){
 			getPDFConcurso(mapReporte);	
 		} else {
@@ -841,17 +842,14 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		var poligonoM1="";
 		var poligonoM2="";
 		var poligonoMaxZone="";
-
 		var ubicacion = {x: superView.punto.features[0].geometry.longitude, 
 						 y: superView.punto.features[0].geometry.latitude};
-		var circleGeometry = new Circulo([superView.punto.features[0].geometry.longitude, superView.punto.features[0].geometry.latitude],{
+		var circleGeometry = new Circulo([superView.puntoNuevo.longitud, superView.puntoNuevo.latitud],{
 			"radius": 60000,
 			geodesic: true
 		  });
 
 		circleGeometry.rings[0].map( x => {
-			//result = toGeographic(x[0], x[1]);
-			//poligono1 += result.x + "," + result.y + ",10 \n";
 			poligono1 += x[0] + "," + x[1] + ",10 \n";
 		});
 
@@ -966,7 +964,11 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
     });
 
 	$('#pdfForm').on('click', function() {
-		$("#openModal").load("form_pdf.html"); 
+		console.log(is_form_modal_first_openend);
+		if(is_form_modal_first_openend){
+			$("#openModal").load("form_pdf.html");
+			is_form_modal_first_openend = false;
+		}
 		$('#openModal').show();
 	});
 });
