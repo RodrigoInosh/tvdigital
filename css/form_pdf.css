@@ -1,160 +1,40 @@
-#tabform{
-	margin-top: 5px;
-	border-width: 1px;
-	width: 440px;
-	height: 420px;
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
 }
 
-#tabform ul{
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-	font-family: Arial;
-	font-size: 11px;
+/* Style the buttons inside the tab */
+div.tab button {
+    float: left;
+    border: none;
+    cursor: pointer;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    font-size: 11px;
+    font-family: Arial;
+    background-color: #DCDCDC;
+    border-right: solid 1px #C0C0C0;
 }
 
-#tabform ul li{
-	float: left;
-	text-align: center;
-	height: 16px;
-	padding-top:3px;
-    border-top: solid 1px #C0C0C0;
-	background-color: #DCDCDC;
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #ddd;
 }
 
-#tabform ul li a{
-	text-decoration:none;
-	color: black;
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: white;
 }
 
-#tabform .ui-tabs-active {
-	background-color: white;
-}
-
-#pestanaGeneralDataTab{
-	width: 130px;
-	border-right: solid 1px #C0C0C0;
-	border-left: solid 1px #C0C0C0;
-}
-
-#pestanaPrincipalDesignTab{
-	width: 130px; 
-	border-right: solid 1px #C0C0C0;
-	border-left: 0px;
-}
-
-#pestanaAlternativeDesignTab{
-	width: 130px; 
-	border-left: none; 
-	border-right: solid 1px #C0C0C0;
-}
-
-#separador{ 
-	clear: both;
-}
-
-#closeImage{
-	position: relative;
-	right: 0px;
-}
-
-#GeneralDataTab {
-	border: solid 1px #C0C0C0;
-	height: 265px;
-	position: relative;
-	width: 423px;
-}
-
-#GeneralDataTab ul{
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-	padding-left: 10px;
-}
-
-#GeneralDataTab ul li{
-	background-color: white;
-	border: none;
-	list-style-type: none;
-	padding: 0;
-	padding-left: 10px;
-	padding-top: 5px;
-	height: 21px;
-	
-}
-
-#GeneralDataTab ul li label{
-	height: 20px;
-	position: relative;
-	top: 3px;
-}
-
-#PrincipalDesignTab {
-	border: solid 1px #C0C0C0;
-	height: 265px;
-	padding-top: 10x;
-	position: relative;
-	width: 423px;
-}
-
-#PrincipalDesignTab ul{
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-	padding-left: 10px;
-}
-
-#PrincipalDesignTab ul li{
-	background-color: white;
-	border: none;
-	list-style-type: none;
-	padding: 0;
-	padding-left: 5px;
-	padding-top: 5px;
-	height: 18px;
-}
-
-#PrincipalDesignTab ul li label{
-	height: 20px;
-	position: relative;
-	top: 3px;
-}
-
-#PrincipalDesignTab ul li button{
-	font-family: Arial;
-	font-size: 11px;
-}
-
-#AlternativeDesignTab {
-	border: solid 1px #C0C0C0;
-	height: 265px;
-	width: 423px;
-}
-
-#AlternativeDesignTab ul{
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-	padding-left: 10px;
-}
-
-#AlternativeDesignTab ul li{
-	background-color: white;
-	border: none;
-	list-style-type: none;
-	padding: 0;
-	padding-left: 5px;
-	padding-top: 5px;
-	height: 19px;
-}
-
-#AlternativeDesignTab ul li label{
-	height: 20px;
-	position: relative;
-	top: 3px;
-}
-
-#AlternativeDesignTab ul li button{
-	font-family: Arial;
-	font-size: 11px;
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+    float: left;
 }
