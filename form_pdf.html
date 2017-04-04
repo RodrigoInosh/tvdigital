@@ -1,15 +1,15 @@
-<script src="js/prueba.js"></script>
+<script src="js/pdf_form.js"></script>
 <div class="tab">
   <button class="tablinks active" name="subtab" id="tabA">Datos Generales</button>
+  <button class="tablinks" name="subtab" id="tabE">Caracter&iacute;sticas del Sistema Radiante</button>
   <button class="tablinks" name="subtab" id="tabB">Estudio Principal</button>
   <button class="tablinks" name="subtab" id="tabC">Planta Transmisora Adicional 1</button>
   <button class="tablinks" name="subtab" id="tabD">Planta Transmisora Adicional 2</button>
-  <button class="tablinks" name="subtab" id="tabE">Caracter&iacute;sticas del Sistema Radiante</button>
   <button class="tablinks" name="subtab" id="tabF">Arreglos de Antenas</button>
 </div>
 
 <div id="divtabA" class="tabcontent" style="display: block">
-  <ul>
+  <ul id="ul_modificacion" style="display: none;">
 	<li><label><b><u>Representante Legal</u></b></label></li>
 	<div id="separador" style="height: 1px;"></div>
 	<li style="width: 40px; text-align: left">Nombre:</li>
@@ -39,6 +39,7 @@
 	<li style="width: 40px; text-align: left">CNTV:</li>
 	<li>
 		<select id="resOtorgaCNTV">
+			<option value="">Seleccione un opci&oacute;n</option>
 			<option value="si">S&iacute;</option>
 			<option value="no">No</option>
 		</select>
@@ -48,12 +49,12 @@
 		<label><b><u>Resoluci&oacute;n Modifica</u></b></label>
 	</li>
 	<div id="separador"></div>
-	<li style="width: 40px; text-align: left">N°:</li>
+	<li style="width: 40px;">N°:</li>
 	<li>
 		<input type="text" value="" id="numResModifica"/>
 	</li>
 	<div id="separador"></div>
-	<li style="width: 40px; text-align: left">Fecha:</li>
+	<li style="width: 40px;">Fecha:</li>
 	<li>
 		<input type="text" id="fechaResModifica"/>
 	</li>
@@ -61,9 +62,37 @@
 	<li style="width: 40px; text-align: left">CNTV:</li>
 	<li>
 		<select id="resModificaCNTV">
+			<option value="">Seleccione un opci&oacute;n</option>
 			<option value="si">S&iacute;</option>
 			<option value="no">No</option>
 		</select>
+	</li>
+</ul>
+<ul id="ul_concurso" style="display: none;">
+	<li><label>Plazos</label></li>
+	<div id="separador"></div>
+	<li style="width: 80px;">Inicio de Obras:</li>
+	<li>
+		<input type="text" value="" id="ini_obras"/>
+	</li>
+	<div id="separador"></div>
+	<li style="width: 80px;">Término de Obras:</li>
+	<li>
+		<input type="text" value="" id="fin_obras"/>
+	</li>
+	<div id="separador"></div>
+	<li style="width: 80px;">Inicio de Servicio:</li>
+	<li>
+		<input type="text" value="" id="ini_servicio"/>
+	</li>
+	<div id="separador"></div>
+	<li>
+		<label>Emisión</label>
+	</li>
+	<div id="separador"></div>
+	<li style="width: 80px;">Tipo de Emisión:</li>
+	<li>
+		<input type="text" value="" id="tipo_emision"/>
 	</li>
 </ul>
 </div>
@@ -90,21 +119,21 @@
 	<li style="width: 40px; text-align: left">Latitud Sur:</li>
 	<li>
 		<input type="text" style= "width: 22px;" id="latGradesP"/>
-			<label style="font-size: 15px;">°</label>
-		<input type="text" style= "width: 22px;" id="latGradesP"/>
-			<label style="font-size: 15px;">'</label>
-		<input type="text" style= "width: 22px;" id="latGradesP"/>
-			<label style="font-size: 15px;">''</label>
+			<span style="font-size: 15px;">°</span>
+		<input type="text" style= "width: 22px;" id="latMinP"/>
+			<span style="font-size: 15px;">'</span>
+		<input type="text" style= "width: 22px;" id="latSecP"/>
+			<span style="font-size: 15px;">''</span>
 	</li>
 	<div id="separador"></div>
 	<li style="width: 40px; text-align: left">Longitud Oeste:</li>
 	<li>
 		<input type="text" style= "width: 22px;" id="longGradesP"/>
-			<label style="font-size: 15px;">°</label>
-		<input type="text" style= "width: 22px;" id="longGradesP"/>
-			<label style="font-size: 15px;">'</label>
-		<input type="text" style= "width: 22px;" id="longGradesP"/>
-			<label style="font-size: 15px;">''</label>
+			<span style="font-size: 15px;">°</span>
+		<input type="text" style= "width: 22px;" id="longMinP"/>
+			<span style="font-size: 15px;">'</span>
+		<input type="text" style= "width: 22px;" id="longSecP"/>
+			<span style="font-size: 15px;">''</span>
 	</li>
 </ul>
 </div>
@@ -115,37 +144,37 @@
 	<div id="separador" style="height: 1px;"></div>
 	<li style="width: 40px; text-align: left">Domicilio:</li>
 	<li>
-		<input type="text" value="" id="direccionP"/>
+		<input type="text" value="" id="direccionPTxAdd1"/>
 	</li>
 	<div id="separador"></div>
 	<li style="width: 40px; text-align: left">Comuna:</li>
 	<li>
-		<input type="text" value="" id="comunaP"/>
+		<input type="text" value="" id="comunaPTxAdd1"/>
 	</li>
 	<div id="separador"></div>
 	<li style="width: 40px; text-align: left">Regi&oacute;n:</li>
 	<li>
-		<input type="text" value="" id="regionP"/>
+		<input type="text" value="" id="regionPTxAdd1"/>
 	</li>
 	<div id="separador"></div>
 	<li style="width: 40px; text-align: left">Latitud Sur:</li>
 	<li>
-		<input type="text" style= "width: 22px;" id="latGradesP"/>
-			<label style="font-size: 15px;">°</label>
-		<input type="text" style= "width: 22px;" id="latGradesP"/>
-			<label style="font-size: 15px;">'</label>
-		<input type="text" style= "width: 22px;" id="latGradesP"/>
-			<label style="font-size: 15px;">''</label>
+		<input type="text" style= "width: 22px;" id="latGradesPTxAdd1"/>
+			<span style="font-size: 15px;">°</span>
+		<input type="text" style= "width: 22px;" id="latMinPTxAdd1"/>
+			<span style="font-size: 15px;">'</span>
+		<input type="text" style= "width: 22px;" id="latSecPTxAdd1"/>
+			<span style="font-size: 15px;">''</span>
 	</li>
 	<div id="separador"></div>
 	<li style="width: 40px; text-align: left">Longitud Oeste:</li>
 	<li>
-		<input type="text" style= "width: 22px;" id="longGradesP"/>
-			<label style="font-size: 15px;">°</label>
-		<input type="text" style= "width: 22px;" id="longGradesP"/>
-			<label style="font-size: 15px;">'</label>
-		<input type="text" style= "width: 22px;" id="longGradesP"/>
-			<label style="font-size: 15px;">''</label>
+		<input type="text" style= "width: 22px;" id="longGradesPTxAdd1"/>
+			<span style="font-size: 15px;">°</span>
+		<input type="text" style= "width: 22px;" id="longMinPTxAdd1"/>
+			<span style="font-size: 15px;">'</span>
+		<input type="text" style= "width: 22px;" id="longSecPTxAdd1"/>
+			<span style="font-size: 15px;">''</span>
 	</li>
 </ul>
 </div>
@@ -156,37 +185,37 @@
 	<div id="separador" style="height: 1px;"></div>
 	<li style="width: 40px; text-align: left">Domicilio:</li>
 	<li>
-		<input type="text" value="" id="direccionP"/>
+		<input type="text" value="" id="direccionPTxAdd2"/>
 	</li>
 	<div id="separador"></div>
 	<li style="width: 40px; text-align: left">Comuna:</li>
 	<li>
-		<input type="text" value="" id="comunaP"/>
+		<input type="text" value="" id="comunaPTxAdd2"/>
 	</li>
 	<div id="separador"></div>
 	<li style="width: 40px; text-align: left">Regi&oacute;n:</li>
 	<li>
-		<input type="text" value="" id="regionP"/>
+		<input type="text" value="" id="regionPTxAdd2"/>
 	</li>
 	<div id="separador"></div>
 	<li style="width: 40px; text-align: left">Latitud Sur:</li>
 	<li>
-		<input type="text" style= "width: 22px;" id="latGradesP"/>
-			<label style="font-size: 15px;">°</label>
-		<input type="text" style= "width: 22px;" id="latGradesP"/>
-			<label style="font-size: 15px;">'</label>
-		<input type="text" style= "width: 22px;" id="latGradesP"/>
-			<label style="font-size: 15px;">''</label>
+		<input type="text" style= "width: 22px;" id="latGradesPTxAdd2"/>
+			<span style="font-size: 15px;">°</span>
+		<input type="text" style= "width: 22px;" id="latMinPTxAdd2"/>
+			<span style="font-size: 15px;">'</span>
+		<input type="text" style= "width: 22px;" id="latSecPTxAdd2"/>
+			<span style="font-size: 15px;">''</span>
 	</li>
 	<div id="separador"></div>
 	<li style="width: 40px; text-align: left">Longitud Oeste:</li>
 	<li>
-		<input type="text" style= "width: 22px;" id="longGradesP"/>
-			<label style="font-size: 15px;">°</label>
-		<input type="text" style= "width: 22px;" id="longGradesP"/>
-			<label style="font-size: 15px;">'</label>
-		<input type="text" style= "width: 22px;" id="longGradesP"/>
-			<label style="font-size: 15px;">''</label>
+		<input type="text" style= "width: 22px;" id="longGradesPTxAdd2"/>
+			<span style="font-size: 15px;">°</span>
+		<input type="text" style= "width: 22px;" id="longMinPTxAdd2"/>
+			<span style="font-size: 15px;">'</span>
+		<input type="text" style= "width: 22px;" id="longSecPTxAdd2"/>
+			<span style="font-size: 15px;">''</span>
 	</li>
 </ul>
 </div>
@@ -197,6 +226,7 @@
 	<li style="width: 95px; text-align: left">Sistema Radiante:</li>
 	<li>
 		<select id="sistRadiante">
+			<option value="">Seleccione un opci&oacute;n</option>
 			<option value="princ">Principal</option>
 			<option value="add1">Adicional 1</option>
 			<option value="add2">Adicional 2</option>
@@ -206,6 +236,7 @@
 	<li style="width: 95px; text-align: left">Antena Combinada:</li>
 	<li>
 		<select id="antCombinada">
+			<option value="">Seleccione un opci&oacute;n</option>
 			<option value="si">S&iacute;</option>
 			<option value="no">No</option>
 		</select>
@@ -214,6 +245,7 @@
 	<li style="width: 95px; text-align: left">Tipo de Antena:</li>
 	<li>
 		<select id="tipoAntena">
+			<option value="">Seleccione un opci&oacute;n</option>
 			<option value="princ">Panel Dipolos</option>
 			<option value="ranura">Ranura</option>
 			<option value="supert">Superturnstile</option>
@@ -230,12 +262,13 @@
 	<div id="separador"></div>
 	<li style="width: 95px; text-align: left">Ganancia M&aacute;xima (Sin Tilt):</li>
 	<li>
-		<input type="text" value="" id="numResModifica"/>
+		<input type="text" value="" id="gananciaMax"/>
 	</li>
 	<div id="separador"></div>
 	<li style="width: 95px; text-align: left">Polarizaci&oacute;n:</li>
 	<li>
-		<select id="resModificaCNTV">
+		<select id="polarizacion">
+			<option value="">Seleccione un opci&oacute;n</option>
 			<option value="hori">Horizontal</option>
 			<option value="vert">Vertical</option>
 			<option value="circ">Circular</option>
@@ -250,7 +283,7 @@
 </ul>
 </div>
 <div id="divtabF" class="tabcontent">
-<table id="example" class="display">
+<table id="example" class="cell-border">
         <thead>
             <tr style="font-size: 11px; width: 11111111px;">
                 <th>N°</th>

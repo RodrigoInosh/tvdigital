@@ -1,5 +1,7 @@
-function getPDFConcurso(form_elements) {
+var form_pdf_data = {};
 
+function getPDFConcurso(form_elements, form_pdf_data) {
+    this.form_pdf_data = form_pdf_data;
     var radials = form_elements.radiales;
     var title = 'CÁLCULOS CON '+radials+' RADIALES FORMULARIO PROYECTO TÉCNICO PARA EL SERVICIO DE RADIODIFUSIÓN TELEVISIVA'
 
@@ -33,11 +35,8 @@ function getPage(title, form_elements) {
         },
         {
             table: {
-                // headers are automatically repeated if the table spans over multiple pages
-                // you can declare how many rows should be treated as headers
                 headerRows: 0,
                 widths: [180, 85, 120, 125],
-                // border: [left, top, right, bottom]
                 body: [
                     [{text: 'IDENTIFICACIÓN DEL PETICIONARIO', colSpan: 4, alignment: 'center', bold: true, decoration: 'underline', border: [true, true, true, false]}, {}, {}, {}],
                     [{text: 'Razón Social: ' + form_elements.pRazonSocial, colSpan: 2, fontSize: 10, border: [true, false, false, false]}, {},
@@ -59,9 +58,9 @@ function getPage(title, form_elements) {
                     [{text: 'Canal:', fontSize: 10, border: [true, false, false, false]}, 
                         {text: 'Localidad o Nombre de la Estación:', colSpan: 2, fontSize: 10, border: [false, false,false,false]}, 
                         {}, {text: 'Señal distintiva:', fontSize: 10, border: [false, false, true, false]}],
-                    [{text: 'Inicio de las obreas:          (días)               Términos de las obreas:         (días)          Inicio servicio:       (días)', 
+                    [{text: 'Inicio de las obreas: '+form_pdf_data.tab_general.plazos.ini_obras+'               Términos de las obreas: '+form_pdf_data.tab_general.plazos.fin_obras+'          Inicio servicio: '+form_pdf_data.tab_general.plazos.ini_serv+'', 
                         fontSize: 10, colSpan: 4, border: [true, false, true, false]}, {}, {}, {}],
-                    [{text: 'Tipo de emisión:', colSpan:4, fontSize: 10, border: [true, false, true, false]}, {},{},{}],
+                    [{text: 'Tipo de emisión: ' + form_pdf_data.tab_general.tipo_emision, colSpan:4, fontSize: 10, border: [true, false, true, false]}, {},{},{}],
                     [{text: 'NOTA: Plazo en días hábiles, contados desde la fecha en que se notifique al interesado de la total tramitación de la respectiva Resolución del Consejo que asigne/modifica la concesión.', 
                         colSpan:4, fontSize: 8, border: [true, false, true, true]}, {}, {}, {}]
                 ]
@@ -75,9 +74,9 @@ function getPage(title, form_elements) {
                 body: [
                     [{text: 'UBICACIÓN DE LAS INSTALACIONES', colSpan: 4, alignment: 'center', bold: true, decoration: 'underline', border: [true, true, true, false]}, {}, {}, {}],
                     [{text: 'ESTUDIO PRINCIPAL', colSpan: 4, alignment: 'left', bold: true, border: [true, false, true, false]}, {}, {}, {}],
-                    [{text: 'Domicilio Calle:', colSpan: 2, fontSize: 10, border: [true, false, false, false]}, {}, {text: 'N°:', fontSize: 10, border: [false]},
-                        {text: 'Comuna:', fontSize: 10, border: [false, false, true, false]}],
-                    [{text: 'Pobl. o  lugar:', colSpan: 3, fontSize: 10, border: [true, false, false, false]}, {}, {}, {text: 'Región:', fontSize: 10, border: [false, false, true, false]}],
+                    [{text: 'Domicilio Calle: ' , colSpan: 2, fontSize: 10, border: [true, false, false, false]}, {}, {text: 'N°:', fontSize: 10, border: [false]},
+                        {text: 'Comuna: ', fontSize: 10, border: [false, false, true, false]}],
+                    [{text: 'Pobl. o  lugar:', colSpan: 3, fontSize: 10, border: [true, false, false, false]}, {}, {}, {text: 'Región: ', fontSize: 10, border: [false, false, true, false]}],
                     [{text: 'Latitud Sur: ' + form_elements.pLatitud, fontSize: 10, border: [true, false, false, true]}, 
                         {text: 'Longitud Oeste: ' + form_elements.pLongitud, fontSize: 10, border: [false, false, false, true]},
                         {text: 'Datum: WGS84', fontSize: 10, border: [false, false, true, true], colSpan: 2}, {}],
@@ -103,7 +102,19 @@ function getPage(title, form_elements) {
 function getConcourseTableTechnicalSystemFeature(title, radials, form_elements) {
     var ganancia = typeof form_elements.pGanancia != 'undefined' ? form_elements.pGanancia : "";
     var potencia = typeof form_elements.pPotencia != 'undefined' ? form_elements.pPotencia : "";
-    var frecuencia = typeof form_elements.pFrecuencia != 'undefined' ? form_elements.pFrecuencia : "";
+    var num_antenas = form_pdf_data.carac_tecnicas.num_elem;
+    var ganancia_max = form_pdf_data.carac_tecnicas.ganancia_max;
+    var antena_combi_si = form_pdf_data.carac_tecnicas.antena_combi == "si" ? '_X_' : '___';
+    var antena_combi_no = form_pdf_data.carac_tecnicas.antena_combi == "no" ? '_X_' : '___';
+    var antena_dipolo = form_pdf_data.carac_tecnicas.tipo_antena == "princ" ? '_X_' : '___';
+    var antena_ranura = form_pdf_data.carac_tecnicas.tipo_antena == "ranura" ? '_X_' : '___';
+    var antena_supert = form_pdf_data.carac_tecnicas.tipo_antena == "supert" ? '_X_' : '___';
+    var antena_yagi = form_pdf_data.carac_tecnicas.tipo_antena == "yagi" ? '_X_' : '___';
+    var antena_logP = form_pdf_data.carac_tecnicas.tipo_antena == "logP" ? '_X_' : '___';
+    var antena_otro = form_pdf_data.carac_tecnicas.tipo_antena == "otro" ? '_X_' : '___';
+    var tilt_elec_si = isTilt(form_pdf_data.carac_tecnicas.angulo_tilt) ? '_X_' : '___';
+    var tilt_elec_no = isTilt(form_pdf_data.carac_tecnicas.angulo_tilt) ? '___' : '_X_';
+
     var page_content = [
         {
             text: title,
@@ -116,24 +127,24 @@ function getConcourseTableTechnicalSystemFeature(title, radials, form_elements) 
         {
             table: {
                 headerRows: 0,
-                widths: [150, 105, 127.5, 127.5],
+                widths: [160, 95, 127.5, 127.5],
                 body: [
-                    [{text: 'Potencia:                   [W]', colSpan: 2, fontSize: 10, border: [true, true, false, false]}, {},
-                        {text: 'Antena combinada: Si [__] No [__]', colSpan: 2, fontSize: 10, border: [false, true, true, false]}, {}
+                    [{text: 'Potencia: '+potencia+' [W]', colSpan: 2, fontSize: 10, border: [true, true, false, false]}, {},
+                        {text: 'Antena combinada: Si ['+antena_combi_si+'] No ['+antena_combi_no+']', colSpan: 2, fontSize: 10, border: [false, true, true, false]}, {}
                     ],
-                    [{text: 'Tipo de Antena: Panel dipolos [__]', fontSize: 10, border: [true, false, false, false]},
-                        {text: 'Ranura [__]', fontSize: 10, border: [false]},
-                        {text: 'Superturnstile [__]', fontSize: 10, border: [false]},
-                        {text: 'Yagi [__]', fontSize: 10, border: [false, false, true, false]}
+                    [{text: 'Tipo de Antena: Panel dipolos ['+antena_dipolo+']', fontSize: 10, border: [true, false, false, false]},
+                        {text: 'Ranura ['+antena_ranura+']', fontSize: 10, border: [false]},
+                        {text: 'Superturnstile ['+antena_supert+']', fontSize: 10, border: [false]},
+                        {text: 'Yagi ['+antena_yagi+']', fontSize: 10, border: [false, false, true, false]}
                     ],
-                    [{text: 'Log Periódica [__]', colSpan: 2, fontSize: 10, border: [true, false, false, false]}, {},
-                        {text: 'Otro [__] (                               )', colSpan: 2, fontSize: 10, border: [false, false, true, false]}, {}
+                    [{text: 'Log Periódica ['+antena_logP+']', colSpan: 2, fontSize: 10, border: [true, false, false, false]}, {},
+                        {text: 'Otro ['+antena_otro+'] (                               )', colSpan: 2, fontSize: 10, border: [false, false, true, false]}, {}
                     ],
-                    [{text: 'Nº de antenas:             Ganancia máxima:     dBd.                     Polarización:     %H       %V', colSpan: 4, fontSize: 10,
+                    [{text: 'Nº de antenas: '+num_antenas+'     Ganancia máxima: '+ganancia_max+' dBd.                     Polarización:     %H       %V', colSpan: 4, fontSize: 10,
                             border: [true, false, true, false]}, {}, {}, {}
                     ],
-                    [{text: 'Tilt eléctrico: Sí [__] No [__]', fontSize: 10, border: [true, false, false, false]},
-                        {text: 'Angulo de tilt:          °', fontSize: 10, border: [false]},
+                    [{text: 'Tilt eléctrico: Sí ['+tilt_elec_si+'] No ['+tilt_elec_no+']', fontSize: 10, border: [true, false, false, false]},
+                        {text: 'Angulo de tilt: '+form_pdf_data.carac_tecnicas.angulo_tilt+' °', fontSize: 10, border: [false]},
                         {text: 'Ganancia plano horizontal: '+ganancia+' [dBd]', colSpan: 2, fontSize: 10, border: [false, false, true, false]}, {}
                     ],
                     [{text: 'Altura centro radiación:          [m].         Pérdida cables y conectores:      [dB]', colSpan: 4,
@@ -152,7 +163,7 @@ function getConcourseTableTechnicalSystemFeature(title, radials, form_elements) 
             table: {
                 headerRows: 0,
                 body: [
-                    getAnthenasFixesTable(),
+                    getAnthenasFixesTable(num_antenas, form_pdf_data.arreglos_antena),
                     [{text: 'Nota:', fontSize: 8, bold: true, border: [true, false, true, false]}],
                     [{text: 'Arreglo de Antenas: Puede estar compuesto por una o varias antenas dispuestas espacialmente.', fontSize: 8, border: [true, false, true, false]}],
                     [{text: 'N°: Número de antena según orden descendente de emplazamiento en la torre y en sentido horario en un mismo plano.', fontSize: 8, border: [true, false, true, false]}],

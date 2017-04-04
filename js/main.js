@@ -271,12 +271,12 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		concursoC = dom.byId("concursoC").checked;
 		modificacionM = dom.byId("modificacionM").checked;
 		if(validaCambiosCampos()){
+
+			is_form_modal_first_openend = true;
 			view.graphics.removeAll();
 			map.removeAll();
-
 			setCombosToStart(modificacionM);
 			removeDataConcurso();
-
 			if(concursoC){
 				concursoModificacion = "Concurso";
 				var query1 = new Query();
@@ -769,11 +769,11 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 	function imprimirCalculoClick(){
 		var mapReporte = getParametersReport();
-		console.log(getFormData());
+		var form_pdf_data = getFormData(concursoModificacion);
 		if(concursoModificacion == 'Concurso'){
-			getPDFConcurso(mapReporte);	
+			getPDFConcurso(mapReporte, form_pdf_data);
 		} else {
-			getPDFModificacion(mapReporte);
+			getPDFModificacion(mapReporte, form_pdf_data);
 		}
 		
 	}
@@ -964,11 +964,13 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
     });
 
 	$('#pdfForm').on('click', function() {
-		console.log(is_form_modal_first_openend);
 		if(is_form_modal_first_openend){
-			$("#openModal").load("form_pdf.html");
+			$("#openModal").load("form_pdf.html", function(){
+				showDatosGenerales(concursoModificacion);
+			});
 			is_form_modal_first_openend = false;
 		}
+
 		$('#openModal').show();
 	});
 });
