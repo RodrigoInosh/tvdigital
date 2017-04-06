@@ -401,7 +401,7 @@ function setDataIdentificador(data, coords, decimales){
 	latitudM = coords[1];
 	longitudM = coords[0];
 	$("#radioCircunferenciaMaxina").val(data.RADIO_MAXIMO);
-	$("#18PerdidasLobulos").attr('checked',true);
+	$("#72PerdidasLobulos").attr('checked',true);
 	if(concurso){
 		$("#potenciaM").val(data.POTENCIA);
 		$("#frecuenciaM").val(data.FRECUENCIA);
@@ -813,7 +813,7 @@ function removeDataConcurso(){
 	$("#perdidasCablesConectoresM").val("");
 	$("#divisorPotenciaM").val("");
 	$("#otrasPerdidasM").val("");
-	$("#18PerdidasLobulos").trigger('click');
+	$("#72PerdidasLobulos").trigger('click');
 	removeDataInforme();
 	showInitPestana();
 }	
@@ -1025,13 +1025,14 @@ function getParametersReport(){
 	var mapOut = {};
 
 	mapOut["pAlturaAntenaTx"] = $("#alturaAntenaTransmisoraM").val();
-	mapOut["pDivisorPotencia"] = $("#divisorPotenciaI").text();
+	mapOut["pDivisorPotencia"] = $("#divisorPotenciaM").val();
 	mapOut["pDomicilio"] = $("#idomicilio").val();
 	mapOut["pEmail"] = $("#iemail").val();
 	mapOut["pRut"] = $("#iRutRazon").val();
 	mapOut["pFrecuencia"] =  $("#frecuenciaM").val();
 	mapOut["pFono"] = $("#ifono").val();
 	mapOut["pGanancia"] = $("#gananciaM").val();
+	mapOut["pIdentificador"] = $("#identificadores").val();
 	mapOut["pLatitud"]  = $("#latitudI").val();
 	mapOut["pLongitud"] = $("#longitudI").val();
 	mapOut["pLocalidad"] = $("#localidadI").text();

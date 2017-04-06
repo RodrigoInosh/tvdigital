@@ -77,7 +77,10 @@ var form_data = {
         "num_elem": "",
         "ganancia_max": "",
         "polarizacion": "",
-        "angulo_tilt": ""
+        "angulo_tilt": "",
+        "domicilioPtx": "",
+        "comunaPTx": "",
+        "regionPTx": ""
     },
     "arreglos_antena": tabla_antenas
 };
@@ -193,6 +196,9 @@ $('#saveFormPDF').on('click', function() {
     form_data.carac_tecnicas.polarizacion = $("#polarizacion").val();
     form_data.carac_tecnicas.ganancia_max = $("#gananciaMax").val();
     form_data.carac_tecnicas.angulo_tilt = $("#anguloTilt").val();
+    form_data.carac_tecnicas.domicilioPTx = $("#domicilioPTx").val();
+    form_data.carac_tecnicas.comunaPTx = $("#comunaPTx").val();
+    form_data.carac_tecnicas.regionPTx = $("#regionPTx").val();
 
 
     for (var ix = 0; ix < rows_table_anthenas; ix++) {
@@ -284,8 +290,10 @@ function showDatosGenerales(concursoModificacion) {
     if (tipo_licitacion == 'Concurso') {
         $('#ul_modificacion').hide();
         $('#ul_concurso').show();
+        $('#div_planta_adicional').hide();
     } else if (tipo_licitacion == 'Modificacion') {
         $('#ul_concurso').hide();
         $('#ul_modificacion').show();
+        $('#div_planta_adicional').show();
     }
 }

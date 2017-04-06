@@ -140,7 +140,7 @@ function getRadialsTableRowData(title, form_elements, init_grade, added_grades, 
     return aux;
 }
 
-function getFileName() {
+function getFileName(identificator) {
 
     var date_in_milis = new Date();
     var year = date_in_milis.getFullYear();
@@ -149,7 +149,12 @@ function getFileName() {
     var hour = date_in_milis.getHours();
     var minutes = date_in_milis.getMinutes();
 
-    return year + "-" + month + "-" + day + "_" + hour + "_" + minutes;
+    month = month < 10 ? '0'+month : month;
+    day = day < 10 ? '0'+day : day;
+    hour = hour < 10 ? '0'+hour : hour;
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+
+    return identificator +'_'+ year + month + day + hour + minutes;
 }
 
 function isTilt(tilt_value) {
@@ -169,5 +174,6 @@ function getCanalByFrecuencia(tipo_frecuencia, frecuencia) {
         canal = frecuencias_canal_digital[frecuencia];
     }
 
+    canal = typeof canal != 'undefined' ? canal : "[N/A]";
     return canal;
 }

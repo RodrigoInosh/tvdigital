@@ -2,7 +2,7 @@ var form_pdf_data = {};
 
 function getPDFConcurso(form_elements, form_pdf_data) {
     this.form_pdf_data = form_pdf_data;
-
+    console.log(form_pdf_data);
     var radials = form_elements.radiales;
     var title = 'CÁLCULOS CON ' + radials + ' RADIALES FORMULARIO PROYECTO TÉCNICO PARA EL SERVICIO DE RADIODIFUSIÓN TELEVISIVA'
 
@@ -17,14 +17,14 @@ function getPDFConcurso(form_elements, form_pdf_data) {
         ]
     }
 
-    var pdf_name = getFileName();
+    var pdf_name = getFileName(form_elements.pIdentificador);
 
     pdfMake.createPdf(doc).download(pdf_name + '.pdf');
 }
 
 function getPage(title, form_elements) {
     var estudio_princ = form_pdf_data.estudio_principal;
-    var estudio_alter = form_pdf_data.estudio_principal;
+    var estudio_alter = form_pdf_data.estudio_alternativo;
     var frecuencia_digital = getCanalByFrecuencia("digital", form_elements.pFrecuencia);
     var obj = [{
             text: title,
@@ -69,16 +69,14 @@ function getPage(title, form_elements) {
                             text: 'Domicilio: Calle: ' + form_elements.pDomicilio,
                             fontSize: 10,
                             border: [true, false, false, false]
-                        }, {
-                            text: 'N°:',
-                            fontSize: 10,
-                            border: [false]
                         },
                         {
                             text: 'Comuna:',
                             fontSize: 10,
-                            border: [false]
-                        }, {
+                            colSpan: 2,
+                            border: [false, false, false,false]
+                        }, {},
+                        {
                             text: 'Región:',
                             fontSize: 10,
                             border: [false, false, true, false]
@@ -122,16 +120,12 @@ function getPage(title, form_elements) {
                             border: [true, false, false, false]
                         },
                         {
-                            text: 'Localidad o Nombre de la Estación:',
-                            colSpan: 2,
+                            text: 'Localidad o Nombre de la Estación:   ' + form_elements.pLocalidad,
+                            colSpan: 3,
                             fontSize: 10,
                             border: [false, false, false, false]
                         },
-                        {}, {
-                            text: 'Señal distintiva:',
-                            fontSize: 10,
-                            border: [false, false, true, false]
-                        }
+                        {}, {}
                     ],
                     [{
                         text: 'Inicio de las obras: ' + form_pdf_data.tab_general.plazos.ini_obras + '               Términos de las obras: ' + form_pdf_data.tab_general.plazos.fin_obras + '          Inicio servicio: ' + form_pdf_data.tab_general.plazos.ini_serv + '',
@@ -182,27 +176,25 @@ function getPage(title, form_elements) {
                             colSpan: 2,
                             fontSize: 10,
                             border: [true, false, false, false]
-                        }, {}, {
-                            text: 'N°:',
-                            fontSize: 10,
-                            border: [false]
-                        },
+                        }, {},
                         {
                             text: 'Comuna: ' + estudio_princ.comuna,
                             fontSize: 10,
+                            colSpan: 2,
                             border: [false, false, true, false]
-                        }
+                        }, {}
                     ],
                     [{
                         text: 'Pobl. o  lugar:',
-                        colSpan: 3,
+                        colSpan: 2,
                         fontSize: 10,
                         border: [true, false, false, false]
-                    }, {}, {}, {
+                    }, {}, {
                         text: 'Región: ' + estudio_princ.region,
                         fontSize: 10,
+                        colSpan: 2,
                         border: [false, false, true, false]
-                    }],
+                    },{}],
                     [{
                             text: 'Latitud Sur: ' + estudio_princ.latitud,
                             fontSize: 10,
@@ -228,37 +220,35 @@ function getPage(title, form_elements) {
                         border: [true, false, true, false]
                     }, {}, {}, {}],
                     [{
-                            text: 'Domicilio Calle:   ' + estudio_alter.domicilio,
+                            text: 'Domicilio Calle: ' + estudio_alter.domicilio,
                             colSpan: 2,
                             fontSize: 10,
                             border: [true, false, false, false]
-                        }, {}, {
-                            text: 'N°:',
-                            fontSize: 10,
-                            border: [false]
-                        },
+                        }, {},
                         {
-                            text: 'Comuna:     ' + estudio_alter.comuna,
+                            text: 'Comuna: ' + estudio_alter.comuna,
                             fontSize: 10,
+                            colSpan: 2,
                             border: [false, false, true, false]
-                        }
+                        }, {}
                     ],
                     [{
                         text: 'Pobl. o  lugar:',
-                        colSpan: 3,
+                        colSpan: 2,
                         fontSize: 10,
                         border: [true, false, false, false]
-                    }, {}, {}, {
-                        text: 'Región:  ' + estudio_alter.region,
+                    }, {}, {
+                        text: 'Región: ' + estudio_alter.region,
                         fontSize: 10,
+                        colSpan: 2,
                         border: [false, false, true, false]
-                    }],
+                    }, {}],
                     [{
-                            text: 'Latitud Sur:   ' + estudio_alter.latitud,
+                            text: 'Latitud Sur: ' + estudio_alter.latitud,
                             fontSize: 10,
                             border: [true, false, false, true]
                         }, {
-                            text: 'Longitud Oeste:     ' + estudio_alter.longitud,
+                            text: 'Longitud Oeste: ' + estudio_alter.longitud,
                             fontSize: 10,
                             border: [false, false, false, true]
                         },
@@ -277,37 +267,35 @@ function getPage(title, form_elements) {
                         border: [true, false, true, false]
                     }, {}, {}, {}],
                     [{
-                            text: 'Domicilio Calle:',
+                            text: 'Domicilio Calle: ' + form_pdf_data.carac_tecnicas.domicilioPTx,
                             colSpan: 2,
                             fontSize: 10,
                             border: [true, false, false, false]
-                        }, {}, {
-                            text: 'N°:',
-                            fontSize: 10,
-                            border: [false]
-                        },
+                        }, {},
                         {
-                            text: 'Comuna:',
+                            text: 'Comuna: ' + form_pdf_data.carac_tecnicas.comunaPTx,
                             fontSize: 10,
+                            colSpan: 2,
                             border: [false, false, true, false]
-                        }
+                        }, {}
                     ],
                     [{
-                        text: 'Pobl. o  lugar:',
-                        colSpan: 3,
+                        text: 'Pobl. o  lugar: ',
+                        colSpan: 2,
                         fontSize: 10,
                         border: [true, false, false, false]
-                    }, {}, {}, {
-                        text: 'Región:',
+                    }, {}, {
+                        text: 'Región: ' + form_pdf_data.carac_tecnicas.regionPTx,
                         fontSize: 10,
+                        colSpan: 2,
                         border: [false, false, true, false]
-                    }],
+                    }, {}],
                     [{
-                            text: 'Latitud Sur:',
+                            text: 'Latitud Sur: ' + form_elements.pLatitud,
                             fontSize: 10,
                             border: [true, false, false, true]
                         }, {
-                            text: 'Longitud Oeste:',
+                            text: 'Longitud Oeste: ' + form_elements.pLongitud,
                             fontSize: 10,
                             border: [false, false, false, true]
                         },
@@ -344,6 +332,7 @@ function getConcourseTableTechnicalSystemFeature(title, radials, form_elements) 
     var antena_otro = form_pdf_data.carac_tecnicas.tipo_antena == "otro" ? '_X_' : '___';
     var tilt_elec_si = isTilt(form_pdf_data.carac_tecnicas.angulo_tilt) ? '_X_' : '___';
     var tilt_elec_no = isTilt(form_pdf_data.carac_tecnicas.angulo_tilt) ? '___' : '_X_';
+    var suma_perdidas = Number(form_elements.pPerdidaCablesConectores) + Number(form_elements.pDivisorPotencia) + Number(form_elements.pOtrasPerdidas);
 
     var page_content = [{
             text: title,
@@ -431,13 +420,13 @@ function getConcourseTableTechnicalSystemFeature(title, radials, form_elements) 
                         }, {}
                     ],
                     [{
-                        text: 'Altura centro radiación:   ' + form_elements.pAlturaAntenaTx + '[m].         Pérdida cables y conectores:   ' + form_elements.pPerdidaCablesConectores + ' [dB]',
+                        text: 'Altura centro radiación:   ' + form_elements.pAlturaAntenaTx + '[m].         Pérdida cables y conectores:   ' + form_elements.pPerdidaCablesConectores + ' [dB]    Divisor de Potencia:  ' + form_elements.pDivisorPotencia + ' [dB]',
                         colSpan: 4,
                         fontSize: 10,
                         border: [true, false, true, false]
                     }, {}, {}, {}],
                     [{
-                        text: 'Otras pérdidas:   ' + form_elements.pOtrasPerdidas + ' [dB]. (especificar:                                                  )               Pérdidas totales =       [dB].',
+                        text: 'Otras pérdidas:   ' + form_elements.pOtrasPerdidas + ' [dB]. (especificar:                                                  )               Pérdidas totales =      '+suma_perdidas+' [dB].',
                         colSpan: 4,
                         fontSize: 10,
                         border: [true, false, true, false]

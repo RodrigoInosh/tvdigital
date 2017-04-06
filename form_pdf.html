@@ -1,10 +1,9 @@
-<script src="js/pdf_form.js"></script>
+<script src="js/pdf_form.js?" <?php echo uniqid(); ?>>
+</script>
 <div class="tab">
     <button class="tablinks active" name="subtab" id="tabA">Datos Generales</button>
     <button class="tablinks" name="subtab" id="tabB">Estudio</button>
     <button class="tablinks" name="subtab" id="tabE">Caracter&iacute;sticas del Sistema Radiante</button>
-    <!--   <button class="tablinks" name="subtab" id="tabC">Planta Transmisora Adicional 1</button>
-  <button class="tablinks" name="subtab" id="tabD">Planta Transmisora Adicional 2</button> -->
     <button class="tablinks" name="subtab" id="tabF">Arreglos de Antenas</button>
 </div>
 
@@ -172,102 +171,12 @@
     </ul>
 </div>
 
-<!-- <div id="divtabC" class="tabcontent">
-  <ul>
-	<li><label><b><u>Planta Transmisora Adicional 1</u></b></label></li>
-	<div id="separador" style="height: 1px;"></div>
-	<li style="width: 40px; text-align: left">Domicilio:</li>
-	<li>
-		<input type="text" value="" id="direccionPTxAdd1"/>
-	</li>
-	<div id="separador"></div>
-	<li style="width: 40px; text-align: left">Comuna:</li>
-	<li>
-		<input type="text" value="" id="comunaPTxAdd1"/>
-	</li>
-	<div id="separador"></div>
-	<li style="width: 40px; text-align: left">Regi&oacute;n:</li>
-	<li>
-		<input type="text" value="" id="regionPTxAdd1"/>
-	</li>
-	<div id="separador"></div>
-	<li style="width: 40px; text-align: left">Latitud Sur:</li>
-	<li>
-		<input type="text" style= "width: 22px;" id="latGradesPTxAdd1"/>
-			<span style="font-size: 15px;">°</span>
-		<input type="text" style= "width: 22px;" id="latMinPTxAdd1"/>
-			<span style="font-size: 15px;">'</span>
-		<input type="text" style= "width: 22px;" id="latSecPTxAdd1"/>
-			<span style="font-size: 15px;">''</span>
-	</li>
-	<div id="separador"></div>
-	<li style="width: 40px; text-align: left">Longitud Oeste:</li>
-	<li>
-		<input type="text" style= "width: 22px;" id="longGradesPTxAdd1"/>
-			<span style="font-size: 15px;">°</span>
-		<input type="text" style= "width: 22px;" id="longMinPTxAdd1"/>
-			<span style="font-size: 15px;">'</span>
-		<input type="text" style= "width: 22px;" id="longSecPTxAdd1"/>
-			<span style="font-size: 15px;">''</span>
-	</li>
-</ul>
-</div> -->
-
-<!-- <div id="divtabD" class="tabcontent">
-  <ul>
-	<li><label><b><u>Planta Transmisora Adicional 2</u></b></label></li>
-	<div id="separador" style="height: 1px;"></div>
-	<li style="width: 40px; text-align: left">Domicilio:</li>
-	<li>
-		<input type="text" value="" id="direccionPTxAdd2"/>
-	</li>
-	<div id="separador"></div>
-	<li style="width: 40px; text-align: left">Comuna:</li>
-	<li>
-		<input type="text" value="" id="comunaPTxAdd2"/>
-	</li>
-	<div id="separador"></div>
-	<li style="width: 40px; text-align: left">Regi&oacute;n:</li>
-	<li>
-		<input type="text" value="" id="regionPTxAdd2"/>
-	</li>
-	<div id="separador"></div>
-	<li style="width: 40px; text-align: left">Latitud Sur:</li>
-	<li>
-		<input type="text" style= "width: 22px;" id="latGradesPTxAdd2"/>
-			<span style="font-size: 15px;">°</span>
-		<input type="text" style= "width: 22px;" id="latMinPTxAdd2"/>
-			<span style="font-size: 15px;">'</span>
-		<input type="text" style= "width: 22px;" id="latSecPTxAdd2"/>
-			<span style="font-size: 15px;">''</span>
-	</li>
-	<div id="separador"></div>
-	<li style="width: 40px; text-align: left">Longitud Oeste:</li>
-	<li>
-		<input type="text" style= "width: 22px;" id="longGradesPTxAdd2"/>
-			<span style="font-size: 15px;">°</span>
-		<input type="text" style= "width: 22px;" id="longMinPTxAdd2"/>
-			<span style="font-size: 15px;">'</span>
-		<input type="text" style= "width: 22px;" id="longSecPTxAdd2"/>
-			<span style="font-size: 15px;">''</span>
-	</li>
-</ul>
-</div> -->
 <div id="divtabE" class="tabcontent">
     <ul>
         <li>
-            <label><b><u>Caracter&iacute;sticas T&eacute;cnicas</u></b></label>
+            <label><b><u>Sistema Radiante Principal</u></b></label>
         </li>
         <div id="separador" style="height: 1px;"></div>
-        <li style="width: 95px; text-align: left">Sistema Radiante:</li>
-        <li>
-            <select id="sistRadiante">
-                <option value="">Seleccione un opci&oacute;n</option>
-                <option value="princ">Principal</option>
-                <option value="add1">Adicional 1</option>
-                <option value="add2">Adicional 2</option>
-            </select>
-        </li>
         <li style="width: 95px; text-align: left">Antena Combinada:</li>
         <li>
             <select id="antCombinada">
@@ -288,11 +197,11 @@
                 <option value="otro">Otro</option>
             </select>
         </li>
-        <div id="separador"></div>
         <li style="width: 95px; text-align: left">N° Elementos de Antena:</li>
         <li>
             <input type="text" id="numElem" />
         </li>
+        <div id="separador"></div>
         <li style="width: 95px; text-align: left">Ganancia M&aacute;xima (Sin Tilt):</li>
         <li>
             <input type="text" value="" id="gananciaMax" />
@@ -307,83 +216,98 @@
                 <option value="mix">Mixta</option>
             </select>
         </li>
-        <div id="separador"></div>
         <li style="width: 95px; text-align: left">&Aacute;ngulo de Tilt:</li>
         <li>
             <input type="text" value="" id="anguloTilt" />
         </li>
         <div id="separador"></div>
-        <li>
-            <label><b><u>Planta Transmisora Adicional</u></b></label>
-        </li>
-        <div id="separador" style="height: 1px;"></div>
-        <li><b><u>Planta Transmisora Adicional 1</u></b></li>
-        <div id="separador" style="height: 1px;"></div>
         <li style="width: 40px; text-align: left">Domicilio:</li>
         <li>
-            <input type="text" value="" id="direccionPTxAdd1" />
+            <input type="text" value="" id="domicilioPTx" />
         </li>
         <li style="width: 40px; text-align: left">Comuna:</li>
         <li>
-            <input type="text" value="" id="comunaPTxAdd1" />
+            <input type="text" value="" id="comunaPTx" />
         </li>
         <li style="width: 40px; text-align: left">Regi&oacute;n:</li>
         <li>
-            <input type="text" value="" id="regionPTxAdd1" />
+            <input type="text" value="" id="regionPTx" />
         </li>
-        <div id="separador"></div>
-        <li style="width: 60px; text-align: left">Latitud Sur:</li>
-        <li>
-            <input type="text" style="width: 22px;" id="latGradesPTxAdd1" />
-            <span style="font-size: 15px;">°</span>
-            <input type="text" style="width: 22px;" id="latMinPTxAdd1" />
-            <span style="font-size: 15px;">'</span>
-            <input type="text" style="width: 22px;" id="latSecPTxAdd1" />
-            <span style="font-size: 15px; padding-right: 10px;">''</span>
-        </li>
-        <li style="width: 60px; text-align: left">Longitud Oeste:</li>
-        <li>
-            <input type="text" style="width: 22px;" id="longGradesPTxAdd1" />
-            <span style="font-size: 15px;">°</span>
-            <input type="text" style="width: 22px;" id="longMinPTxAdd1" />
-            <span style="font-size: 15px;">'</span>
-            <input type="text" style="width: 22px;" id="longSecPTxAdd1" />
-            <span style="font-size: 15px; padding-right: 10px;">''</span>
-        </li>
-        <div id="separador" style="height: 1px;"></div>
-        <li><b><u>Planta Transmisora Adicional 2</u></b></li>
-        <div id="separador" style="height: 1px;"></div>
-        <li style="width: 40px; text-align: left">Domicilio:</li>
-        <li>
-            <input type="text" value="" id="direccionPTxAdd2" />
-        </li>
-        <li style="width: 40px; text-align: left">Comuna:</li>
-        <li>
-            <input type="text" value="" id="comunaPTxAdd2" />
-        </li>
-        <li style="width: 40px; text-align: left">Regi&oacute;n:</li>
-        <li>
-            <input type="text" value="" id="regionPTxAdd2" />
-        </li>
-        <div id="separador"></div>
-        <li style="width: 40px; text-align: left">Latitud Sur:</li>
-        <li>
-            <input type="text" style="width: 22px;" id="latGradesPTxAdd2" />
-            <span style="font-size: 15px;">°</span>
-            <input type="text" style="width: 22px;" id="latMinPTxAdd2" />
-            <span style="font-size: 15px;">'</span>
-            <input type="text" style="width: 22px;" id="latSecPTxAdd2" />
-            <span style="font-size: 15px;">''</span>
-        </li>
-        <li style="width: 40px; text-align: left">Longitud Oeste:</li>
-        <li>
-            <input type="text" style="width: 22px;" id="longGradesPTxAdd2" />
-            <span style="font-size: 15px;">°</span>
-            <input type="text" style="width: 22px;" id="longMinPTxAdd2" />
-            <span style="font-size: 15px;">'</span>
-            <input type="text" style="width: 22px;" id="longSecPTxAdd2" />
-            <span style="font-size: 15px;">''</span>
-        </li>
+        <!-- -->
+        <div id="div_planta_adicional" style="display: none;">
+            <div id="separador"></div>
+            <li>
+                <label><b><u>Planta Transmisora Adicional</u></b></label>
+            </li>
+            <div id="separador" style="height: 1px;"></div>
+            <li><b><u>Planta Transmisora Adicional 1</u></b></li>
+            <div id="separador" style="height: 1px;"></div>
+            <li style="width: 40px; text-align: left">Domicilio:</li>
+            <li>
+                <input type="text" value="" id="direccionPTxAdd1" />
+            </li>
+            <li style="width: 40px; text-align: left">Comuna:</li>
+            <li>
+                <input type="text" value="" id="comunaPTxAdd1" />
+            </li>
+            <li style="width: 40px; text-align: left">Regi&oacute;n:</li>
+            <li>
+                <input type="text" value="" id="regionPTxAdd1" />
+            </li>
+            <div id="separador"></div>
+            <li style="width: 60px; text-align: left">Latitud Sur:</li>
+            <li>
+                <input type="text" style="width: 22px;" id="latGradesPTxAdd1" />
+                <span style="font-size: 15px;">°</span>
+                <input type="text" style="width: 22px;" id="latMinPTxAdd1" />
+                <span style="font-size: 15px;">'</span>
+                <input type="text" style="width: 22px;" id="latSecPTxAdd1" />
+                <span style="font-size: 15px; padding-right: 10px;">''</span>
+            </li>
+            <li style="width: 60px; text-align: left">Longitud Oeste:</li>
+            <li>
+                <input type="text" style="width: 22px;" id="longGradesPTxAdd1" />
+                <span style="font-size: 15px;">°</span>
+                <input type="text" style="width: 22px;" id="longMinPTxAdd1" />
+                <span style="font-size: 15px;">'</span>
+                <input type="text" style="width: 22px;" id="longSecPTxAdd1" />
+                <span style="font-size: 15px; padding-right: 10px;">''</span>
+            </li>
+            <div id="separador" style="height: 1px;"></div>
+            <li><b><u>Planta Transmisora Adicional 2</u></b></li>
+            <div id="separador" style="height: 1px;"></div>
+            <li style="width: 40px; text-align: left">Domicilio:</li>
+            <li>
+                <input type="text" value="" id="direccionPTxAdd2" />
+            </li>
+            <li style="width: 40px; text-align: left">Comuna:</li>
+            <li>
+                <input type="text" value="" id="comunaPTxAdd2" />
+            </li>
+            <li style="width: 40px; text-align: left">Regi&oacute;n:</li>
+            <li>
+                <input type="text" value="" id="regionPTxAdd2" />
+            </li>
+            <div id="separador"></div>
+            <li style="width: 40px; text-align: left">Latitud Sur:</li>
+            <li>
+                <input type="text" style="width: 22px;" id="latGradesPTxAdd2" />
+                <span style="font-size: 15px;">°</span>
+                <input type="text" style="width: 22px;" id="latMinPTxAdd2" />
+                <span style="font-size: 15px;">'</span>
+                <input type="text" style="width: 22px;" id="latSecPTxAdd2" />
+                <span style="font-size: 15px;">''</span>
+            </li>
+            <li style="width: 40px; text-align: left">Longitud Oeste:</li>
+            <li>
+                <input type="text" style="width: 22px;" id="longGradesPTxAdd2" />
+                <span style="font-size: 15px;">°</span>
+                <input type="text" style="width: 22px;" id="longMinPTxAdd2" />
+                <span style="font-size: 15px;">'</span>
+                <input type="text" style="width: 22px;" id="longSecPTxAdd2" />
+                <span style="font-size: 15px;">''</span>
+            </li>
+        </div>
     </ul>
 </div>
 <div id="divtabF" class="tabcontent">

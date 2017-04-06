@@ -18,15 +18,15 @@
 <script src="js/pdfmake.min.js"></script>
 <script src="js/vfs_fonts.js"></script>
 <script src="https://js.arcgis.com/4.2/"></script>
-<script src="js/main.js"></script>
+<script src="js/main.js?"<?php echo uniqid(); ?>></script>
 <script src="js/geopoint.js"></script>
 <script src="js/zoom.js"></script>
-<script src="js/pdf_form.js"></script>
-<script src="js/controller.js"></script>
-<script src="js/pdf_export.js"></script>
+<script src="js/pdf_form.js?"<?php echo uniqid(); ?>></script>
+<script src="js/controller.js?"<?php echo uniqid(); ?>></script>
+<script src="js/pdf_export.js?"<?php echo uniqid(); ?>></script>
 <script src="js/interpolacion.js"></script>
-<script src="js/concurso_pdf_export.js"></script>
-<script src="js/modificacion_pdf_export.js"></script>
+<script src="js/concurso_pdf_export.js?"<?php echo uniqid(); ?>></script>
+<script src="js/modificacion_pdf_export.js?"<?php echo uniqid(); ?>></script>
 </head>
 <body>
 	<div id="loader">
@@ -289,7 +289,7 @@
 							<li><button type="button" style="font-size: 11px;" id="verDistancia">Ver Resultado</button></li>
 							<li><button type="button" id="exportarKMZ">Exportar a GoogleEarth</button></li>
 							<li><button type="button" id="imprimirCalculo">Generar PDF</button></li>
-							<li><a href="#" style="font-size: 11px; top: 2px;" id="pdfForm">Agregar Info a PDF</a></li>
+							<li><a href="#" style="font-size: 11px; top: 2px;" id="pdfForm">Agregar Datos</a></li>
 						</ul>
 					</div>
 				</div>
