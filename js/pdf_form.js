@@ -49,6 +49,13 @@ var form_data = {
         "latitud": "",
         "longitud": ""
     },
+    "estudio_alternativo": {
+        "domicilio": "",
+        "comuna": "",
+        "region": "",
+        "latitud": "",
+        "longitud": ""
+    },
     "ptx_adicional1": {
         "domicilio": "",
         "comuna": "",
@@ -57,7 +64,7 @@ var form_data = {
         "longitud": ""
     },
     "ptx_adicional2": {
-        "domiciilo": "",
+        "domicilio": "",
         "comuna": "",
         "region": "",
         "latitud": "",
@@ -76,31 +83,31 @@ var form_data = {
 };
 
 var frecuencias_canal_analogica = {
-    "55,25": "2",
-    "61,25": "3",
-    "67,25": "4",
-    "77,25": "5",
-    "83,25": "6",
-    "175,25": "7",
-    "181,25": "8",
-    "187,25": "9",
-    "193,25": "10",
-    "199,25": "11",
-    "205,25": "12",
-    "211,25": "13",
-    "513,25": "21",
-    "519,25": "22",
-    "525,25": "23",
-    "531,25": "24",
-    "537,25": "25",
-    "543,25": "26",
-    "567,25": "30",
-    "585,25": "33",
-    "591,25": "34",
-    "597,25": "35",
-    "687,25": "50",
-    "711,25": "54",
-    "729,25": "57"
+    "55.25": "2",
+    "61.25": "3",
+    "67.25": "4",
+    "77.25": "5",
+    "83.25": "6",
+    "175.25": "7",
+    "181.25": "8",
+    "187.25": "9",
+    "193.25": "10",
+    "199.25": "11",
+    "205.25": "12",
+    "211.25": "13",
+    "513.25": "21",
+    "519.25": "22",
+    "525.25": "23",
+    "531.25": "24",
+    "537.25": "25",
+    "543.25": "26",
+    "567.25": "30",
+    "585.25": "33",
+    "591.25": "34",
+    "597.25": "35",
+    "687.25": "50",
+    "711.25": "54",
+    "729.25": "57"
 };
 
 var frecuencias_canal_digital = {
@@ -158,20 +165,26 @@ $('#saveFormPDF').on('click', function() {
     form_data.estudio_principal.domicilio = $("#direccionP").val();
     form_data.estudio_principal.comuna = $("#comunaP").val();
     form_data.estudio_principal.region = $("#regionP").val();
-    form_data.estudio_principal.latitud = $("#latGradesP").val() + '° ' + $("#latMinP").val() + '\'' + $("#latMinP").val() + '\'\'';
-    form_data.estudio_principal.longitud = $("#longGradesP").val() + '° ' + $("#longMinP").val() + '\'' + $("#longSecP").val() + '\'\'';
+    form_data.estudio_principal.latitud = $("#latGradesP").val() + '° ' + $("#latMinP").val() + '\' ' + $("#latMinP").val() + '\'\'';
+    form_data.estudio_principal.longitud = $("#longGradesP").val() + '° ' + $("#longMinP").val() + '\' ' + $("#longSecP").val() + '\'\'';
+
+    form_data.estudio_alternativo.domicilio = $("#direccionA").val();
+    form_data.estudio_alternativo.comuna = $("#comunaA").val();
+    form_data.estudio_alternativo.region = $("#regionA").val();
+    form_data.estudio_alternativo.latitud = $("#latGradesA").val() + '° ' + $("#latMinA").val() + '\' ' + $("#latMinA").val() + '\'\'';
+    form_data.estudio_alternativo.longitud = $("#longGradesA").val() + '° ' + $("#longMinA").val() + '\' ' + $("#longSecA").val() + '\'\'';
 
     form_data.ptx_adicional1.domicilio = $("#direccionPTxAdd1").val();
     form_data.ptx_adicional1.comuna = $("#comunaPTxAdd1").val();
     form_data.ptx_adicional1.region = $("#regionPTxAdd1").val();
-    form_data.ptx_adicional1.latitud = $("#latGradesPTxAdd1").val() + '° ' + $("#latMinPTxAdd1").val() + '\'' + $("#latSecPTxAdd1").val() + '\'\'';
-    form_data.ptx_adicional1.longitud = $("#longGradesPTxAdd1").val() + '° ' + $("#longMinPTxAdd1").val() + '\'' + $("#longSecPTxAdd1").val() + '\'\'';
+    form_data.ptx_adicional1.latitud = $("#latGradesPTxAdd1").val() + '° ' + $("#latMinPTxAdd1").val() + '\' ' + $("#latSecPTxAdd1").val() + '\'\'';
+    form_data.ptx_adicional1.longitud = $("#longGradesPTxAdd1").val() + '° ' + $("#longMinPTxAdd1").val() + '\' ' + $("#longSecPTxAdd1").val() + '\'\'';
 
     form_data.ptx_adicional2.domicilio = $("#direccionPTxAdd2").val();
     form_data.ptx_adicional2.comuna = $("#comunaPTxAdd2").val();
     form_data.ptx_adicional2.region = $("#regionPTxAdd2").val();
-    form_data.ptx_adicional2.latitud = $("#latGradesPTxAdd2").val() + '° ' + $("#latMinPTxAdd2").val() + '\'' + $("#latSecPTxAdd2").val() + '\'\'';
-    form_data.ptx_adicional2.longitud = $("#longGradesPTxAdd2").val() + '° ' + $("#longMinPTxAdd2").val() + '\'' + $("#longSecPTxAdd2").val() + '\'\'';
+    form_data.ptx_adicional2.latitud = $("#latGradesPTxAdd2").val() + '° ' + $("#latMinPTxAdd2").val() + '\' ' + $("#latSecPTxAdd2").val() + '\'\'';
+    form_data.ptx_adicional2.longitud = $("#longGradesPTxAdd2").val() + '° ' + $("#longMinPTxAdd2").val() + '\' ' + $("#longSecPTxAdd2").val() + '\'\'';
 
     form_data.carac_tecnicas.sist_radiante = $("#sistRadiante").val();
     form_data.carac_tecnicas.antena_combi = $("#antCombinada").val();
@@ -211,7 +224,6 @@ $("button[name='subtab']").on('click', function(evt) {
 });
 
 function getFormData(concursoModificacion) {
-    console.log(concursoModificacion);
     if (concursoModificacion == 'Concurso') {
         form_data.tab_general = form_general_concurso;
     } else if (concursoModificacion == 'Modificacion') {

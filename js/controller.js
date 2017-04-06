@@ -401,22 +401,23 @@ function setDataIdentificador(data, coords, decimales){
 	latitudM = coords[1];
 	longitudM = coords[0];
 	$("#radioCircunferenciaMaxina").val(data.RADIO_MAXIMO);
-	// $("#"+data.RADIALES+"PerdidasLobulos").attr('checked',true);
 	$("#18PerdidasLobulos").attr('checked',true);
 	if(concurso){
+		$("#potenciaM").val(data.POTENCIA);
+		$("#frecuenciaM").val(data.FRECUENCIA);
 		numeroRadiales = 18;
 		setRadialesConcurso(data);
 		porcentajeUbicacion = 90;
 	}else{
+		$("#potenciaM").val(0);setRadialesConcurso
+		$("#frecuenciaM").val(0);
 		numeroRadiales = data.RADIALES;
 		setRadialesModificacion(data);
 		porcentajeUbicacion = data.PORCENTAJE_UBICACION 
 	}
 
 	setDataPLOB(data);
-	$("#potenciaM").val(0);
 	$("#gananciaM").val(data.G_ANT_DBD);
-	$("#frecuenciaM").val(0);
 	$("#intensidadCampoM").val(data.CAMPO_LIMITE);
 	$("#alturaAntenaTransmisoraM").val(data.ALTURA_TX);
 	$("#latitudGradosM").val((coords[1].split(" ")[0].replace("°", "")).replace("-",""));
@@ -451,100 +452,101 @@ function setDataIdentificador(data, coords, decimales){
 
 function setDataPLOB(data){
 	if(numeroRadiales == 72){
-		perdidasLobulos72Map["M72PL0"] = redondea(Number(data.PLOB0),2);
-		perdidasLobulos72Map["M72PL5"] = redondea(Number(data.PLOB5),2);
-		perdidasLobulos72Map["M72PL10"] = redondea(Number(data.PLOB10),2);
-		perdidasLobulos72Map["M72PL15"] = redondea(Number(data.PLOB15),2);
-		perdidasLobulos72Map["M72PL20"] = redondea(Number(data.PLOB20),2);
-		perdidasLobulos72Map["M72PL25"] = redondea(Number(data.PLOB25),2);
-		perdidasLobulos72Map["M72PL30"] = redondea(Number(data.PLOB30),2);
-		perdidasLobulos72Map["M72PL35"] = redondea(Number(data.PLOB35),2);
-		perdidasLobulos72Map["M72PL40"] = redondea(Number(data.PLOB40),2);
-		perdidasLobulos72Map["M72PL45"] = redondea(Number(data.PLOB45),2);
-		perdidasLobulos72Map["M72PL50"] = redondea(Number(data.PLOB50),2);
-		perdidasLobulos72Map["M72PL55"] = redondea(Number(data.PLOB55),2);
-		perdidasLobulos72Map["M72PL60"] = redondea(Number(data.PLOB60),2);
-		perdidasLobulos72Map["M72PL65"] = redondea(Number(data.PLOB65),2);
-		perdidasLobulos72Map["M72PL70"] = redondea(Number(data.PLOB70),2);
-		perdidasLobulos72Map["M72PL75"] = redondea(Number(data.PLOB75),2);
-		perdidasLobulos72Map["M72PL80"] = redondea(Number(data.PLOB80),2);
-		perdidasLobulos72Map["M72PL85"] = redondea(Number(data.PLOB85),2);
-		perdidasLobulos72Map["M72PL90"] = redondea(Number(data.PLOB90),2);
-		perdidasLobulos72Map["M72PL95"] = redondea(Number(data.PLOB95),2);
-		perdidasLobulos72Map["M72PL100"] = redondea(Number(data.PLOB100),2);
-		perdidasLobulos72Map["M72PL105"] = redondea(Number(data.PLOB105),2);
-		perdidasLobulos72Map["M72PL110"] = redondea(Number(data.PLOB110),2);
-		perdidasLobulos72Map["M72PL115"] = redondea(Number(data.PLOB115),2);
-		perdidasLobulos72Map["M72PL120"] = redondea(Number(data.PLOB120),2);
-		perdidasLobulos72Map["M72PL125"] = redondea(Number(data.PLOB125),2);
-		perdidasLobulos72Map["M72PL130"] = redondea(Number(data.PLOB130),2);
-		perdidasLobulos72Map["M72PL135"] = redondea(Number(data.PLOB135),2);
-		perdidasLobulos72Map["M72PL140"] = redondea(Number(data.PLOB140),2);
-		perdidasLobulos72Map["M72PL145"] = redondea(Number(data.PLOB145),2);
-		perdidasLobulos72Map["M72PL150"] = redondea(Number(data.PLOB150),2);
-		perdidasLobulos72Map["M72PL155"] = redondea(Number(data.PLOB155),2);
-		perdidasLobulos72Map["M72PL160"] = redondea(Number(data.PLOB160),2);
-		perdidasLobulos72Map["M72PL165"] = redondea(Number(data.PLOB165),2);
-		perdidasLobulos72Map["M72PL170"] = redondea(Number(data.PLOB170),2);
-		perdidasLobulos72Map["M72PL175"] = redondea(Number(data.PLOB175),2);
-		perdidasLobulos72Map["M72PL180"] = redondea(Number(data.PLOB180),2);
-		perdidasLobulos72Map["M72PL185"] = redondea(Number(data.PLOB185),2);
-		perdidasLobulos72Map["M72PL190"] = redondea(Number(data.PLOB190),2);
-		perdidasLobulos72Map["M72PL195"] = redondea(Number(data.PLOB195),2);
-		perdidasLobulos72Map["M72PL200"] = redondea(Number(data.PLOB200),2);
-		perdidasLobulos72Map["M72PL205"] = redondea(Number(data.PLOB205),2);
-		perdidasLobulos72Map["M72PL210"] = redondea(Number(data.PLOB210),2);
-		perdidasLobulos72Map["M72PL215"] = redondea(Number(data.PLOB215),2);
-		perdidasLobulos72Map["M72PL220"] = redondea(Number(data.PLOB220),2);
-		perdidasLobulos72Map["M72PL225"] = redondea(Number(data.PLOB225),2);
-		perdidasLobulos72Map["M72PL230"] = redondea(Number(data.PLOB230),2);
-		perdidasLobulos72Map["M72PL235"] = redondea(Number(data.PLOB235),2);
-		perdidasLobulos72Map["M72PL240"] = redondea(Number(data.PLOB240),2);
-		perdidasLobulos72Map["M72PL245"] = redondea(Number(data.PLOB245),2);
-		perdidasLobulos72Map["M72PL250"] = redondea(Number(data.PLOB250),2);
-		perdidasLobulos72Map["M72PL255"] = redondea(Number(data.PLOB255),2);
-		perdidasLobulos72Map["M72PL260"] = redondea(Number(data.PLOB260),2);
-		perdidasLobulos72Map["M72PL265"] = redondea(Number(data.PLOB265),2);
-		perdidasLobulos72Map["M72PL270"] = redondea(Number(data.PLOB270),2);
-		perdidasLobulos72Map["M72PL275"] = redondea(Number(data.PLOB275),2);
-		perdidasLobulos72Map["M72PL280"] = redondea(Number(data.PLOB280),2);
-		perdidasLobulos72Map["M72PL285"] = redondea(Number(data.PLOB285),2);
-		perdidasLobulos72Map["M72PL290"] = redondea(Number(data.PLOB290),2);
-		perdidasLobulos72Map["M72PL295"] = redondea(Number(data.PLOB295),2);
-		perdidasLobulos72Map["M72PL300"] = redondea(Number(data.PLOB300),2);
-		perdidasLobulos72Map["M72PL305"] = redondea(Number(data.PLOB305),2);
-		perdidasLobulos72Map["M72PL310"] = redondea(Number(data.PLOB310),2);
-		perdidasLobulos72Map["M72PL315"] = redondea(Number(data.PLOB315),2);
-		perdidasLobulos72Map["M72PL320"] = redondea(Number(data.PLOB320),2);
-		perdidasLobulos72Map["M72PL325"] = redondea(Number(data.PLOB325),2);
-		perdidasLobulos72Map["M72PL330"] = redondea(Number(data.PLOB330),2);
-		perdidasLobulos72Map["M72PL335"] = redondea(Number(data.PLOB335),2);
-		perdidasLobulos72Map["M72PL340"] = redondea(Number(data.PLOB340),2);
-		perdidasLobulos72Map["M72PL345"] = redondea(Number(data.PLOB345),2);
-		perdidasLobulos72Map["M72PL350"] = redondea(Number(data.PLOB350),2);
-		perdidasLobulos72Map["M72PL355"] = redondea(Number(data.PLOB355),2);
+		perdidasLobulos72Map["M72PL0"] = redondea(Number(data.PLOB0),4);
+		perdidasLobulos72Map["M72PL5"] = redondea(Number(data.PLOB5),4);
+		perdidasLobulos72Map["M72PL10"] = redondea(Number(data.PLOB10),4);
+		perdidasLobulos72Map["M72PL15"] = redondea(Number(data.PLOB15),4);
+		perdidasLobulos72Map["M72PL20"] = redondea(Number(data.PLOB20),4);
+		perdidasLobulos72Map["M72PL25"] = redondea(Number(data.PLOB25),4);
+		perdidasLobulos72Map["M72PL30"] = redondea(Number(data.PLOB30),4);
+		perdidasLobulos72Map["M72PL35"] = redondea(Number(data.PLOB35),4);
+		perdidasLobulos72Map["M72PL40"] = redondea(Number(data.PLOB40),4);
+		perdidasLobulos72Map["M72PL45"] = redondea(Number(data.PLOB45),4);
+		perdidasLobulos72Map["M72PL50"] = redondea(Number(data.PLOB50),4);
+		perdidasLobulos72Map["M72PL55"] = redondea(Number(data.PLOB55),4);
+		perdidasLobulos72Map["M72PL60"] = redondea(Number(data.PLOB60),4);
+		perdidasLobulos72Map["M72PL65"] = redondea(Number(data.PLOB65),4);
+		perdidasLobulos72Map["M72PL70"] = redondea(Number(data.PLOB70),4);
+		perdidasLobulos72Map["M72PL75"] = redondea(Number(data.PLOB75),4);
+		perdidasLobulos72Map["M72PL80"] = redondea(Number(data.PLOB80),4);
+		perdidasLobulos72Map["M72PL85"] = redondea(Number(data.PLOB85),4);
+		perdidasLobulos72Map["M72PL90"] = redondea(Number(data.PLOB90),4);
+		perdidasLobulos72Map["M72PL95"] = redondea(Number(data.PLOB95),4);
+		perdidasLobulos72Map["M72PL100"] = redondea(Number(data.PLOB100),4);
+		perdidasLobulos72Map["M72PL105"] = redondea(Number(data.PLOB105),4);
+		perdidasLobulos72Map["M72PL110"] = redondea(Number(data.PLOB110),4);
+		perdidasLobulos72Map["M72PL115"] = redondea(Number(data.PLOB115),4);
+		perdidasLobulos72Map["M72PL120"] = redondea(Number(data.PLOB120),4);
+		perdidasLobulos72Map["M72PL125"] = redondea(Number(data.PLOB125),4);
+		perdidasLobulos72Map["M72PL130"] = redondea(Number(data.PLOB130),4);
+		perdidasLobulos72Map["M72PL135"] = redondea(Number(data.PLOB135),4);
+		perdidasLobulos72Map["M72PL140"] = redondea(Number(data.PLOB140),4);
+		perdidasLobulos72Map["M72PL145"] = redondea(Number(data.PLOB145),4);
+		perdidasLobulos72Map["M72PL150"] = redondea(Number(data.PLOB150),4);
+		perdidasLobulos72Map["M72PL155"] = redondea(Number(data.PLOB155),4);
+		perdidasLobulos72Map["M72PL160"] = redondea(Number(data.PLOB160),4);
+		perdidasLobulos72Map["M72PL165"] = redondea(Number(data.PLOB165),4);
+		perdidasLobulos72Map["M72PL170"] = redondea(Number(data.PLOB170),4);
+		perdidasLobulos72Map["M72PL175"] = redondea(Number(data.PLOB175),4);
+		perdidasLobulos72Map["M72PL180"] = redondea(Number(data.PLOB180),4);
+		perdidasLobulos72Map["M72PL185"] = redondea(Number(data.PLOB185),4);
+		perdidasLobulos72Map["M72PL190"] = redondea(Number(data.PLOB190),4);
+		perdidasLobulos72Map["M72PL195"] = redondea(Number(data.PLOB195),4);
+		perdidasLobulos72Map["M72PL200"] = redondea(Number(data.PLOB200),4);
+		perdidasLobulos72Map["M72PL205"] = redondea(Number(data.PLOB205),4);
+		perdidasLobulos72Map["M72PL210"] = redondea(Number(data.PLOB210),4);
+		perdidasLobulos72Map["M72PL215"] = redondea(Number(data.PLOB215),4);
+		perdidasLobulos72Map["M72PL220"] = redondea(Number(data.PLOB220),4);
+		perdidasLobulos72Map["M72PL225"] = redondea(Number(data.PLOB225),4);
+		perdidasLobulos72Map["M72PL230"] = redondea(Number(data.PLOB230),4);
+		perdidasLobulos72Map["M72PL235"] = redondea(Number(data.PLOB235),4);
+		perdidasLobulos72Map["M72PL240"] = redondea(Number(data.PLOB240),4);
+		perdidasLobulos72Map["M72PL245"] = redondea(Number(data.PLOB245),4);
+		perdidasLobulos72Map["M72PL250"] = redondea(Number(data.PLOB250),4);
+		perdidasLobulos72Map["M72PL255"] = redondea(Number(data.PLOB255),4);
+		perdidasLobulos72Map["M72PL260"] = redondea(Number(data.PLOB260),4);
+		perdidasLobulos72Map["M72PL265"] = redondea(Number(data.PLOB265),4);
+		perdidasLobulos72Map["M72PL270"] = redondea(Number(data.PLOB270),4);
+		perdidasLobulos72Map["M72PL275"] = redondea(Number(data.PLOB275),4);
+		perdidasLobulos72Map["M72PL280"] = redondea(Number(data.PLOB280),4);
+		perdidasLobulos72Map["M72PL285"] = redondea(Number(data.PLOB285),4);
+		perdidasLobulos72Map["M72PL290"] = redondea(Number(data.PLOB290),4);
+		perdidasLobulos72Map["M72PL295"] = redondea(Number(data.PLOB295),4);
+		perdidasLobulos72Map["M72PL300"] = redondea(Number(data.PLOB300),4);
+		perdidasLobulos72Map["M72PL305"] = redondea(Number(data.PLOB305),4);
+		perdidasLobulos72Map["M72PL310"] = redondea(Number(data.PLOB310),4);
+		perdidasLobulos72Map["M72PL315"] = redondea(Number(data.PLOB315),4);
+		perdidasLobulos72Map["M72PL320"] = redondea(Number(data.PLOB320),4);
+		perdidasLobulos72Map["M72PL325"] = redondea(Number(data.PLOB325),4);
+		perdidasLobulos72Map["M72PL330"] = redondea(Number(data.PLOB330),4);
+		perdidasLobulos72Map["M72PL335"] = redondea(Number(data.PLOB335),4);
+		perdidasLobulos72Map["M72PL340"] = redondea(Number(data.PLOB340),4);
+		perdidasLobulos72Map["M72PL345"] = redondea(Number(data.PLOB345),4);
+		perdidasLobulos72Map["M72PL350"] = redondea(Number(data.PLOB350),4);
+		perdidasLobulos72Map["M72PL355"] = redondea(Number(data.PLOB355),4);
 	}
 	if(numeroRadiales == 18){
-		perdidasLobulos18Map["M18PL0"] = redondea(Number(data.PLOB0),2);
-		perdidasLobulos18Map["M18PL20"] = redondea(Number(data.PLOB20),2);
-		perdidasLobulos18Map["M18PL40"] = redondea(Number(data.PLOB40),2);
-		perdidasLobulos18Map["M18PL60"] = redondea(Number(data.PLOB60),2);
-		perdidasLobulos18Map["M18PL80"] = redondea(Number(data.PLOB80),2);
-		perdidasLobulos18Map["M18PL100"] = redondea(Number(data.PLOB100),2);
-		perdidasLobulos18Map["M18PL120"] = redondea(Number(data.PLOB120),2);
-		perdidasLobulos18Map["M18PL140"] = redondea(Number(data.PLOB140),2);
-		perdidasLobulos18Map["M18PL160"] = redondea(Number(data.PLOB160),2);
-		perdidasLobulos18Map["M18PL180"] = redondea(Number(data.PLOB180),2);
-		perdidasLobulos18Map["M18PL200"] = redondea(Number(data.PLOB200),2);
-		perdidasLobulos18Map["M18PL220"] = redondea(Number(data.PLOB220),2);
-		perdidasLobulos18Map["M18PL240"] = redondea(Number(data.PLOB240),2);
-		perdidasLobulos18Map["M18PL260"] = redondea(Number(data.PLOB260),2);
-		perdidasLobulos18Map["M18PL280"] = redondea(Number(data.PLOB280),2);
-		perdidasLobulos18Map["M18PL300"] = redondea(Number(data.PLOB300),2);
-		perdidasLobulos18Map["M18PL320"] = redondea(Number(data.PLOB320),2);
-		perdidasLobulos18Map["M18PL340"] = redondea(Number(data.PLOB340),2);
+		perdidasLobulos18Map["M18PL0"] = redondea(Number(data.PLOB0),4);
+		perdidasLobulos18Map["M18PL20"] = redondea(Number(data.PLOB20),4);
+		perdidasLobulos18Map["M18PL40"] = redondea(Number(data.PLOB40),4);
+		perdidasLobulos18Map["M18PL60"] = redondea(Number(data.PLOB60),4);
+		perdidasLobulos18Map["M18PL80"] = redondea(Number(data.PLOB80),4);
+		perdidasLobulos18Map["M18PL100"] = redondea(Number(data.PLOB100),4);
+		perdidasLobulos18Map["M18PL120"] = redondea(Number(data.PLOB120),4);
+		perdidasLobulos18Map["M18PL140"] = redondea(Number(data.PLOB140),4);
+		perdidasLobulos18Map["M18PL160"] = redondea(Number(data.PLOB160),4);
+		perdidasLobulos18Map["M18PL180"] = redondea(Number(data.PLOB180),4);
+		perdidasLobulos18Map["M18PL200"] = redondea(Number(data.PLOB200),4);
+		perdidasLobulos18Map["M18PL220"] = redondea(Number(data.PLOB220),4);
+		perdidasLobulos18Map["M18PL240"] = redondea(Number(data.PLOB240),4);
+		perdidasLobulos18Map["M18PL260"] = redondea(Number(data.PLOB260),4);
+		perdidasLobulos18Map["M18PL280"] = redondea(Number(data.PLOB280),4);
+		perdidasLobulos18Map["M18PL300"] = redondea(Number(data.PLOB300),4);
+		perdidasLobulos18Map["M18PL320"] = redondea(Number(data.PLOB320),4);
+		perdidasLobulos18Map["M18PL340"] = redondea(Number(data.PLOB340),4);
 	}
 }
+
 function setRadialesConcurso(data){
 	if( numeroRadiales == 72){
 		radiales72Map["M72PL0"] = redondea(parseFloat(data.Zs0),1);
@@ -763,6 +765,9 @@ function setPuntoCoordenadas(coords){
 	$("#longitudSegundosM").val((coords[0].split(" ")[2].replace('"', "")).split(".")[0]);
 }
 function removeDataInforme(){
+	$("#idomicilio").val("");
+	$("#ifono").val("");
+	$("#iemail").val("");
 	$("#iNombreRazon").val("");
 	$("#iRutRazon").val("");
 	$("#localidadI").text("");
@@ -808,6 +813,7 @@ function removeDataConcurso(){
 	$("#perdidasCablesConectoresM").val("");
 	$("#divisorPotenciaM").val("");
 	$("#otrasPerdidasM").val("");
+	$("#18PerdidasLobulos").trigger('click');
 	removeDataInforme();
 	showInitPestana();
 }	
@@ -838,8 +844,7 @@ function setComboRegion(value){
 	
 function setCombosToStart(is_modificacion){
 	$("#regiones").val(0);
-	$("#tipoServicio").find('option')
-		.remove();
+	$("#tipoServicio").find('option').remove();
 
 	$("#tipoServicio").append($("<option></option>", {'value':''}).text('...'));
 	$("#tipoServicio").append($("<option></option>", {'value':'ISDBT'}).text('ISDBT'));
@@ -874,7 +879,7 @@ function getMapParameters(){
 	divisorPotenciaM = $("#divisorPotenciaM").val();
 	otrasPerdidasM = $("#otrasPerdidasM").val();
 	recomendacion = $("#recomendacion option:selected").text();
-	radiales = $("input[name=radialesRadio]:checked").val();
+	radiales = $("input[name=radialesRadio]:checked").val();;
 	localidad = $("#localidadC").val();
 	radioMaximo = $("#radioCircunferenciaMaxina").val();
 	radialesCalculo = radiales;
@@ -1018,29 +1023,34 @@ function getMapParameters(){
 
 function getParametersReport(){
 	var mapOut = {};
-	mapOut["pPerdidaCablesConectores"] = $("#perdidaCableConectoI").text();
-	mapOut["pOtrasPerdidas"] = $("#otrasPerdidasI").text();
-	mapOut["pFrecuencia"] =  $("#frecuenciaM").val();
-	mapOut["pGanancia"] = $("#gananciaM").val();
-	mapOut["pPotencia"] = $("#potenciaM").val();
-	mapOut["pAlturaAntenaTx"] = $("#alturaAntenaI").text();
-	mapOut["pRut"] = $("#iRutRazon").val();
+
+	mapOut["pAlturaAntenaTx"] = $("#alturaAntenaTransmisoraM").val();
 	mapOut["pDivisorPotencia"] = $("#divisorPotenciaI").text();
-	mapOut["pLocalidad"] = $("#localidadI").text();
-	mapOut["pRazonSocial"] = $("#iNombreRazon").val();
-	mapOut["pEmail"] = $("#iemail").val();
-	mapOut["pFono"] = $("#ifono").val();
 	mapOut["pDomicilio"] = $("#idomicilio").val();
+	mapOut["pEmail"] = $("#iemail").val();
 	mapOut["pRut"] = $("#iRutRazon").val();
+	mapOut["pFrecuencia"] =  $("#frecuenciaM").val();
+	mapOut["pFono"] = $("#ifono").val();
+	mapOut["pGanancia"] = $("#gananciaM").val();
 	mapOut["pLatitud"]  = $("#latitudI").val();
 	mapOut["pLongitud"] = $("#longitudI").val();
+	mapOut["pLocalidad"] = $("#localidadI").text();
+	mapOut["pRazonSocial"] = $("#iNombreRazon").val();
+	mapOut["pOtrasPerdidas"] = $("#otrasPerdidasM").val();
+	mapOut["pPerdidaCablesConectores"] = $("#perdidasCablesConectoresM").val();
+	mapOut["pPotencia"] = $("#potenciaM").val();
+	mapOut["pRut"] = $("#iRutRazon").val();
+	mapOut["frecuenciaAnaloga"] = $("#frecuenciaC").val();
+
 	var radial = $("input[name=radialesRadio]:checked").val();
 	mapOut["radiales"] = radial;
+
 	var grados = 360/radial;
 
 	for(i=0;i<radial;i++){
-		mapOut["DIS"+grados*i] = redondea(distanciaKilometros["MDKPL"+(grados*i)],2); //CAMBIAR A 4
+		mapOut["DIS"+grados*i] = redondea(distanciaKilometros["MDKPL"+(grados*i)],2);
 	}
+
 	var llave ="";
 	for(i=0;i<radial;i++){
 		llave = "M"+radial+"PL"+grados*i;
@@ -1090,7 +1100,7 @@ function validaCambiosCampos() {
 	var validate = true;
 	if($('#pestanaTab2').css('display') != 'none')
 	{
-		validate = confirm("Si cambia de sección perderán los datos que haya ingresado");
+		validate = confirm("Si cambia esta opción se perderán los datos ingresados");
 	}
 	return validate;
 }

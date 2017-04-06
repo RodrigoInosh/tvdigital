@@ -105,3 +105,8 @@ div.scrollmenu a:hover {
 {
     overflow:auto;
 }
+
+ul input[type=text] {
+    height: 12px;
+    width: 200px;
+}

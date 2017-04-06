@@ -564,7 +564,7 @@ button{
 	float: left;
 }
 
-#subbox2bottom2 ul li{
+#subbox2bottom2 ul li, #subbox3bottom ul li {
 	background-color: white;
 	border: none;
 	list-style-type: none;
@@ -574,7 +574,7 @@ button{
 	height: 18px;
 }
 
-#subbox2bottom2 ul li a:link{
+#subbox2bottom2 ul li a:link, #subbox3bottom ul li a:link {
 	color: blue;
 	font-weight: bold;
 	text-decoration: underline;
@@ -583,7 +583,7 @@ button{
 	left: 0px;
 }
 
-#subbox2bottom2 ul li a:visited{
+#subbox2bottom2 ul li a:visited, #subbox3bottom ul li a:visited {
 	color: blue;
 	font-weight: bold;
 	text-decoration: underline;
