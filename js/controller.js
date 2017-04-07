@@ -179,7 +179,7 @@ $(document).ready(function() {
 		$("#distanciaKilometro72").hide();
 		$("#curtainCaltool").hide();
 	});
-	$("#18PerdidasLobulos").prop("checked", true);
+	$("#72PerdidasLobulos").prop("checked", true);
 	$("#concursoC").prop("checked", true);
 	$("#recomendacion option:eq(3)").attr("selected", "selected");
 	$("#verDistancia").click(function() {

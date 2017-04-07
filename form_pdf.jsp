@@ -1,4 +1,4 @@
-<script src="js/pdf_form.js?" <?php echo uniqid(); ?>>
+<script src="js/pdf_form.js?v=<%= System.currentTimeMillis() %>">
 </script>
 <div class="tab">
     <button class="tablinks active" name="subtab" id="tabA">Datos Generales</button>
@@ -26,7 +26,7 @@
             <label><b><u>Resoluci&oacute;n Otorga</u></b></label>
         </li>
         <div id="separador"></div>
-        <li style="width: 40px; text-align: left">N°:</li>
+        <li style="width: 40px; text-align: left">N&deg:</li>
         <li>
             <input type="text" value="" id="numResOtorga" />
         </li>
@@ -47,7 +47,7 @@
             <label><b><u>Resoluci&oacute;n Modifica</u></b></label>
         </li>
         <div id="separador"></div>
-        <li style="width: 40px;">N°:</li>
+        <li style="width: 40px;">N&deg:</li>
         <li>
             <input type="text" value="" id="numResModifica" />
         </li>
@@ -71,24 +71,24 @@
         <div id="separador"></div>
         <li style="width: 80px;">Inicio de Obras:</li>
         <li>
-            <input type="text" value="" id="ini_obras" />
+            <input type="text" value="" id="ini_obras" class="number_input" />
         </li>[d&iacute;as]
         <div id="separador"></div>
-        <li style="width: 80px;">Término de Obras:</li>
+        <li style="width: 80px;">T&eacute;rmino de Obras:</li>
         <li>
-            <input type="text" value="" id="fin_obras" />
+            <input type="text" value="" id="fin_obras" class="number_input" />
         </li>[d&iacute;as]
         <div id="separador"></div>
         <li style="width: 80px;">Inicio de Servicio:</li>
         <li>
-            <input type="text" value="" id="ini_servicio" />
+            <input type="text" value="" id="ini_servicio" class="number_input" />
         </li>[d&iacute;as]
         <div id="separador"></div>
         <li>
-            <label>Emisión</label>
+            <label>Emisi&oacute;n</label>
         </li>
         <div id="separador"></div>
-        <li style="width: 80px;">Tipo de Emisión:</li>
+        <li style="width: 80px;">Tipo de Emisi&oacute;n:</li>
         <li>
             <input type="text" value="" id="tipo_emision" />
         </li>
@@ -116,20 +116,20 @@
         <div id="separador"></div>
         <li style="width: 60px; text-align: left">Latitud Sur:</li>
         <li>
-            <input type="text" style="width: 22px;" id="latGradesP" />
-            <span style="font-size: 15px;">°</span>
-            <input type="text" style="width: 22px;" id="latMinP" />
+            <input type="text" style="width: 22px;" id="latGradesP" class="number_input" />
+            <span style="font-size: 15px;">&deg</span>
+            <input type="text" style="width: 22px;" id="latMinP" class="number_input" />
             <span style="font-size: 15px;">'</span>
-            <input type="text" style="width: 22px;" id="latSecP" />
+            <input type="text" style="width: 22px;" id="latSecP" class="number_input" />
             <span style="font-size: 15px; padding-right: 10px">''</span>
         </li>
         <li style="width: 60px; text-align: left">Longitud Oeste:</li>
         <li>
-            <input type="text" style="width: 22px;" id="longGradesP" />
-            <span style="font-size: 15px;">°</span>
-            <input type="text" style="width: 22px;" id="longMinP" />
+            <input type="text" style="width: 22px;" id="longGradesP" class="number_input" />
+            <span style="font-size: 15px;">&deg</span>
+            <input type="text" style="width: 22px;" id="longMinP" class="number_input" />
             <span style="font-size: 15px;">'</span>
-            <input type="text" style="width: 22px;" id="longSecP" />
+            <input type="text" style="width: 22px;" id="longSecP" class="number_input" />
             <span style="font-size: 15px; padding-right: 10px">''</span>
         </li>
         <div id="separador"></div>
@@ -152,20 +152,20 @@
         <div id="separador"></div>
         <li style="width: 60px; text-align: left">Latitud Sur:</li>
         <li>
-            <input type="text" style="width: 22px;" id="latGradesA" />
-            <span style="font-size: 15px;">°</span>
-            <input type="text" style="width: 22px;" id="latMinA" />
+            <input type="text" style="width: 22px;" id="latGradesA" class="number_input" />
+            <span style="font-size: 15px;">&deg</span>
+            <input type="text" style="width: 22px;" id="latMinA" class="number_input" />
             <span style="font-size: 15px;">'</span>
-            <input type="text" style="width: 22px;" id="latSecA" />
+            <input type="text" style="width: 22px;" id="latSecA" class="number_input" />
             <span style="font-size: 15px; padding-right: 10px">''</span>
         </li>
         <li style="width: 60px; text-align: left">Longitud Oeste:</li>
         <li>
-            <input type="text" style="width: 22px;" id="longGradesA" />
-            <span style="font-size: 15px;">°</span>
-            <input type="text" style="width: 22px;" id="longMinA" />
+            <input type="text" style="width: 22px;" id="longGradesA" class="number_input" />
+            <span style="font-size: 15px;">&deg</span>
+            <input type="text" style="width: 22px;" id="longMinA" class="number_input" />
             <span style="font-size: 15px;">'</span>
-            <input type="text" style="width: 22px;" id="longSecA" />
+            <input type="text" style="width: 22px;" id="longSecA" class="number_input" />
             <span style="font-size: 15px; padding-right: 10px">''</span>
         </li>
     </ul>
@@ -197,28 +197,23 @@
                 <option value="otro">Otro</option>
             </select>
         </li>
-        <li style="width: 95px; text-align: left">N° Elementos de Antena:</li>
+        <li style="width: 95px; text-align: left">N&deg Elementos de Antena:</li>
         <li>
-            <input type="text" id="numElem" />
+            <input type="text" id="numElem" class="number_input" />
         </li>
         <div id="separador"></div>
         <li style="width: 95px; text-align: left">Ganancia M&aacute;xima (Sin Tilt):</li>
         <li>
-            <input type="text" value="" id="gananciaMax" />
+            <input type="text" value="" id="gananciaMax" class="number_input" />
         </li>
-        <li style="width: 95px; text-align: left">Polarizaci&oacute;n:</li>
+        <li style="width: 65px; text-align: left">Polarizaci&oacute;n:</li>
         <li>
-            <select id="polarizacion">
-                <option value="">Seleccione un opci&oacute;n</option>
-                <option value="hori">Horizontal</option>
-                <option value="vert">Vertical</option>
-                <option value="circ">Circular</option>
-                <option value="mix">Mixta</option>
-            </select>
+            Horizontal: <input type="text" value="" id="perc_horizontal" class="number_input" style="width: 30px" /> %
+            Vertical: <input type="text" value="" id="perc_vertical" class="number_input" style="width: 30px" /> %
         </li>
         <li style="width: 95px; text-align: left">&Aacute;ngulo de Tilt:</li>
         <li>
-            <input type="text" value="" id="anguloTilt" />
+            <input type="text" value="" id="anguloTilt" class="number_input" />
         </li>
         <div id="separador"></div>
         <li style="width: 40px; text-align: left">Domicilio:</li>
@@ -257,22 +252,22 @@
             <div id="separador"></div>
             <li style="width: 60px; text-align: left">Latitud Sur:</li>
             <li>
-                <input type="text" style="width: 22px;" id="latGradesPTxAdd1" />
-                <span style="font-size: 15px;">°</span>
-                <input type="text" style="width: 22px;" id="latMinPTxAdd1" />
+                <input type="text" style="width: 22px;" id="latGradesPTxAdd1" class="number_input" />
+                <span style="font-size: 15px;">&deg</span>
+                <input type="text" style="width: 22px;" id="latMinPTxAdd1" class="number_input" />
                 <span style="font-size: 15px;">'</span>
-                <input type="text" style="width: 22px;" id="latSecPTxAdd1" />
+                <input type="text" style="width: 22px;" id="latSecPTxAdd1" class="number_input" />
                 <span style="font-size: 15px; padding-right: 10px;">''</span>
             </li>
             <li style="width: 60px; text-align: left">Longitud Oeste:</li>
             <li>
-                <input type="text" style="width: 22px;" id="longGradesPTxAdd1" />
-                <span style="font-size: 15px;">°</span>
-                <input type="text" style="width: 22px;" id="longMinPTxAdd1" />
+                <input type="text" style="width: 22px;" id="longGradesPTxAdd1" class="number_input" />
+                <span style="font-size: 15px;">&deg</span>
+                <input type="text" style="width: 22px;" id="longMinPTxAdd1" class="number_input" />
                 <span style="font-size: 15px;">'</span>
-                <input type="text" style="width: 22px;" id="longSecPTxAdd1" />
+                <input type="text" style="width: 22px;" id="longSecPTxAdd1" class="number_input" />
                 <span style="font-size: 15px; padding-right: 10px;">''</span>
-            </li>
+            </li> class="number_input"
             <div id="separador" style="height: 1px;"></div>
             <li><b><u>Planta Transmisora Adicional 2</u></b></li>
             <div id="separador" style="height: 1px;"></div>
@@ -291,20 +286,20 @@
             <div id="separador"></div>
             <li style="width: 40px; text-align: left">Latitud Sur:</li>
             <li>
-                <input type="text" style="width: 22px;" id="latGradesPTxAdd2" />
-                <span style="font-size: 15px;">°</span>
-                <input type="text" style="width: 22px;" id="latMinPTxAdd2" />
+                <input type="text" style="width: 22px;" id="latGradesPTxAdd2" class="number_input" />
+                <span style="font-size: 15px;">&deg</span>
+                <input type="text" style="width: 22px;" id="latMinPTxAdd2" class="number_input" />
                 <span style="font-size: 15px;">'</span>
-                <input type="text" style="width: 22px;" id="latSecPTxAdd2" />
+                <input type="text" style="width: 22px;" id="latSecPTxAdd2" class="number_input" />
                 <span style="font-size: 15px;">''</span>
             </li>
             <li style="width: 40px; text-align: left">Longitud Oeste:</li>
             <li>
-                <input type="text" style="width: 22px;" id="longGradesPTxAdd2" />
-                <span style="font-size: 15px;">°</span>
-                <input type="text" style="width: 22px;" id="longMinPTxAdd2" />
+                <input type="text" style="width: 22px;" id="longGradesPTxAdd2" class="number_input" />
+                <span style="font-size: 15px;">&deg</span>
+                <input type="text" style="width: 22px;" id="longMinPTxAdd2" class="number_input" />
                 <span style="font-size: 15px;">'</span>
-                <input type="text" style="width: 22px;" id="longSecPTxAdd2" />
+                <input type="text" style="width: 22px;" id="longSecPTxAdd2" class="number_input" />
                 <span style="font-size: 15px;">''</span>
             </li>
         </div>
@@ -314,16 +309,16 @@
     <table id="example" class="cell-border">
         <thead>
             <tr style="font-size: 11px; width: 11111111px;">
-                <th>N°</th>
+                <th>N&deg</th>
                 <th>Altura [m]</th>
                 <th>Largo V&aacute;stago [cm]</th>
-                <th>Azimut V&aacute;stago [°]</th>
-                <th>Azimut Antena [°]</th>
+                <th>Azimut V&aacute;stago [&deg]</th>
+                <th>Azimut Antena [&deg]</th>
                 <th>Ganancia Antena [dBd]</th>
                 <th>Polarizaci&oacute;n</th>
                 <th>Marca</th>
                 <th>Modelo</th>
-                <th>Fase [°]</th>
+                <th>Fase [&deg]</th>
                 <th>% Potencia</th>
             </tr>
         </thead>

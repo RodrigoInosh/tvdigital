@@ -250,7 +250,7 @@ function getPtxZones(datos) {
 
 function getServiceZoneRestriction(datos) {
 	var restriction_zone = `<Placemark>
-			<name>Restriccion Zona de Servicio</name>
+			<name>Restriccion 60 km</name>
 			<styleUrl>#failed</styleUrl>
 			<Polygon>
 				<extrude>1</extrude>

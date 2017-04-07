@@ -76,7 +76,8 @@ var form_data = {
         "tipo_antena": "",
         "num_elem": "",
         "ganancia_max": "",
-        "polarizacion": "",
+        "perc_horizontal": "",
+        "perc_vertical": "",
         "angulo_tilt": "",
         "domicilioPtx": "",
         "comunaPTx": "",
@@ -193,7 +194,8 @@ $('#saveFormPDF').on('click', function() {
     form_data.carac_tecnicas.antena_combi = $("#antCombinada").val();
     form_data.carac_tecnicas.tipo_antena = $("#tipoAntena").val();
     form_data.carac_tecnicas.num_elem = $("#numElem").val();
-    form_data.carac_tecnicas.polarizacion = $("#polarizacion").val();
+    form_data.carac_tecnicas.perc_horizontal = $("#perc_horizontal").val();
+    form_data.carac_tecnicas.perc_vertical = $("#perc_vertical").val();
     form_data.carac_tecnicas.ganancia_max = $("#gananciaMax").val();
     form_data.carac_tecnicas.angulo_tilt = $("#anguloTilt").val();
     form_data.carac_tecnicas.domicilioPTx = $("#domicilioPTx").val();
@@ -297,3 +299,27 @@ function showDatosGenerales(concursoModificacion) {
         $('#div_planta_adicional').show();
     }
 }
+
+$("#perc_horizontal").on('change', function() {
+    var num = Number($("#perc_horizontal").val());
+    
+    if(num > 100) {
+        num = 100;
+        $("#perc_horizontal").val(num);
+    }
+    var new_val_vertical = 100 - num;
+
+    $("#perc_vertical").val(new_val_vertical);
+});
+
+$("#perc_vertical").on('change', function() {
+    var num = Number($("#perc_vertical").val());
+    
+    if(num > 100) {
+        num = 100;
+        $("#perc_vertical").val(num);
+    }
+    var new_val_vertical = 100 - num;
+
+    $("#perc_horizontal").val(new_val_vertical);
+});

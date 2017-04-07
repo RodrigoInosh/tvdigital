@@ -333,6 +333,8 @@ function getConcourseTableTechnicalSystemFeature(title, radials, form_elements) 
     var tilt_elec_si = isTilt(form_pdf_data.carac_tecnicas.angulo_tilt) ? '_X_' : '___';
     var tilt_elec_no = isTilt(form_pdf_data.carac_tecnicas.angulo_tilt) ? '___' : '_X_';
     var suma_perdidas = Number(form_elements.pPerdidaCablesConectores) + Number(form_elements.pDivisorPotencia) + Number(form_elements.pOtrasPerdidas);
+    var perc_horizontal = form_pdf_data.carac_tecnicas.perc_horizontal;
+    var perc_vertical = form_pdf_data.carac_tecnicas.perc_vertical;
 
     var page_content = [{
             text: title,
@@ -397,7 +399,7 @@ function getConcourseTableTechnicalSystemFeature(title, radials, form_elements) 
                         }, {}
                     ],
                     [{
-                        text: 'Nº de antenas: ' + num_antenas + '     Ganancia máxima: ' + ganancia_max + ' [dBd].                     Polarización:     %H       %V',
+                        text: 'Nº de antenas: ' + num_antenas + '     Ganancia máxima: ' + ganancia_max + ' [dBd].                     Polarización: '+perc_horizontal+' %H      '+perc_vertical+' %V',
                         colSpan: 4,
                         fontSize: 10,
                         border: [true, false, true, false]

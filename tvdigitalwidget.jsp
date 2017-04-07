@@ -1,3 +1,4 @@
+<%@page language="java" contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,22 +12,25 @@
 <link rel="stylesheet" href="https://js.arcgis.com/4.1/esri/css/main.css">
 <link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link href="css/form_pdf.css" rel="stylesheet" type="text/css">
+
 <script src="js/jquery-3.2.0.min.js"></script>
 <script src="js/jquery-ui.js"></script>
 <script src="js/jquery.dataTables.min.js"></script>
 <script src="js/template_kml.js"></script>
 <script src="js/pdfmake.min.js"></script>
 <script src="js/vfs_fonts.js"></script>
+<script src="js/underscore.string.min.js"></script>
+<script src="js/underscore-min.js"></script>
 <script src="https://js.arcgis.com/4.2/"></script>
-<script src="js/main.js?"<?php echo uniqid(); ?>></script>
+<script src="js/main.js?v=<%= System.currentTimeMillis() %>"></script>
 <script src="js/geopoint.js"></script>
 <script src="js/zoom.js"></script>
-<script src="js/pdf_form.js?"<?php echo uniqid(); ?>></script>
-<script src="js/controller.js?"<?php echo uniqid(); ?>></script>
-<script src="js/pdf_export.js?"<?php echo uniqid(); ?>></script>
+<script src="js/pdf_form.js?v=<%= System.currentTimeMillis() %>"></script>
+<script src="js/controller.js?v=<%= System.currentTimeMillis() %>"></script>
+<script src="js/pdf_export.js?v=<%= System.currentTimeMillis() %>"></script>
 <script src="js/interpolacion.js"></script>
-<script src="js/concurso_pdf_export.js?"<?php echo uniqid(); ?>></script>
-<script src="js/modificacion_pdf_export.js?"<?php echo uniqid(); ?>></script>
+<script src="js/concurso_pdf_export.js?v=<%= System.currentTimeMillis() %>"></script>
+<script src="js/modificacion_pdf_export.js?v=<%= System.currentTimeMillis() %>"></script>
 </head>
 <body>
 	<div id="loader">
@@ -190,13 +194,13 @@
 							<li><label>Coordenadas de Ubicaci&oacute;n Digital para Planta TxWGS84:</label></li>
 							<div id="separador"></div>
 							<li><label>Latitud:</label></li>
-							<li><input type="text" value="" id="latitudGradosM" style="width: 30px;"/>°</li>
-							<li><input type="text" value="" id="latitudMinutosM" style="width: 30px;"/>'</li>
-							<li><input type="text" value="" id="latitudSegudosM" style="width: 30px;"/>''</li>
+							<li><input type="text" value="" id="latitudGradosM" style="width: 30px;" class="number_input"/>&deg</li>
+							<li><input type="text" value="" id="latitudMinutosM" style="width: 30px;" class="number_input"/>'</li>
+							<li><input type="text" value="" id="latitudSegudosM" style="width: 30px;" class="number_input"/>''</li>
 							<li><label>Longitud:</label></li>
-							<li><input type="text" value="" id="longitudGradosM" style="width: 30px;"/>°</li>
-							<li><input type="text" value="" id="longitudMinutosM" style="width: 30px;"/>'</li>
-							<li><input type="text" value="" id="longitudSegundosM" style="width: 30px;"/>''</li>
+							<li><input type="text" value="" id="longitudGradosM" style="width: 30px;" class="number_input"/>&deg</li>
+							<li><input type="text" value="" id="longitudMinutosM" style="width: 30px;" class="number_input"/>'</li>
+							<li><input type="text" value="" id="longitudSegundosM" style="width: 30px;" class="number_input"/>''</li>
 							<li><button type="button" id="cambioUbicacionM" style="width: 20px; height: 20px; padding-top: 0px; padding-left:4px;" title="Cambiar coordenadas PTx"><i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>
 </button></li>
 						</ul>
@@ -225,7 +229,7 @@
 						<ul>
 							<li style="width: 170px; text-align: left;" id="opcionesAvanzadasButton"><a href="#">Par&aacute;metros Avanzados</a></li>
 							<li style="padding-right:70px;"></li>
-							<li><button type="button" id="calculaPoligono" disabled="disabled">Calcular Zona [18 radiales]</button></li>
+							<li><button type="button" id="calculaPoligono" disabled="disabled">Calcular Zona [72 radiales]</button></li>
 						</ul>
 					</div>
 				</div>
@@ -300,24 +304,24 @@
 				<ul>
 					<li><label><b><u>8 Radiales</u></b></label></li>
 					<div id="separador"></div>
-					<li>&nbsp; &nbsp;  0°</li>
+					<li>&nbsp; &nbsp;  0&deg</li>
 					<li><input type="text" value="0" id="I8PL0" style="width: 40px" /></li>
-					<li>180°</li>
+					<li>180&deg</li>
 					<li><input type="text" value="0" id="I8PL180" style="width: 40px" /></li>
 					<div id="separador"></div>
-					<li>&nbsp; 45°</li>
+					<li>&nbsp; 45&deg</li>
 					<li><input type="text" value="0" id="I8PL45" style="width: 40px" /></li>
-					<li>225°</li>
+					<li>225&deg</li>
 					<li><input type="text" value="0" id="I8PL225" style="width: 40px" /></li>
 					<div id="separador"></div>
-					<li>&nbsp; 90°</li>
+					<li>&nbsp; 90&deg</li>
 					<li><input type="text" value="0" id="I8PL90" style="width: 40px" /></li>
-					<li>270°</li>
+					<li>270&deg</li>
 					<li><input type="text" value="0" id="I8PL270" style="width: 40px" /></li>
 					<div id="separador"></div>
-					<li>135°</li>
+					<li>135&deg</li>
 					<li><input type="text" value="0" id="I8PL135" style="width: 40px" /></li>
-					<li>315°</li>
+					<li>315&deg</li>
 					<li><input type="text" value="0" id="I8PL315" style="width: 40px" /></li>
 					<div id="separador"></div>
 					<li style="width: 163px; text-align: right; padding-top: 10px;">
@@ -331,46 +335,46 @@
 				<ul>
 					<li><label><b><u>18 Radiales [dB]</u></b></label></li>
 					<div id="separador"></div>
-					<li>&nbsp; &nbsp; 0°</li>
+					<li>&nbsp; &nbsp; 0&deg</li>
 					<li><input type="text" value="0" id="I18PL0" style="width: 40px" /></li>
-					<li>120°</li>
+					<li>120&deg</li>
 					<li><input type="text" value="0" id="I18PL120" style="width: 40px" /></li>
-					<li>240°</li>
+					<li>240&deg</li>
 					<li><input type="text" value="0" id="I18PL240" style="width: 40px" /></li>
 					<div id="separador"></div>
-					<li>&nbsp; 20°</li>
+					<li>&nbsp; 20&deg</li>
 					<li><input type="text" value="0" id="I18PL20" style="width: 40px" /></li>
-					<li>140°</li>
+					<li>140&deg</li>
 					<li><input type="text" value="0" id="I18PL140" style="width: 40px" /></li>
-					<li>260°</li>
+					<li>260&deg</li>
 					<li><input type="text" value="0" id="I18PL260" style="width: 40px" /></li>
 					<div id="separador"></div>
-					<li>&nbsp; 40°</li>
+					<li>&nbsp; 40&deg</li>
 					<li><input type="text" value="0" id="I18PL40" style="width: 40px" /></li>
-					<li>160°</li>
+					<li>160&deg</li>
 					<li><input type="text" value="0" id="I18PL160" style="width: 40px" /></li>
-					<li>280°</li>
+					<li>280&deg</li>
 					<li><input type="text" value="0" id="I18PL280" style="width: 40px" /></li>
 					<div id="separador"></div>
-					<li>&nbsp; 60°</li>
+					<li>&nbsp; 60&deg</li>
 					<li><input type="text" value="0" id="I18PL60" style="width: 40px" /></li>
-					<li>180°</li>
+					<li>180&deg</li>
 					<li><input type="text" value="0" id="I18PL180" style="width: 40px" /></li>
-					<li>300°</li>
+					<li>300&deg</li>
 					<li><input type="text" value="0" id="I18PL300" style="width: 40px" /></li>
 					<div id="separador"></div>
-					<li>&nbsp; 80°</li>
+					<li>&nbsp; 80&deg</li>
 					<li><input type="text" value="0" id="I18PL80" style="width: 40px" /></li>
-					<li>200°</li>
+					<li>200&deg</li>
 					<li><input type="text" value="0" id="I18PL200" style="width: 40px" /></li>
-					<li>320°</li>
+					<li>320&deg</li>
 					<li><input type="text" value="0" id="I18PL320" style="width: 40px" /></li>
 					<div id="separador"></div>
-					<li>100°</li>
+					<li>100&deg</li>
 					<li><input type="text" value="0" id="I18PL100" style="width: 40px" /></li>
-					<li>220°</li>
+					<li>220&deg</li>
 					<li><input type="text" value="0" id="I18PL220" style="width: 40px" /></li>
-					<li>340°</li>
+					<li>340&deg</li>
 					<li><input type="text" value="0" id="I18PL340" style="width: 40px" /></li>
 					<div id="separador"></div>
 					<li style="width: 250px; text-align: right; padding-top: 10px;">
@@ -384,160 +388,160 @@
 				<ul>
 					<li><label><b><u>72 Radiales [dB]</u></b></label></li>
 					<div id="separador"></div>
-					<li>&nbsp; &nbsp; 0°</li>
+					<li>&nbsp; &nbsp; 0&deg</li>
 					<li><input type="text" value="0" id="I72PL0" style="width: 40px"/></li>
-					<li>&nbsp; 60°</li>
+					<li>&nbsp; 60&deg</li>
 					<li><input type="text" value="0" id="I72PL60" style="width: 40px"/></li>
-					<li>120°</li>
+					<li>120&deg</li>
 					<li><input type="text" value="0" id="I72PL120" style="width: 40px"/></li>
-					<li>180°</li>
+					<li>180&deg</li>
 					<li><input type="text" value="0" id="I72PL180" style="width: 40px"/></li>
-					<li>240°</li>
+					<li>240&deg</li>
 					<li><input type="text" value="0" id="I72PL240" style="width: 40px"/></li>
-					<li>300°</li>
+					<li>300&deg</li>
 					<li><input type="text" value="0" id="I72PL300" style="width: 40px"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; &nbsp; 5°</li>
+					<li>&nbsp; &nbsp; 5&deg</li>
 					<li><input type="text" value="0" id="I72PL5" style="width: 40px"/></li>
-					<li>&nbsp; 65°</li>
+					<li>&nbsp; 65&deg</li>
 					<li><input type="text" value="0" id="I72PL65" style="width: 40px"/></li>
-					<li>125°</li>
+					<li>125&deg</li>
 					<li><input type="text" value="0" id="I72PL125" style="width: 40px"/></li>
-					<li>185°</li>
+					<li>185&deg</li>
 					<li><input type="text" value="0" id="I72PL185" style="width: 40px"/></li>
-					<li>245°</li>
+					<li>245&deg</li>
 					<li><input type="text" value="0" id="I72PL245" style="width: 40px"/></li>
-					<li>305°</li>
+					<li>305&deg</li>
 					<li><input type="text" value="0" id="I72PL305" style="width: 40px"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 10°</li>
+					<li>&nbsp; 10&deg</li>
 					<li><input type="text" value="0" id="I72PL10" style="width: 40px"/></li>
-					<li>&nbsp; 70°</li>
+					<li>&nbsp; 70&deg</li>
 					<li><input type="text" value="0" id="I72PL70" style="width: 40px"/></li>
-					<li>130°</li>
+					<li>130&deg</li>
 					<li><input type="text" value="0" id="I72PL130" style="width: 40px"/></li>
-					<li>190°</li>
+					<li>190&deg</li>
 					<li><input type="text" value="0" id="I72PL190" style="width: 40px"/></li>
-					<li>250°</li>
+					<li>250&deg</li>
 					<li><input type="text" value="0" id="I72PL250" style="width: 40px"/></li>
-					<li>310°</li>
+					<li>310&deg</li>
 					<li><input type="text" value="0" id="I72PL310" style="width: 40px"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 15°</li>
+					<li>&nbsp; 15&deg</li>
 					<li><input type="text" value="0" id="I72PL15" style="width: 40px"/></li>
-					<li>&nbsp; 75°</li>
+					<li>&nbsp; 75&deg</li>
 					<li><input type="text" value="0" id="I72PL75" style="width: 40px"/></li>
-					<li>135°</li>
+					<li>135&deg</li>
 					<li><input type="text" value="0" id="I72PL135" style="width: 40px"/></li>
-					<li>195°</li>
+					<li>195&deg</li>
 					<li><input type="text" value="0" id="I72PL195" style="width: 40px"/></li>
-					<li>255°</li>
+					<li>255&deg</li>
 					<li><input type="text" value="0" id="I72PL255" style="width: 40px"/></li>
-					<li>315°</li>
+					<li>315&deg</li>
 					<li><input type="text" value="0" id="I72PL315" style="width: 40px"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 20°</li>
+					<li>&nbsp; 20&deg</li>
 					<li><input type="text" value="0" id="I72PL20" style="width: 40px"/></li>
-					<li>&nbsp; 80°</li>
+					<li>&nbsp; 80&deg</li>
 					<li><input type="text" value="0" id="I72PL80" style="width: 40px"/></li>
-					<li>140°</li>
+					<li>140&deg</li>
 					<li><input type="text" value="0" id="I72PL140" style="width: 40px"/></li>
-					<li>200°</li>
+					<li>200&deg</li>
 					<li><input type="text" value="0" id="I72PL200" style="width: 40px"/></li>
-					<li>260°</li>
+					<li>260&deg</li>
 					<li><input type="text" value="0" id="I72PL260" style="width: 40px"/></li>
-					<li>320°</li>
+					<li>320&deg</li>
 					<li><input type="text" value="0" id="I72PL320" style="width: 40px"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 25°</li>
+					<li>&nbsp; 25&deg</li>
 					<li><input type="text" value="0" id="I72PL25" style="width: 40px"/></li>
-					<li>&nbsp; 85°</li>
+					<li>&nbsp; 85&deg</li>
 					<li><input type="text" value="0" id="I72PL85" style="width: 40px"/></li>
-					<li>145°</li>
+					<li>145&deg</li>
 					<li><input type="text" value="0" id="I72PL145" style="width: 40px"/></li>
-					<li>205°</li>
+					<li>205&deg</li>
 					<li><input type="text" value="0" id="I72PL205" style="width: 40px"/></li>
-					<li>265°</li>
+					<li>265&deg</li>
 					<li><input type="text" value="0" id="I72PL265" style="width: 40px"/></li>
-					<li>325°</li>
+					<li>325&deg</li>
 					<li><input type="text" value="0" id="I72PL325" style="width: 40px"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 30°</li>
+					<li>&nbsp; 30&deg</li>
 					<li><input type="text" value="0" id="I72PL30" style="width: 40px"/></li>
-					<li>&nbsp; 90°</li>
+					<li>&nbsp; 90&deg</li>
 					<li><input type="text" value="0" id="I72PL90" style="width: 40px"/></li>
-					<li>150°</li>
+					<li>150&deg</li>
 					<li><input type="text" value="0" id="I72PL150" style="width: 40px"/></li>
-					<li>210°</li>
+					<li>210&deg</li>
 					<li><input type="text" value="0" id="I72PL210" style="width: 40px"/></li>
-					<li>270°</li>
+					<li>270&deg</li>
 					<li><input type="text" value="0" id="I72PL270" style="width: 40px"/></li>
-					<li>330°</li>
+					<li>330&deg</li>
 					<li><input type="text" value="0" id="I72PL330" style="width: 40px"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 35°</li>
+					<li>&nbsp; 35&deg</li>
 					<li><input type="text" value="0" id="I72PL35" style="width: 40px"/></li>
-					<li>&nbsp; 95°</li>
+					<li>&nbsp; 95&deg</li>
 					<li><input type="text" value="0" id="I72PL95" style="width: 40px"/></li>
-					<li>155°</li>
+					<li>155&deg</li>
 					<li><input type="text" value="0" id="I72PL155" style="width: 40px"/></li>
-					<li>215°</li>
+					<li>215&deg</li>
 					<li><input type="text" value="0" id="I72PL215" style="width: 40px"/></li>
-					<li>275°</li>
+					<li>275&deg</li>
 					<li><input type="text" value="0" id="I72PL275" style="width: 40px"/></li>
-					<li>335°</li>
+					<li>335&deg</li>
 					<li><input type="text" value="0" id="I72PL335" style="width: 40px"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 40°</li>
+					<li>&nbsp; 40&deg</li>
 					<li><input type="text" value="0" id="I72PL40" style="width: 40px"/></li>
-					<li>100°</li>
+					<li>100&deg</li>
 					<li><input type="text" value="0" id="I72PL100" style="width: 40px"/></li>
-					<li>160°</li>
+					<li>160&deg</li>
 					<li><input type="text" value="0" id="I72PL160" style="width: 40px"/></li>
-					<li>220°</li>
+					<li>220&deg</li>
 					<li><input type="text" value="0" id="I72PL220" style="width: 40px"/></li>
-					<li>280°</li>
+					<li>280&deg</li>
 					<li><input type="text" value="0" id="I72PL280" style="width: 40px"/></li>
-					<li>340°</li>
+					<li>340&deg</li>
 					<li><input type="text" value="0" id="I72PL340" style="width: 40px"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 45°</li>
+					<li>&nbsp; 45&deg</li>
 					<li><input type="text" value="0" id="I72PL45" style="width: 40px"/></li>
-					<li>105°</li>
+					<li>105&deg</li>
 					<li><input type="text" value="0" id="I72PL105" style="width: 40px"/></li>
-					<li>165°</li>
+					<li>165&deg</li>
 					<li><input type="text" value="0" id="I72PL165" style="width: 40px"/></li>
-					<li>225°</li>
+					<li>225&deg</li>
 					<li><input type="text" value="0" id="I72PL225" style="width: 40px"/></li>
-					<li>285°</li>
+					<li>285&deg</li>
 					<li><input type="text" value="0" id="I72PL285" style="width: 40px"/></li>
-					<li>345°</li>
+					<li>345&deg</li>
 					<li><input type="text" value="0" id="I72PL345" style="width: 40px"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 50°</li>
+					<li>&nbsp; 50&deg</li>
 					<li><input type="text" value="0" id="I72PL50" style="width: 40px"/></li>
-					<li>110°</li>
+					<li>110&deg</li>
 					<li><input type="text" value="0" id="I72PL110" style="width: 40px"/></li>
-					<li>170°</li>
+					<li>170&deg</li>
 					<li><input type="text" value="0" id="I72PL170" style="width: 40px"/></li>
-					<li>230°</li>
+					<li>230&deg</li>
 					<li><input type="text" value="0" id="I72PL230" style="width: 40px"/></li>
-					<li>290°</li>
+					<li>290&deg</li>
 					<li><input type="text" value="0" id="I72PL290" style="width: 40px"/></li>
-					<li>350°</li>
+					<li>350&deg</li>
 					<li><input type="text" value="0" id="I72PL350" style="width: 40px"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 55°</li>
+					<li>&nbsp; 55&deg</li>
 					<li><input type="text" value="0" id="I72PL55" style="width: 40px"/></li>
-					<li>115°</li>
+					<li>115&deg</li>
 					<li><input type="text" value="0" id="I72PL115" style="width: 40px"/></li>
-					<li>175°</li>
+					<li>175&deg</li>
 					<li><input type="text" value="0" id="I72PL175" style="width: 40px"/></li>
-					<li>235°</li>
+					<li>235&deg</li>
 					<li><input type="text" value="0" id="I72PL235" style="width: 40px"/></li>
-					<li>295°</li>
+					<li>295&deg</li>
 					<li><input type="text" value="0" id="I72PL295" style="width: 40px"/></li>
-					<li>355°</li>
+					<li>355&deg</li>
 					<li><input type="text" value="0" id="I72PL355" style="width: 40px"/></li>
 					<div id="separador"></div>
 					<li style="width: 480px; text-align: right; padding-top: 10px;">
@@ -551,46 +555,46 @@
 				<ul>
 					<li><label><b><u>Distancia M&aacute;xima en Kilometros</u></b></label></li>
 					<div id="separador"></div>
-					<li>&nbsp; &nbsp; 0°</li>
+					<li>&nbsp; &nbsp; 0&deg</li>
 					<li><input type="text" value="0" id="I18RA0" style="width: 40px" disabled="disabled" /></li>
-					<li>120°</li>
+					<li>120&deg</li>
 					<li><input type="text" value="0" id="I18RA20" style="width: 40px" disabled="disabled" /></li>
-					<li>240°</li>
+					<li>240&deg</li>
 					<li><input type="text" value="0" id="I18RA240" style="width: 40px" disabled="disabled" /></li>
 					<div id="separador"></div>
-					<li>&nbsp; 20°</li>
+					<li>&nbsp; 20&deg</li>
 					<li><input type="text" value="0" id="I18RA20" style="width: 40px" disabled="disabled" /></li>
-					<li>140°</li>
+					<li>140&deg</li>
 					<li><input type="text" value="0" id="I18RA140" style="width: 40px" disabled="disabled" /></li>
-					<li>260°</li>
+					<li>260&deg</li>
 					<li><input type="text" value="0" id="I18RA260" style="width: 40px" disabled="disabled" /></li>
 					<div id="separador"></div>
-					<li>&nbsp; 40°</li>
+					<li>&nbsp; 40&deg</li>
 					<li><input type="text" value="0" id="I18RA40" style="width: 40px" disabled="disabled" /></li>
-					<li>160°</li>
+					<li>160&deg</li>
 					<li><input type="text" value="0" id="I18RA160" style="width: 40px" disabled="disabled" /></li>
-					<li>280°</li>
+					<li>280&deg</li>
 					<li><input type="text" value="0" id="I18RA280" style="width: 40px" disabled="disabled" /></li>
 					<div id="separador"></div>
-					<li>&nbsp; 60°</li>
+					<li>&nbsp; 60&deg</li>
 					<li><input type="text" value="0" id="I18RA60" style="width: 40px" disabled="disabled" /></li>
-					<li>180°</li>
+					<li>180&deg</li>
 					<li><input type="text" value="0" id="I18RA180" style="width: 40px" disabled="disabled" /></li>
-					<li>300°</li>
+					<li>300&deg</li>
 					<li><input type="text" value="0" id="I18RA300" style="width: 40px" disabled="disabled" /></li>
 					<div id="separador"></div>
-					<li>&nbsp; 80°</li>
+					<li>&nbsp; 80&deg</li>
 					<li><input type="text" value="0" id="I18RA80" style="width: 40px" disabled="disabled" /></li>
-					<li>200°</li>
+					<li>200&deg</li>
 					<li><input type="text" value="0" id="I18RA200" style="width: 40px" disabled="disabled" /></li>
-					<li>320°</li>
+					<li>320&deg</li>
 					<li><input type="text" value="0" id="I18RA320" style="width: 40px" disabled="disabled" /></li>
 					<div id="separador"></div>
-					<li>100°</li>
+					<li>100&deg</li>
 					<li><input type="text" value="0" id="I18RA100" style="width: 40px" disabled="disabled" /></li>
-					<li>220°</li>
+					<li>220&deg</li>
 					<li><input type="text" value="0" id="I18RA220" style="width: 40px" disabled="disabled" /></li>
-					<li>340°</li>
+					<li>340&deg</li>
 					<li><input type="text" value="0" id="I18RA340" style="width: 40px" disabled="disabled" /></li>
 				</ul>
 			</div>
@@ -599,160 +603,160 @@
 				<ul>
 					<li><label><b><u>Distancia en Kilometros</u></b></label></li>
 					<div id="separador"></div>
-					<li>&nbsp; &nbsp; 0°</li>
+					<li>&nbsp; &nbsp; 0&deg</li>
 					<li><input type="text" value="0" id="I72RA0" style="width: 40px" disabled="disabled"/></li>
-					<li>&nbsp; 60°</li>
+					<li>&nbsp; 60&deg</li>
 					<li><input type="text" value="0" id="I72RA60" style="width: 40px" disabled="disabled"/></li>
-					<li>120°</li>
+					<li>120&deg</li>
 					<li><input type="text" value="0" id="I72RA120" style="width: 40px" disabled="disabled"/></li>
-					<li>180°</li>
+					<li>180&deg</li>
 					<li><input type="text" value="0" id="I72RA180" style="width: 40px" disabled="disabled"/></li>
-					<li>240°</li>
+					<li>240&deg</li>
 					<li><input type="text" value="0" id="I72RA240" style="width: 40px" disabled="disabled"/></li>
-					<li>300°</li>
+					<li>300&deg</li>
 					<li><input type="text" value="0" id="I72RA300" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; &nbsp; 5°</li>
+					<li>&nbsp; &nbsp; 5&deg</li>
 					<li><input type="text" value="0" id="I72RA5" style="width: 40px" disabled="disabled"/></li>
-					<li>&nbsp; 65°</li>
+					<li>&nbsp; 65&deg</li>
 					<li><input type="text" value="0" id="I72RA65" style="width: 40px" disabled="disabled"/></li>
-					<li>125°</li>
+					<li>125&deg</li>
 					<li><input type="text" value="0" id="I72RA125" style="width: 40px" disabled="disabled"/></li>
-					<li>185°</li>
+					<li>185&deg</li>
 					<li><input type="text" value="0" id="I72RA185" style="width: 40px" disabled="disabled"/></li>
-					<li>245°</li>
+					<li>245&deg</li>
 					<li><input type="text" value="0" id="I72RA245" style="width: 40px" disabled="disabled"/></li>
-					<li>305°</li>
+					<li>305&deg</li>
 					<li><input type="text" value="0" id="I72RA305" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 10°</li>
+					<li>&nbsp; 10&deg</li>
 					<li><input type="text" value="0" id="I72RA10" style="width: 40px" disabled="disabled"/></li>
-					<li>&nbsp; 70°</li>
+					<li>&nbsp; 70&deg</li>
 					<li><input type="text" value="0" id="I72RA70" style="width: 40px" disabled="disabled"/></li>
-					<li>130°</li>
+					<li>130&deg</li>
 					<li><input type="text" value="0" id="I72RA130" style="width: 40px" disabled="disabled"/></li>
-					<li>190°</li>
+					<li>190&deg</li>
 					<li><input type="text" value="0" id="I72RA190" style="width: 40px" disabled="disabled"/></li>
-					<li>250°</li>
+					<li>250&deg</li>
 					<li><input type="text" value="0" id="I72RA250" style="width: 40px" disabled="disabled"/></li>
-					<li>310°</li>
+					<li>310&deg</li>
 					<li><input type="text" value="0" id="I72RA310" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 15°</li>
+					<li>&nbsp; 15&deg</li>
 					<li><input type="text" value="0" id="I72RA15" style="width: 40px" disabled="disabled"/></li>
-					<li>&nbsp; 75°</li>
+					<li>&nbsp; 75&deg</li>
 					<li><input type="text" value="0" id="I72RA75" style="width: 40px" disabled="disabled"/></li>
-					<li>135°</li>
+					<li>135&deg</li>
 					<li><input type="text" value="0" id="I72RA135" style="width: 40px" disabled="disabled"/></li>
-					<li>195°</li>
+					<li>195&deg</li>
 					<li><input type="text" value="0" id="I72RA195" style="width: 40px" disabled="disabled"/></li>
-					<li>255°</li>
+					<li>255&deg</li>
 					<li><input type="text" value="0" id="I72RA255" style="width: 40px" disabled="disabled"/></li>
-					<li>315°</li>
+					<li>315&deg</li>
 					<li><input type="text" value="0" id="I72RA315" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 20°</li>
+					<li>&nbsp; 20&deg</li>
 					<li><input type="text" value="0" id="I72RA20" style="width: 40px" disabled="disabled"/></li>
-					<li>&nbsp; 80°</li>
+					<li>&nbsp; 80&deg</li>
 					<li><input type="text" value="0" id="I72RA80" style="width: 40px" disabled="disabled"/></li>
-					<li>140°</li>
+					<li>140&deg</li>
 					<li><input type="text" value="0" id="I72RA140" style="width: 40px" disabled="disabled"/></li>
-					<li>200°</li>
+					<li>200&deg</li>
 					<li><input type="text" value="0" id="I72RA200" style="width: 40px" disabled="disabled"/></li>
-					<li>260°</li>
+					<li>260&deg</li>
 					<li><input type="text" value="0" id="I72RA260" style="width: 40px" disabled="disabled"/></li>
-					<li>320°</li>
+					<li>320&deg</li>
 					<li><input type="text" value="0" id="I72RA320" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 25°</li>
+					<li>&nbsp; 25&deg</li>
 					<li><input type="text" value="0" id="I72RA25" style="width: 40px" disabled="disabled"/></li>
-					<li>&nbsp; 85°</li>
+					<li>&nbsp; 85&deg</li>
 					<li><input type="text" value="0" id="I72RA85" style="width: 40px" disabled="disabled"/></li>
-					<li>145°</li>
+					<li>145&deg</li>
 					<li><input type="text" value="0" id="I72RA145" style="width: 40px" disabled="disabled"/></li>
-					<li>205°</li>
+					<li>205&deg</li>
 					<li><input type="text" value="0" id="I72RA205" style="width: 40px" disabled="disabled"/></li>
-					<li>265°</li>
+					<li>265&deg</li>
 					<li><input type="text" value="0" id="I72RA265" style="width: 40px" disabled="disabled"/></li>
-					<li>325°</li>
+					<li>325&deg</li>
 					<li><input type="text" value="0" id="I72RA325" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 30°</li>
+					<li>&nbsp; 30&deg</li>
 					<li><input type="text" value="0" id="I72RA30" style="width: 40px" disabled="disabled"/></li>
-					<li>&nbsp; 90°</li>
+					<li>&nbsp; 90&deg</li>
 					<li><input type="text" value="0" id="I72RA90" style="width: 40px" disabled="disabled"/></li>
-					<li>150°</li>
+					<li>150&deg</li>
 					<li><input type="text" value="0" id="I72RA150" style="width: 40px" disabled="disabled"/></li>
-					<li>210°</li>
+					<li>210&deg</li>
 					<li><input type="text" value="0" id="I72RA210" style="width: 40px" disabled="disabled"/></li>
-					<li>270°</li>
+					<li>270&deg</li>
 					<li><input type="text" value="0" id="I72RA270" style="width: 40px" disabled="disabled"/></li>
-					<li>330°</li>
+					<li>330&deg</li>
 					<li><input type="text" value="0" id="I72RA330" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 35°</li>
+					<li>&nbsp; 35&deg</li>
 					<li><input type="text" value="0" id="I72RA35" style="width: 40px" disabled="disabled"/></li>
-					<li>&nbsp; 95°</li>
+					<li>&nbsp; 95&deg</li>
 					<li><input type="text" value="0" id="I72RA95" style="width: 40px" disabled="disabled"/></li>
-					<li>155°</li>
+					<li>155&deg</li>
 					<li><input type="text" value="0" id="I72RA155" style="width: 40px" disabled="disabled"/></li>
-					<li>215°</li>
+					<li>215&deg</li>
 					<li><input type="text" value="0" id="I72RA215" style="width: 40px" disabled="disabled"/></li>
-					<li>275°</li>
+					<li>275&deg</li>
 					<li><input type="text" value="0" id="I72RA275" style="width: 40px" disabled="disabled"/></li>
-					<li>335°</li>
+					<li>335&deg</li>
 					<li><input type="text" value="0" id="I72RA335" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 40°</li>
+					<li>&nbsp; 40&deg</li>
 					<li><input type="text" value="0" id="I72RA40" style="width: 40px" disabled="disabled"/></li>
-					<li>100°</li>
+					<li>100&deg</li>
 					<li><input type="text" value="0" id="I72RA100" style="width: 40px" disabled="disabled"/></li>
-					<li>160°</li>
+					<li>160&deg</li>
 					<li><input type="text" value="0" id="I72RA160" style="width: 40px" disabled="disabled"/></li>
-					<li>220°</li>
+					<li>220&deg</li>
 					<li><input type="text" value="0" id="I72RA220" style="width: 40px" disabled="disabled"/></li>
-					<li>280°</li>
+					<li>280&deg</li>
 					<li><input type="text" value="0" id="I72RA280" style="width: 40px" disabled="disabled"/></li>
-					<li>340°</li>
+					<li>340&deg</li>
 					<li><input type="text" value="0" id="I72RA340" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 45°</li>
+					<li>&nbsp; 45&deg</li>
 					<li><input type="text" value="0" id="I72RA45" style="width: 40px" disabled="disabled"/></li>
-					<li>105°</li>
+					<li>105&deg</li>
 					<li><input type="text" value="0" id="I72RA105" style="width: 40px" disabled="disabled"/></li>
-					<li>165°</li>
+					<li>165&deg</li>
 					<li><input type="text" value="0" id="I72RA165" style="width: 40px" disabled="disabled"/></li>
-					<li>225°</li>
+					<li>225&deg</li>
 					<li><input type="text" value="0" id="I72RA225" style="width: 40px" disabled="disabled"/></li>
-					<li>285°</li>
+					<li>285&deg</li>
 					<li><input type="text" value="0" id="I72RA285" style="width: 40px" disabled="disabled"/></li>
-					<li>345°</li>
+					<li>345&deg</li>
 					<li><input type="text" value="0" id="I72RA345" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 50°</li>
+					<li>&nbsp; 50&deg</li>
 					<li><input type="text" value="0" id="I72RA50" style="width: 40px" disabled="disabled"/></li>
-					<li>110°</li>
+					<li>110&deg</li>
 					<li><input type="text" value="0" id="I72RA110" style="width: 40px" disabled="disabled"/></li>
-					<li>170°</li>
+					<li>170&deg</li>
 					<li><input type="text" value="0" id="I72RA170" style="width: 40px" disabled="disabled"/></li>
-					<li>230°</li>
+					<li>230&deg</li>
 					<li><input type="text" value="0" id="I72RA230" style="width: 40px" disabled="disabled"/></li>
-					<li>290°</li>
+					<li>290&deg</li>
 					<li><input type="text" value="0" id="I72RA290" style="width: 40px" disabled="disabled"/></li>
-					<li>350°</li>
+					<li>350&deg</li>
 					<li><input type="text" value="0" id="I72RA350" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 55°</li>
+					<li>&nbsp; 55&deg</li>
 					<li><input type="text" value="0" id="I72RA55" style="width: 40px" disabled="disabled"/></li>
-					<li>115°</li>
+					<li>115&deg</li>
 					<li><input type="text" value="0" id="I72RA115" style="width: 40px" disabled="disabled"/></li>
-					<li>175°</li>
+					<li>175&deg</li>
 					<li><input type="text" value="0" id="I72RA175" style="width: 40px" disabled="disabled"/></li>
-					<li>235°</li>
+					<li>235&deg</li>
 					<li><input type="text" value="0" id="I72RA235" style="width: 40px" disabled="disabled"/></li>
-					<li>295°</li>
+					<li>295&deg</li>
 					<li><input type="text" value="0" id="I72RA295" style="width: 40px" disabled="disabled"/></li>
-					<li>355°</li>
+					<li>355&deg</li>
 					<li><input type="text" value="0" id="I72RA355" style="width: 40px" disabled="disabled"/></li>
 				</ul>
 			</div>
@@ -761,24 +765,24 @@
 				<ul>
 					<li><label><b><u>Distancia en Kilometros</u></b></label></li>
 					<div id="separador"></div>
-					<li>&nbsp; &nbsp;  0°</li>
+					<li>&nbsp; &nbsp;  0&deg</li>
 					<li><input type="text" value="0" id="I8DK0" style="width: 40px" disabled="disabled" /></li>
-					<li>180°</li>
+					<li>180&deg</li>
 					<li><input type="text" value="0" id="I8DK180" style="width: 40px" disabled="disabled" /></li>
 					<div id="separador"></div>
-					<li>&nbsp; 45°</li>
+					<li>&nbsp; 45&deg</li>
 					<li><input type="text" value="0" id="I8DK45" style="width: 40px" disabled="disabled" /></li>
-					<li>225°</li>
+					<li>225&deg</li>
 					<li><input type="text" value="0" id="I8DK225" style="width: 40px" disabled="disabled" /></li>
 					<div id="separador"></div>
-					<li>&nbsp; 90°</li>
+					<li>&nbsp; 90&deg</li>
 					<li><input type="text" value="0" id="I8DK90" style="width: 40px" disabled="disabled" /></li>
-					<li>270°</li>
+					<li>270&deg</li>
 					<li><input type="text" value="0" id="I8DK270" style="width: 40px" disabled="disabled" /></li>
 					<div id="separador"></div>
-					<li>135°</li>
+					<li>135&deg</li>
 					<li><input type="text" value="0" id="I8DK135" style="width: 40px" disabled="disabled" /></li>
-					<li>315°</li>
+					<li>315&deg</li>
 					<li><input type="text" value="0" id="I8DK315" style="width: 40px" disabled="disabled" /></li>
 				</ul>
 			</div>
@@ -787,46 +791,46 @@
 				<ul>
 					<li><label><b><u>Distancia en Kilometros</u></b></label></li>
 					<div id="separador"></div>
-					<li>&nbsp; &nbsp; 0°</li>
+					<li>&nbsp; &nbsp; 0&deg</li>
 					<li><input type="text" value="0" id="I18DK0" style="width: 40px" disabled="disabled" /></li>
-					<li>120°</li>
+					<li>120&deg</li>
 					<li><input type="text" value="0" id="I18DK120" style="width: 40px" disabled="disabled" /></li>
-					<li>240°</li>
+					<li>240&deg</li>
 					<li><input type="text" value="0" id="I18DK240" style="width: 40px" disabled="disabled" /></li>
 					<div id="separador"></div>
-					<li>&nbsp; 20°</li>
+					<li>&nbsp; 20&deg</li>
 					<li><input type="text" value="0" id="I18DK20" style="width: 40px" disabled="disabled" /></li>
-					<li>140°</li>
+					<li>140&deg</li>
 					<li><input type="text" value="0" id="I18DK140" style="width: 40px" disabled="disabled" /></li>
-					<li>260°</li>
+					<li>260&deg</li>
 					<li><input type="text" value="0" id="I18DK260" style="width: 40px" disabled="disabled" /></li>
 					<div id="separador"></div>
-					<li>&nbsp; 40°</li>
+					<li>&nbsp; 40&deg</li>
 					<li><input type="text" value="0" id="I18DK40" style="width: 40px" disabled="disabled" /></li>
-					<li>160°</li>
+					<li>160&deg</li>
 					<li><input type="text" value="0" id="I18DK160" style="width: 40px" disabled="disabled" /></li>
-					<li>280°</li>
+					<li>280&deg</li>
 					<li><input type="text" value="0" id="I18DK280" style="width: 40px" disabled="disabled" /></li>
 					<div id="separador"></div>
-					<li>&nbsp; 60°</li>
+					<li>&nbsp; 60&deg</li>
 					<li><input type="text" value="0" id="I18DK60" style="width: 40px" disabled="disabled" /></li>
-					<li>180°</li>
+					<li>180&deg</li>
 					<li><input type="text" value="0" id="I18DK180" style="width: 40px" disabled="disabled" /></li>
-					<li>300°</li>
+					<li>300&deg</li>
 					<li><input type="text" value="0" id="I18DK300" style="width: 40px" disabled="disabled" /></li>
 					<div id="separador"></div>
-					<li>&nbsp; 80°</li>
+					<li>&nbsp; 80&deg</li>
 					<li><input type="text" value="0" id="I18DK80" style="width: 40px" disabled="disabled" /></li>
-					<li>200°</li>
+					<li>200&deg</li>
 					<li><input type="text" value="0" id="I18DK200" style="width: 40px" disabled="disabled" /></li>
-					<li>320°</li>
+					<li>320&deg</li>
 					<li><input type="text" value="0" id="I18DK320" style="width: 40px" disabled="disabled" /></li>
 					<div id="separador"></div>
-					<li>100°</li>
+					<li>100&deg</li>
 					<li><input type="text" value="0" id="I18DK100" style="width: 40px" disabled="disabled" /></li>
-					<li>220°</li>
+					<li>220&deg</li>
 					<li><input type="text" value="0" id="I18DK220" style="width: 40px" disabled="disabled" /></li>
-					<li>340°</li>
+					<li>340&deg</li>
 					<li><input type="text" value="0" id="I18DK340" style="width: 40px" disabled="disabled" /></li>
 				</ul>
 			</div>
@@ -835,160 +839,160 @@
 				<ul>
 					<li><label><b><u>Distancia en Kilometros</u></b></label></li>
 					<div id="separador"></div>
-					<li>&nbsp; &nbsp; 0°</li>
+					<li>&nbsp; &nbsp; 0&deg</li>
 					<li><input type="text" value="0" id="I72DK0" style="width: 40px" disabled="disabled"/></li>
-					<li>&nbsp; 60°</li>
+					<li>&nbsp; 60&deg</li>
 					<li><input type="text" value="0" id="I72DK60" style="width: 40px" disabled="disabled"/></li>
-					<li>120°</li>
+					<li>120&deg</li>
 					<li><input type="text" value="0" id="I72DK120" style="width: 40px" disabled="disabled"/></li>
-					<li>180°</li>
+					<li>180&deg</li>
 					<li><input type="text" value="0" id="I72DK180" style="width: 40px" disabled="disabled"/></li>
-					<li>240°</li>
+					<li>240&deg</li>
 					<li><input type="text" value="0" id="I72DK240" style="width: 40px" disabled="disabled"/></li>
-					<li>300°</li>
+					<li>300&deg</li>
 					<li><input type="text" value="0" id="I72DK300" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; &nbsp; 5°</li>
+					<li>&nbsp; &nbsp; 5&deg</li>
 					<li><input type="text" value="0" id="I72DK5" style="width: 40px" disabled="disabled"/></li>
-					<li>&nbsp; 65°</li>
+					<li>&nbsp; 65&deg</li>
 					<li><input type="text" value="0" id="I72DK65" style="width: 40px" disabled="disabled"/></li>
-					<li>125°</li>
+					<li>125&deg</li>
 					<li><input type="text" value="0" id="I72DK125" style="width: 40px" disabled="disabled"/></li>
-					<li>185°</li>
+					<li>185&deg</li>
 					<li><input type="text" value="0" id="I72DK185" style="width: 40px" disabled="disabled"/></li>
-					<li>245°</li>
+					<li>245&deg</li>
 					<li><input type="text" value="0" id="I72DK245" style="width: 40px" disabled="disabled"/></li>
-					<li>305°</li>
+					<li>305&deg</li>
 					<li><input type="text" value="0" id="I72DK305" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 10°</li>
+					<li>&nbsp; 10&deg</li>
 					<li><input type="text" value="0" id="I72DK10" style="width: 40px" disabled="disabled"/></li>
-					<li>&nbsp; 70°</li>
+					<li>&nbsp; 70&deg</li>
 					<li><input type="text" value="0" id="I72DK70" style="width: 40px" disabled="disabled"/></li>
-					<li>130°</li>
+					<li>130&deg</li>
 					<li><input type="text" value="0" id="I72DK130" style="width: 40px" disabled="disabled"/></li>
-					<li>190°</li>
+					<li>190&deg</li>
 					<li><input type="text" value="0" id="I72DK190" style="width: 40px" disabled="disabled"/></li>
-					<li>250°</li>
+					<li>250&deg</li>
 					<li><input type="text" value="0" id="I72DK250" style="width: 40px" disabled="disabled"/></li>
-					<li>310°</li>
+					<li>310&deg</li>
 					<li><input type="text" value="0" id="I72DK310" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 15°</li>
+					<li>&nbsp; 15&deg</li>
 					<li><input type="text" value="0" id="I72DK15" style="width: 40px" disabled="disabled"/></li>
-					<li>&nbsp; 75°</li>
+					<li>&nbsp; 75&deg</li>
 					<li><input type="text" value="0" id="I72DK75" style="width: 40px" disabled="disabled"/></li>
-					<li>135°</li>
+					<li>135&deg</li>
 					<li><input type="text" value="0" id="I72DK135" style="width: 40px" disabled="disabled"/></li>
-					<li>195°</li>
+					<li>195&deg</li>
 					<li><input type="text" value="0" id="I72DK195" style="width: 40px" disabled="disabled"/></li>
-					<li>255°</li>
+					<li>255&deg</li>
 					<li><input type="text" value="0" id="I72DK255" style="width: 40px" disabled="disabled"/></li>
-					<li>315°</li>
+					<li>315&deg</li>
 					<li><input type="text" value="0" id="I72DK315" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 20°</li>
+					<li>&nbsp; 20&deg</li>
 					<li><input type="text" value="0" id="I72DK20" style="width: 40px" disabled="disabled"/></li>
-					<li>&nbsp; 80°</li>
+					<li>&nbsp; 80&deg</li>
 					<li><input type="text" value="0" id="I72DK80" style="width: 40px" disabled="disabled"/></li>
-					<li>140°</li>
+					<li>140&deg</li>
 					<li><input type="text" value="0" id="I72DK140" style="width: 40px" disabled="disabled"/></li>
-					<li>200°</li>
+					<li>200&deg</li>
 					<li><input type="text" value="0" id="I72DK200" style="width: 40px" disabled="disabled"/></li>
-					<li>260°</li>
+					<li>260&deg</li>
 					<li><input type="text" value="0" id="I72DK260" style="width: 40px" disabled="disabled"/></li>
-					<li>320°</li>
+					<li>320&deg</li>
 					<li><input type="text" value="0" id="I72DK320" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 25°</li>
+					<li>&nbsp; 25&deg</li>
 					<li><input type="text" value="0" id="I72DK25" style="width: 40px" disabled="disabled"/></li>
-					<li>&nbsp; 85°</li>
+					<li>&nbsp; 85&deg</li>
 					<li><input type="text" value="0" id="I72DK85" style="width: 40px" disabled="disabled"/></li>
-					<li>145°</li>
+					<li>145&deg</li>
 					<li><input type="text" value="0" id="I72DK145" style="width: 40px" disabled="disabled"/></li>
-					<li>205°</li>
+					<li>205&deg</li>
 					<li><input type="text" value="0" id="I72DK205" style="width: 40px" disabled="disabled"/></li>
-					<li>265°</li>
+					<li>265&deg</li>
 					<li><input type="text" value="0" id="I72DK265" style="width: 40px" disabled="disabled"/></li>
-					<li>325°</li>
+					<li>325&deg</li>
 					<li><input type="text" value="0" id="I72DK325" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 30°</li>
+					<li>&nbsp; 30&deg</li>
 					<li><input type="text" value="0" id="I72DK30" style="width: 40px" disabled="disabled"/></li>
-					<li>&nbsp; 90°</li>
+					<li>&nbsp; 90&deg</li>
 					<li><input type="text" value="0" id="I72DK90" style="width: 40px" disabled="disabled"/></li>
-					<li>150°</li>
+					<li>150&deg</li>
 					<li><input type="text" value="0" id="I72DK150" style="width: 40px" disabled="disabled"/></li>
-					<li>210°</li>
+					<li>210&deg</li>
 					<li><input type="text" value="0" id="I72DK210" style="width: 40px" disabled="disabled"/></li>
-					<li>270°</li>
+					<li>270&deg</li>
 					<li><input type="text" value="0" id="I72DK270" style="width: 40px" disabled="disabled"/></li>
-					<li>330°</li>
+					<li>330&deg</li>
 					<li><input type="text" value="0" id="I72DK330" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 35°</li>
+					<li>&nbsp; 35&deg</li>
 					<li><input type="text" value="0" id="I72DK35" style="width: 40px" disabled="disabled"/></li>
-					<li>&nbsp; 95°</li>
+					<li>&nbsp; 95&deg</li>
 					<li><input type="text" value="0" id="I72DK95" style="width: 40px" disabled="disabled"/></li>
-					<li>155°</li>
+					<li>155&deg</li>
 					<li><input type="text" value="0" id="I72DK155" style="width: 40px" disabled="disabled"/></li>
-					<li>215°</li>
+					<li>215&deg</li>
 					<li><input type="text" value="0" id="I72DK215" style="width: 40px" disabled="disabled"/></li>
-					<li>275°</li>
+					<li>275&deg</li>
 					<li><input type="text" value="0" id="I72DK275" style="width: 40px" disabled="disabled"/></li>
-					<li>335°</li>
+					<li>335&deg</li>
 					<li><input type="text" value="0" id="I72DK335" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 40°</li>
+					<li>&nbsp; 40&deg</li>
 					<li><input type="text" value="0" id="I72DK40" style="width: 40px" disabled="disabled"/></li>
-					<li>100°</li>
+					<li>100&deg</li>
 					<li><input type="text" value="0" id="I72DK100" style="width: 40px" disabled="disabled"/></li>
-					<li>160°</li>
+					<li>160&deg</li>
 					<li><input type="text" value="0" id="I72DK160" style="width: 40px" disabled="disabled"/></li>
-					<li>220°</li>
+					<li>220&deg</li>
 					<li><input type="text" value="0" id="I72DK220" style="width: 40px" disabled="disabled"/></li>
-					<li>280°</li>
+					<li>280&deg</li>
 					<li><input type="text" value="0" id="I72DK280" style="width: 40px" disabled="disabled"/></li>
-					<li>340°</li>
+					<li>340&deg</li>
 					<li><input type="text" value="0" id="I72DK340" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 45°</li>
+					<li>&nbsp; 45&deg</li>
 					<li><input type="text" value="0" id="I72DK45" style="width: 40px" disabled="disabled"/></li>
-					<li>105°</li>
+					<li>105&deg</li>
 					<li><input type="text" value="0" id="I72DK105" style="width: 40px" disabled="disabled"/></li>
-					<li>165°</li>
+					<li>165&deg</li>
 					<li><input type="text" value="0" id="I72DK165" style="width: 40px" disabled="disabled"/></li>
-					<li>225°</li>
+					<li>225&deg</li>
 					<li><input type="text" value="0" id="I72DK225" style="width: 40px" disabled="disabled"/></li>
-					<li>285°</li>
+					<li>285&deg</li>
 					<li><input type="text" value="0" id="I72DK285" style="width: 40px" disabled="disabled"/></li>
-					<li>345°</li>
+					<li>345&deg</li>
 					<li><input type="text" value="0" id="I72DK345" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 50°</li>
+					<li>&nbsp; 50&deg</li>
 					<li><input type="text" value="0" id="I72DK50" style="width: 40px" disabled="disabled"/></li>
-					<li>110°</li>
+					<li>110&deg</li>
 					<li><input type="text" value="0" id="I72DK110" style="width: 40px" disabled="disabled"/></li>
-					<li>170°</li>
+					<li>170&deg</li>
 					<li><input type="text" value="0" id="I72DK170" style="width: 40px" disabled="disabled"/></li>
-					<li>230°</li>
+					<li>230&deg</li>
 					<li><input type="text" value="0" id="I72DK230" style="width: 40px" disabled="disabled"/></li>
-					<li>290°</li>
+					<li>290&deg</li>
 					<li><input type="text" value="0" id="I72DK290" style="width: 40px" disabled="disabled"/></li>
-					<li>350°</li>
+					<li>350&deg</li>
 					<li><input type="text" value="0" id="I72DK350" style="width: 40px" disabled="disabled"/></li>
 					<div id="separador"></div>
-					<li>&nbsp; 55°</li>
+					<li>&nbsp; 55&deg</li>
 					<li><input type="text" value="0" id="I72DK55" style="width: 40px" disabled="disabled"/></li>
-					<li>115°</li>
+					<li>115&deg</li>
 					<li><input type="text" value="0" id="I72DK115" style="width: 40px" disabled="disabled"/></li>
-					<li>175°</li>
+					<li>175&deg</li>
 					<li><input type="text" value="0" id="I72DK175" style="width: 40px" disabled="disabled"/></li>
-					<li>235°</li>
+					<li>235&deg</li>
 					<li><input type="text" value="0" id="I72DK235" style="width: 40px" disabled="disabled"/></li>
-					<li>295°</li>
+					<li>295&deg</li>
 					<li><input type="text" value="0" id="I72DK295" style="width: 40px" disabled="disabled"/></li>
-					<li>355°</li>
+					<li>355&deg</li>
 					<li><input type="text" value="0" id="I72DK355" style="width: 40px" disabled="disabled"/></li>
 				</ul>
 			</div>

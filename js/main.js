@@ -973,12 +973,22 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 	$('#pdfForm').on('click', function() {
 		if(is_form_modal_first_openend){
-			$("#openModal").load("form_pdf.html", function(){
+			$("#openModal").load("form_pdf.jsp", function(){
 				showDatosGenerales(concursoModificacion);
 			});
 			is_form_modal_first_openend = false;
 		}
 
 		$('#openModal').show();
+	});
+
+	$(".number_input" ).keypress(function(evt) {
+	    var code = evt.which;
+
+	    if((code > 47 && code < 58) || code == 0 || code == 8) {
+	        return true
+	    } else {
+	        evt.preventDefault();
+	    }
 	});
 });
