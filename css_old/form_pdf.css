@@ -1,0 +1,112 @@
+.buttons {
+    float: right;
+    padding-top: 5px;
+}
+
+.buttons button {
+    font-size: 11px;
+}
+
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: white;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    float: left;
+    border: none;
+    cursor: pointer;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    font-size: 11px;
+    font-family: Arial;
+    background-color: #DCDCDC;
+    border-right: solid 1px #C0C0C0;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: white;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+    float: left;
+    width: 930px;
+}
+
+.modalForm {
+    position: absolute;
+    top: 90px; 
+    left: 140px;
+    background-color: white;
+    border: 1px solid black;
+    box-shadow: 5px 5px 5px #888888;
+    border-radius: 10px;
+    padding: 15px;
+    display: none;
+}
+
+.modalForm ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-family: Arial;
+    font-size: 11px;
+}
+
+.modalForm ul li {
+    float: left;
+    padding: 3px;
+    text-align: left
+}
+
+.modalForm ul li label{
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: underline;
+    padding: 10px;
+}
+
+div.scrollmenu {
+    background-color: #333;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+div.scrollmenu a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+}
+
+div.scrollmenu a:hover {
+    background-color: #777;
+}
+
+.dataTables_scroll
+{
+    overflow:auto;
+}
+
+ul input[type=text] {
+    height: 12px;
+    width: 200px;
+}

@@ -1,50 +1,21 @@
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
-
-	<%
-		String token = request.getParameter("token");
-		String userId = request.getParameter("userId");
-		String codigoPostulacion = request.getParameter("codigo");
-	%>
-	<script src="js/jquery-3.2.0.min.js"></script>
-	<script src="js/jquery-ui.js"></script>
-	<script src="js/jquery.soap.js"></script>
-	<script language="javascript">
-		   var token ="<%=token%>";
-		   var userId ="<%=userId%>";
-		   var codigoPostulacion ="<%=codigoPostulacion%>";
-		   data = {"usuario_id": parseInt(userId), "token": token, "codigo": codigoPostulacion};
-			$.ajax({
-				data: data,
-				url: "/CalculoTVD/calculoTVD/tvdpage",
-				type: 'POST',
-				success: function(response) {
-					if(response != "OK") {
-						window.location.replace(response);
-					}
-				},
-				error: function(error) {
-					window.location.replace('error_page.jsp');
-				}
-			});
-	</script>
-
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Subsecretaria de Telecomunicaciones</title>
 <link rel="icon" href="../favicon.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/>
-<link href="css/main.css?v=<%= System.currentTimeMillis() %>" rel="stylesheet" type="text/css">
+<link href="css/main.css" rel="stylesheet" type="text/css">
 <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://js.arcgis.com/4.1/esri/css/main.css">
 <link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<link href="css/form_pdf.css?v=<%= System.currentTimeMillis() %>" rel="stylesheet" type="text/css">
+<link href="css/form_pdf.css" rel="stylesheet" type="text/css">
 
-<!-- <script src="js/jquery-3.2.0.min.js"></script>
+<script src="js/jquery-3.2.0.min.js"></script>
 <script src="js/jquery-ui.js"></script>
-<script src="js/jquery.soap.js"></script> -->
+<script src="js/jquery.soap.js"></script>
 <script src="js/jquery.dataTables.min.js"></script>
 <script src="js/template_kml.js"></script>
 <script src="js/pdfmake.min.js"></script>
@@ -64,6 +35,10 @@
 
 </head>
 <body>
+	<%
+		String token = request.getParameter("name");
+
+	%>
 	<div id="loader">
 		<div id="curtainloader"></div>
 		<div id="loadbox">
@@ -193,7 +168,7 @@
 				<div id="tab2">
 					<div id="divGuardarCalculos">
 					<ul>
-						<li><label>Historial de C&aacutelculos:</label></li>
+						<li><label>Datos Guardados:</label></li>
 						<li style="width: 33%">
 							<select name="selectCalculos" id="selectCalculos" style="width: 100%">
 								<option value="0">...</option>
@@ -313,17 +288,25 @@
 					<div id="separador"></div>
 					<div id="datospostulante">
 						<ul>
-							<li><label><b><u>Proyecto T&eacute;cnico</u></b></label></li>
+							<li><label><b><u>Opciones</u></b></label></li>
 							<div id="separador"></div>
-							<li><button type="button" style="font-size: 11px;" id="verDistancia" class="button_info">Ver Resultado</button></li>
+							<li><button type="button" style="font-size: 11px;" id="verDistancia">Ver Resultado</button></li>
+							<li><a href="#" style="font-size: 11px; top: 2px;" id="pdfForm">Agregar Datos</a></li>
 							<div id="separador"></div>
 							<li><button type="button" id="exportarKMZ">Exportar a GoogleEarth</button></li>
-							<li><button type="button" id="pdfForm">Agregar Datos</button></li>
 							<li><button type="button" id="imprimirCalculo">Generar PDF</button></li>
-							<div id="separador"></div>
-							<li><button type="button" id="enviarCalculosCNTV" class="button_info"><b>Enviar a CNTV</b></button></li>
+							<li><button type="button" id="guardarCalculoDefinitivo"><b>Guardar Calculo Definitivo</b></button></li>
 						</ul>
 					</div>
+					<div id="separador" style="height: 9px"></div>
+					<!-- <div id="subbox3bottom">
+						<ul>
+							<li><button type="button" style="font-size: 11px;" id="verDistancia">Ver Resultado</button></li>
+							<li><button type="button" id="exportarKMZ">Exportar a GoogleEarth</button></li>
+							<li><button type="button" id="imprimirCalculo">Generar PDF</button></li>
+							<li><a href="#" style="font-size: 11px; top: 2px;" id="pdfForm">Agregar Datos</a></li>
+						</ul>
+					</div> -->
 				</div>
 			</div>
 			<div id="curtainCaltool"></div>
@@ -537,7 +520,7 @@
 	<div id="openModal" class="modalForm">
 	</div>
 	<div id="info_user" style="display: none;">
-		<input type="text" id="id" value='<%=request.getParameter("userId")%>'>
+		<input type="text" id="id" value='<%=request.getParameter("name")%>'>
 		<input type="text" id="idomicilio" value="" text="">
 		<input type="text" id="iemail" value="">
 		<input type="text" id="ifono" value="">

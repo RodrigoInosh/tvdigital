@@ -601,9 +601,7 @@ function setCombosToStart(is_modificacion){
 	}
 }
 
-function showLoader(value, text){
-	var wait_message = ". Espere un momento…";
-	$("#loadboxright").text(text+wait_message);
+function showLoader(value){
 	if(value){
 		$("#loader").show();
 	}else{

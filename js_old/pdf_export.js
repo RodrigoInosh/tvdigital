@@ -186,6 +186,10 @@ function getCanalByFrecuencia(tipo_frecuencia, frecuencia) {
     return canal;
 }
 
+function base64(data) {
+    console.log(data);
+}
+
 function getSistRadiantType(sist_radiante) {
     sist_radiant_name = "PTx0";
     if(sist_radiante_principal === sist_radiante) {

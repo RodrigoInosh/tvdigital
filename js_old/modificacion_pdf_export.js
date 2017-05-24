@@ -2,6 +2,8 @@ var form_pdf_data = {};
 
 function getPDFModificacion(form_elements, form_pdf_data) {
     this.form_pdf_data = form_pdf_data;
+    console.log(form_elements);
+    console.log(form_pdf_data);
     var radials = form_elements.radiales;
     var title = 'CÁLCULOS CON ' + radials + ' RADIALES FORMULARIO PROYECTO TÉCNICO PARA LA TRANSICIÓN ANÁLOGO-DIGITAL DEL SERVICIO DE RADIODIFUSIÓN TELEVISIVA'
 
@@ -16,8 +18,9 @@ function getPDFModificacion(form_elements, form_pdf_data) {
         ]
     }
 
-    var pdfDocGenerator = pdfMake.createPdf(doc);
-    return pdfDocGenerator;
+    var pdf_name = getFileName(form_elements.pIdentificador, form_pdf_data.carac_tecnicas.sist_radiante, form_elements.pIntensidad);
+
+    pdfMake.createPdf(doc).download(pdf_name + '.pdf');
 }
 
 function getPage1(title, form_elements) {
@@ -37,6 +40,7 @@ function getPage1(title, form_elements) {
 
     ptx_adic1 = form_pdf_data.ptx_adicional1;
     ptx_adic2 = form_pdf_data.ptx_adicional2;
+    console.log();
 
     var obj = [{
             text: title,

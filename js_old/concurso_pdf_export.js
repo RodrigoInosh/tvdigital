@@ -1,43 +1,36 @@
 var form_pdf_data = {};
 
-function getPDFModificacion(form_elements, form_pdf_data) {
+function getPDFConcurso(form_elements, form_pdf_data) {
+
     this.form_pdf_data = form_pdf_data;
     var radials = form_elements.radiales;
-    var title = 'CÁLCULOS CON ' + radials + ' RADIALES FORMULARIO PROYECTO TÉCNICO PARA LA TRANSICIÓN ANÁLOGO-DIGITAL DEL SERVICIO DE RADIODIFUSIÓN TELEVISIVA'
+    var title = 'CÁLCULOS CON ' + radials + ' RADIALES FORMULARIO PROYECTO TÉCNICO PARA EL SERVICIO DE RADIODIFUSIÓN TELEVISIVA'
 
     var doc = {
         info: {
-            title: 'FORMULARIO PROYECTO TÉCNICO PARA LA TRANSICIÓN ANÁLOGO-DIGITAL DEL SERVICIO DE RADIODIFUSIÓN TELEVISIVA'
+            title: 'FORMULARIO PROYECTO TÉCNICO PARA EL SERVICIO DE RADIODIFUSIÓN TELEVISIVA'
         },
         pageSize: 'A4',
         content: [
-            getPage1(title, form_elements),
-            getModificationTableTechnicalSystemFeature('CARACTERÍSTICAS TÉCNICAS DEL SISTEMA RADIANTE PRINCIPAL', radials, form_elements)
+            this.getPage(title, form_elements),
+            this.getConcourseTableTechnicalSystemFeature('CARACTERÍSTICAS TÉCNICAS DEL SISTEMA RADIANTE PRINCIPAL', radials, form_elements)
         ]
     }
 
-    var pdfDocGenerator = pdfMake.createPdf(doc);
-    return pdfDocGenerator;
+    var pdf_name = getFileName(form_elements.pIdentificador, form_pdf_data.carac_tecnicas.sist_radiante, form_elements.pIntensidad);
+
+    const pdfDocGenerator = pdfMake.createPdf(doc);
+    pdfDocGenerator.download(pdf_name + '.pdf')
+    pdfDocGenerator.getBase64((data) => {
+        base64(data);
+    });
+
 }
 
-function getPage1(title, form_elements) {
-
-    var nombre_rep_legal = form_pdf_data.tab_general.rep_legal.nombre;
-    var rut_rep_legal = form_pdf_data.tab_general.rep_legal.rut;
-    var num_res_otorga = form_pdf_data.tab_general.res_otorga.num;
-    var fecha_res_otorga = form_pdf_data.tab_general.res_otorga.fecha;
-    var cntv_res_otorga = form_pdf_data.tab_general.res_otorga.cntv == 'si' ? '_X_' : '___';
-    var num_res_mod = form_pdf_data.tab_general.res_modifica.num;
-    var fecha_res_mod = form_pdf_data.tab_general.res_modifica.fecha;
-    var cntv_res_mod = form_pdf_data.tab_general.res_modifica.cntv == 'si' ? '_X_' : '___';
+function getPage(title, form_elements) {
     var estudio_princ = form_pdf_data.estudio_principal;
-
-    var frecuencia_analoga = getCanalByFrecuencia("analoga", form_elements.frecuenciaAnaloga);
+    var estudio_alter = form_pdf_data.estudio_alternativo;
     var frecuencia_digital = getCanalByFrecuencia("digital", form_elements.pFrecuencia);
-
-    ptx_adic1 = form_pdf_data.ptx_adicional1;
-    ptx_adic2 = form_pdf_data.ptx_adicional2;
-
     var obj = [{
             text: title,
             style: 'header',
@@ -57,7 +50,7 @@ function getPage1(title, form_elements) {
                 widths: [180, 85, 120, 125],
                 body: [
                     [{
-                        text: 'IDENTIFICACIÓN DEL CONCESIONARIO',
+                        text: 'IDENTIFICACIÓN DEL PETICIONARIO',
                         colSpan: 4,
                         alignment: 'center',
                         bold: true,
@@ -83,117 +76,28 @@ function getPage1(title, form_elements) {
                             border: [true, false, false, false]
                         },
                         {
-                            text: 'Comuna:    ',
+                            text: 'Comuna:',
                             fontSize: 10,
                             colSpan: 2,
-                            border: [false, false, false, false]
+                            border: [false, false, false,false]
                         }, {},
                         {
-                            text: 'Región:    ',
+                            text: 'Región:',
                             fontSize: 10,
                             border: [false, false, true, false]
                         }
                     ],
                     [{
-                            text: 'Representante Legal: ' + nombre_rep_legal,
-                            fontSize: 10,
-                            border: [true, false, false, false]
-                        }, {
-                            text: 'RUT:    ' + rut_rep_legal,
-                            fontSize: 10,
-                            border: [false]
-                        },
-                        {
-                            text: 'E-mail: ',
-                            fontSize: 10,
-                            border: [false]
-                        }, {
-                            text: 'Teléfono:    ',
-                            fontSize: 10,
-                            border: [false, false, true, false]
-                        }
-                    ],
-                    [{
-                            text: 'Resolución Otorga   N°: ' + num_res_otorga,
-                            fontSize: 10,
-                            border: [true, false, false, false],
-                            colSpan: 2
-                        }, {},
-                        {
-                            text: 'Fecha: ' + fecha_res_otorga,
-                            fontSize: 10,
-                            border: [false]
-                        }, {
-                            text: 'CNTV [' + cntv_res_otorga + ']:    ',
-                            fontSize: 10,
-                            border: [false, false, true, false]
-                        }
-                    ],
-                    [{
-                            text: 'Resolución Modifica   N°: ' + num_res_mod,
-                            fontSize: 10,
-                            border: [true, false, false, false],
-                            colSpan: 2
-                        }, {},
-                        {
-                            text: 'Fecha: ' + fecha_res_mod,
-                            fontSize: 10,
-                            border: [false]
-                        }, {
-                            text: 'CNTV [' + cntv_res_mod + ']:    ',
-                            fontSize: 10,
-                            border: [false, false, true, false]
-                        }
-                    ],
-                    [{
-                            text: 'Otro documento autorizatorio:   N°:    ',
+                            text: 'E-mail: ' + form_elements.pEmail,
                             fontSize: 10,
                             border: [true, false, false, true],
                             colSpan: 2
                         }, {},
                         {
-                            text: 'Fecha:    ',
+                            text: 'Teléfono:' + form_elements.pFono,
                             fontSize: 10,
-                            border: [false, false, false, true]
-                        }, {
-                            text: 'Institución:    ',
-                            fontSize: 10,
-                            border: [false, false, true, true]
-                        }
-                    ]
-                ]
-            }
-        },
-        {
-            text: '    '
-        },
-        {
-            table: {
-                headerRows: 0,
-                widths: [127.5, 127.5, 127.5, 127.5],
-                body: [
-                    [{
-                        text: 'DATOS GENERALES CONCESIÓN ANALÓGICA',
-                        colSpan: 4,
-                        alignment: 'center',
-                        bold: true,
-                        decoration: 'underline',
-                        border: [true, true, true, false]
-                    }, {}, {}, {}],
-                    [{
-                            text: 'Canal:    ' + frecuencia_analoga,
-                            fontSize: 10,
-                            border: [true, false, false, true]
-                        }, {
-                            text: 'Señal distintiva:    ' + form_elements.pIdentificador,
-                            fontSize: 10,
-                            border: [false, false, false, true]
-                        },
-                        {
-                            text: 'Localidad o Nombre de la Estación: ' + form_elements.pLocalidad,
-                            colSpan: 2,
-                            fontSize: 10,
-                            border: [false, false, true, true]
+                            border: [false, false, true, true],
+                            colSpan: 2
                         }, {}
                     ]
                 ]
@@ -208,7 +112,7 @@ function getPage1(title, form_elements) {
                 widths: [127.5, 127.5, 127.5, 127.5],
                 body: [
                     [{
-                        text: 'DATOS GENERALES CONCESIÓN DIGITAL SOLICITADA',
+                        text: 'DATOS GENERALES CONCESIÓN DIGITAL SOLICITADA/MODIFICADA',
                         colSpan: 4,
                         alignment: 'center',
                         bold: true,
@@ -219,71 +123,33 @@ function getPage1(title, form_elements) {
                             text: 'Canal:     ' + frecuencia_digital,
                             fontSize: 10,
                             border: [true, false, false, false]
-                        }, {
-                            text: 'Señal distintiva:    ' + form_elements.pIdentificador,
-                            fontSize: 10,
-                            border: [false]
                         },
                         {
-                            text: 'Localidad o Nombre de la Estación: ' + form_elements.pLocalidad,
-                            colSpan: 2,
+                            text: 'Localidad o Nombre de la Estación:   ' + form_elements.pLocalidad,
+                            colSpan: 3,
                             fontSize: 10,
-                            border: [false, false, true, false]
-                        }, {}
+                            border: [false, false, false, false]
+                        },
+                        {}, {}
                     ],
                     [{
-                        text: ' ',
+                        text: 'Inicio de las obras: ' + form_pdf_data.tab_general.plazos.ini_obras + '               Términos de las obras: ' + form_pdf_data.tab_general.plazos.fin_obras + '          Inicio servicio: ' + form_pdf_data.tab_general.plazos.ini_serv + '',
+                        fontSize: 10,
                         colSpan: 4,
                         border: [true, false, true, false]
                     }, {}, {}, {}],
                     [{
-                        text: 'ESTUDIO PRINCIPAL',
+                        text: 'Tipo de emisión: ' + form_pdf_data.tab_general.tipo_emision,
                         colSpan: 4,
-                        alignment: 'left',
-                        bold: true,
+                        fontSize: 10,
                         border: [true, false, true, false]
                     }, {}, {}, {}],
                     [{
-                            text: 'Domicilio Calle:    ' + estudio_princ.domicilio,
-                            colSpan: 2,
-                            fontSize: 10,
-                            border: [true, false, false, false]
-                        }, {},
-                        {
-                            text: 'Comuna:    ' + estudio_princ.comuna,
-                            fontSize: 10,
-                            colSpan: 2,
-                            border: [false, false, true, false]
-                        }, {}
-                    ],
-                    [{
-                        text: 'Pobl. o  lugar:    ',
-                        colSpan: 2,
-                        fontSize: 10,
-                        border: [true, false, false, false]
-                    }, {}, {
-                        text: 'Región:    ' + estudio_princ.region,
-                        fontSize: 10,
-                        colSpan: 2,
-                        border: [false, false, true, false]
-                    }, {}],
-                    [{
-                            text: 'Latitud Sur:    ' + estudio_princ.latitud,
-                            fontSize: 10,
-                            border: [true, false, false, true]
-                        },
-                        {
-                            text: 'Longitud Oeste:    ' + estudio_princ.longitud,
-                            fontSize: 10,
-                            colSpan: 2,
-                            border: [false, false, false, true]
-                        }, {},
-                        {
-                            text: 'Datum: ' + datum + '',
-                            fontSize: 10,
-                            border: [false, false, true, true]
-                        }
-                    ]
+                        text: 'NOTA: Plazo en días hábiles, contados desde la fecha en que se notifique al interesado de la total tramitación de la respectiva Resolución del Consejo que asigne/modifica la concesión.',
+                        colSpan: 4,
+                        fontSize: 8,
+                        border: [true, false, true, true]
+                    }, {}, {}, {}]
                 ]
             }
         },
@@ -296,7 +162,7 @@ function getPage1(title, form_elements) {
                 widths: [127.5, 127.5, 127.5, 127.5],
                 body: [
                     [{
-                        text: 'DATOS SOLUCIÓN DIGITAL',
+                        text: 'UBICACIÓN DE LAS INSTALACIONES',
                         colSpan: 4,
                         alignment: 'center',
                         bold: true,
@@ -304,42 +170,109 @@ function getPage1(title, form_elements) {
                         border: [true, true, true, false]
                     }, {}, {}, {}],
                     [{
-                        text: 'La réplica de la Zona de Servicio de la concesión analógica se hará mediante (seleccionar todas las que apliquen):    ',
-                        colSpan: 4,
-                        fontSize: 10,
-                        border: [true, false, true, false]
-                    }, {}, {}, {}],
-                    [{
-                            text: 'Una estación transmisora [__]',
-                            colSpan: 2,
-                            border: [true, false, false, false],
-                            fontSize: 10
-                        }, {},
-                        {
-                            text: 'Múltiples estaciones transmisoras [__]',
-                            colSpan: 2,
-                            fontSize: 10,
-                            border: [false, false, true, false]
-                        }, {}
-                    ],
-                    [{
-                            text: 'Solución Complementaria (solo concesionarias de categoría nacional) [__]',
-                            fontSize: 10,
-                            colSpan: 4,
-                            alignment: 'left',
-                            border: [true, false, true, false]
-                        },
-                        {}, {}, {}
-                    ],
-                    [{
-                        text: 'PLANTA TRANSMISORA PRINCIPAL',
+                        text: 'ESTUDIO PRINCIPAL',
                         colSpan: 4,
                         alignment: 'left',
                         bold: true,
                         border: [true, false, true, false]
                     }, {}, {}, {}],
                     [{
-                            text: 'Domicilio Calle: ' +  form_pdf_data.carac_tecnicas.domicilioPTx,
+                            text: 'Domicilio Calle: ' + estudio_princ.domicilio,
+                            colSpan: 2,
+                            fontSize: 10,
+                            border: [true, false, false, false]
+                        }, {},
+                        {
+                            text: 'Comuna: ' + estudio_princ.comuna,
+                            fontSize: 10,
+                            colSpan: 2,
+                            border: [false, false, true, false]
+                        }, {}
+                    ],
+                    [{
+                        text: 'Pobl. o  lugar:',
+                        colSpan: 2,
+                        fontSize: 10,
+                        border: [true, false, false, false]
+                    }, {}, {
+                        text: 'Región: ' + estudio_princ.region,
+                        fontSize: 10,
+                        colSpan: 2,
+                        border: [false, false, true, false]
+                    },{}],
+                    [{
+                            text: 'Latitud Sur: ' + estudio_princ.latitud,
+                            fontSize: 10,
+                            border: [true, false, false, true]
+                        },
+                        {
+                            text: 'Longitud Oeste: ' + estudio_princ.longitud,
+                            fontSize: 10,
+                            border: [false, false, false, true]
+                        },
+                        {
+                            text: 'Datum: ' + datum + '',
+                            fontSize: 10,
+                            border: [false, false, true, true],
+                            colSpan: 2
+                        }, {}
+                    ],
+                    [{
+                        text: 'ESTUDIO ALTERNATIVO',
+                        colSpan: 4,
+                        alignment: 'left',
+                        bold: true,
+                        border: [true, false, true, false]
+                    }, {}, {}, {}],
+                    [{
+                            text: 'Domicilio Calle: ' + estudio_alter.domicilio,
+                            colSpan: 2,
+                            fontSize: 10,
+                            border: [true, false, false, false]
+                        }, {},
+                        {
+                            text: 'Comuna: ' + estudio_alter.comuna,
+                            fontSize: 10,
+                            colSpan: 2,
+                            border: [false, false, true, false]
+                        }, {}
+                    ],
+                    [{
+                        text: 'Pobl. o  lugar:',
+                        colSpan: 2,
+                        fontSize: 10,
+                        border: [true, false, false, false]
+                    }, {}, {
+                        text: 'Región: ' + estudio_alter.region,
+                        fontSize: 10,
+                        colSpan: 2,
+                        border: [false, false, true, false]
+                    }, {}],
+                    [{
+                            text: 'Latitud Sur: ' + estudio_alter.latitud,
+                            fontSize: 10,
+                            border: [true, false, false, true]
+                        }, {
+                            text: 'Longitud Oeste: ' + estudio_alter.longitud,
+                            fontSize: 10,
+                            border: [false, false, false, true]
+                        },
+                        {
+                            text: 'Datum: ' + datum + '',
+                            fontSize: 10,
+                            border: [false, false, true, true],
+                            colSpan: 2
+                        }, {}
+                    ],
+                    [{
+                        text: 'PLANTA TRANSMISORA',
+                        colSpan: 4,
+                        alignment: 'left',
+                        bold: true,
+                        border: [true, false, true, false]
+                    }, {}, {}, {}],
+                    [{
+                            text: 'Domicilio Calle: ' + form_pdf_data.carac_tecnicas.domicilioPTx,
                             colSpan: 2,
                             fontSize: 10,
                             border: [true, false, false, false]
@@ -352,7 +285,7 @@ function getPage1(title, form_elements) {
                         }, {}
                     ],
                     [{
-                        text: 'Pobl. o  lugar:    ',
+                        text: 'Pobl. o  lugar: ',
                         colSpan: 2,
                         fontSize: 10,
                         border: [true, false, false, false]
@@ -366,103 +299,8 @@ function getPage1(title, form_elements) {
                             text: 'Latitud Sur: ' + form_elements.pLatitud,
                             fontSize: 10,
                             border: [true, false, false, true]
-                        },
-                        {
+                        }, {
                             text: 'Longitud Oeste: ' + form_elements.pLongitud,
-                            fontSize: 10,
-                            border: [false, false, false, true]
-                        },
-                        {
-                            text: 'Datum: ' + datum + '',
-                            fontSize: 10,
-                            border: [false, false, true, true],
-                            colSpan: 2
-                        }, {}
-                    ],
-                    [{
-                        text: 'PLANTA TRANSMISORA ADICIONAL 1 (Si aplica)',
-                        colSpan: 4,
-                        alignment: 'left',
-                        bold: true,
-                        border: [true, false, true, false]
-                    }, {}, {}, {}],
-                    [{
-                            text: 'Domicilio Calle:    ' + ptx_adic1.domicilio,
-                            colSpan: 2,
-                            fontSize: 10,
-                            border: [true, false, false, false]
-                        }, {},
-                        {
-                            text: 'Comuna:    ' + ptx_adic1.comuna,
-                            fontSize: 10,
-                            colSpan: 2,
-                            border: [false, false, true, false]
-                        }, {}
-                    ],
-                    [{
-                        text: 'Pobl. o  lugar:    ',
-                        colSpan: 2,
-                        fontSize: 10,
-                        border: [true, false, false, false]
-                    }, {}, {
-                        text: 'Región:    ' + ptx_adic1.region,
-                        fontSize: 10,
-                        colSpan: 2,
-                        border: [false, false, true, false]
-                    }, {}],
-                    [{
-                            text: 'Latitud Sur:    ' + ptx_adic1.latitud,
-                            fontSize: 10,
-                            border: [true, false, false, true]
-                        }, {
-                            text: 'Longitud Oeste:    ' + ptx_adic1.longitud,
-                            fontSize: 10,
-                            border: [false, false, false, true]
-                        },
-                        {
-                            text: 'Datum: ' + datum + '',
-                            fontSize: 10,
-                            border: [false, false, true, true],
-                            colSpan: 2
-                        }, {}
-                    ],
-                    [{
-                        text: 'PLANTA TRANSMISORA ADICIONAL 2 (Si aplica)',
-                        colSpan: 4,
-                        alignment: 'left',
-                        bold: true,
-                        border: [true, false, true, false]
-                    }, {}, {}, {}],
-                    [{
-                            text: 'Domicilio Calle:    ' + ptx_adic2.domicilio,
-                            colSpan: 2,
-                            fontSize: 10,
-                            border: [true, false, false, false]
-                        }, {},
-                        {
-                            text: 'Comuna:    ' + ptx_adic2.comuna,
-                            fontSize: 10,
-                            colSpan: 2,
-                            border: [false, false, true, false]
-                        }, {}
-                    ],
-                    [{
-                        text: 'Pobl. o  lugar:    ',
-                        colSpan: 2,
-                        fontSize: 10,
-                        border: [true, false, false, false]
-                    }, {}, {
-                        text: 'Región:    ' + ptx_adic2.region,
-                        fontSize: 10,
-                        colSpan: 2,
-                        border: [false, false, true, false]
-                    }, {}],
-                    [{
-                            text: 'Latitud Sur:    ' + ptx_adic2.latitud,
-                            fontSize: 10,
-                            border: [true, false, false, true]
-                        }, {
-                            text: 'Longitud Oeste:    ' + ptx_adic2.longitud,
                             fontSize: 10,
                             border: [false, false, false, true]
                         },
@@ -484,10 +322,9 @@ function getPage1(title, form_elements) {
     return obj;
 }
 
-function getModificationTableTechnicalSystemFeature(title, radials, form_elements) {
+function getConcourseTableTechnicalSystemFeature(title, radials, form_elements) {
     var ganancia = typeof form_elements.pGanancia != 'undefined' ? form_elements.pGanancia : "";
     var potencia = typeof form_elements.pPotencia != 'undefined' ? form_elements.pPotencia : "";
-    var frecuencia = typeof form_elements.pFrecuencia != 'undefined' ? form_elements.pFrecuencia : "";
     var num_antenas = form_pdf_data.carac_tecnicas.num_elem;
     var ganancia_max = form_pdf_data.carac_tecnicas.ganancia_max;
     var antena_combi_si = form_pdf_data.carac_tecnicas.antena_combi == "si" ? '_X_' : '___';
@@ -520,40 +357,17 @@ function getModificationTableTechnicalSystemFeature(title, radials, form_element
                 widths: [160, 95, 127.5, 127.5],
                 body: [
                     [{
-                            text: 'VALORES MÁXIMOS: Potencia admisible:                   [W]',
+                            text: 'Potencia: ' + potencia + ' [W]',
                             colSpan: 2,
                             fontSize: 10,
                             border: [true, true, false, false]
                         }, {},
                         {
-                            text: 'Antena combinada: Si [' + antena_combi_si + ']',
+                            text: 'Antena combinada: Si [' + antena_combi_si + '] No [' + antena_combi_no + ']',
                             colSpan: 2,
                             fontSize: 10,
                             border: [false, true, true, false]
                         }, {}
-                    ],
-                    [{
-                            text: 'VALORES DE OPERACIÓN: ',
-                            fontSize: 10,
-                            border: [true, false, false, false]
-                        },
-                        {
-                            text: 'Potencia:  ' + potencia + ' [W]',
-                            colSpan: 3,
-                            fontSize: 10,
-                            border: [false, false, true, false]
-                        }, {}, {}
-                    ],
-                    [{
-                            text: '   ',
-                            border: [true, false, false, false]
-                        },
-                        {
-                            text: 'Frecuencia Central:   ' + frecuencia + ' [MHz]',
-                            colSpan: 3,
-                            fontSize: 10,
-                            border: [false, false, true, false]
-                        }, {}, {}
                     ],
                     [{
                             text: 'Tipo de Antena: Panel dipolos [' + antena_dipolo + ']',
@@ -590,7 +404,7 @@ function getModificationTableTechnicalSystemFeature(title, radials, form_element
                         }, {}
                     ],
                     [{
-                        text: 'Nº de elementos de antena: ' + num_antenas + '      Ganancia máxima: ' + ganancia_max + ' [dBd].                     Polarización: '+perc_horizontal+' %H      '+perc_vertical+' %V',
+                        text: 'Nº de antenas: ' + num_antenas + '     Ganancia máxima: ' + ganancia_max + ' [dBd].                     Polarización: '+perc_horizontal+' %H      '+perc_vertical+' %V',
                         colSpan: 4,
                         fontSize: 10,
                         border: [true, false, true, false]
@@ -601,7 +415,7 @@ function getModificationTableTechnicalSystemFeature(title, radials, form_element
                             border: [true, false, false, false]
                         },
                         {
-                            text: 'Angulo de tilt: ' + form_pdf_data.carac_tecnicas.angulo_tilt + '°',
+                            text: 'Angulo de tilt: ' + form_pdf_data.carac_tecnicas.angulo_tilt + ' °',
                             fontSize: 10,
                             border: [false]
                         },
@@ -613,7 +427,7 @@ function getModificationTableTechnicalSystemFeature(title, radials, form_element
                         }, {}
                     ],
                     [{
-                        text: 'Altura centro radiación:        ' + form_elements.pAlturaAntenaTx + ' [m].         Pérdida cables y conectores:   ' + form_elements.pPerdidaCablesConectores + ' [dB]    Divisor de Potencia:  ' + form_elements.pDivisorPotencia + ' [dB]',
+                        text: 'Altura centro radiación:   ' + form_elements.pAlturaAntenaTx + '[m].         Pérdida cables y conectores:   ' + form_elements.pPerdidaCablesConectores + ' [dB]    Divisor de Potencia:  ' + form_elements.pDivisorPotencia + ' [dB]',
                         colSpan: 4,
                         fontSize: 10,
                         border: [true, false, true, false]
@@ -641,7 +455,7 @@ function getModificationTableTechnicalSystemFeature(title, radials, form_element
                 headerRows: 0,
                 body: [
                     getAnthenasFixesTable(num_antenas, form_pdf_data.arreglos_antena), [{
-                        text: 'Nota:    ',
+                        text: 'Nota:',
                         fontSize: 8,
                         bold: true,
                         border: [true, false, true, false]

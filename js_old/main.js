@@ -2,7 +2,7 @@ var superView={};
 var ajaxCall1 = {};
 var ajaxCall2 = {};
 var circleFunction;
-var internal_token = 3;
+var internal_token = "3";
 var is_form_modal_first_openend = true;
 
 require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle",
@@ -17,7 +17,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		 Graphic, Point, Polyline, Polygon, SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, 
 		 SimpleRenderer, PrintTask, PrintTemplate, PrintParameters,GraphicsLayer,Home, dom, on) {
 
-	internal_token = $("#id").val();
+	// internal_token = $("#id").val();
 	var idConcurso = 0;
 	var idIdentificador = 0;
 	var idTipoServicio = 0;
@@ -47,6 +47,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	var default18 = "0,0,0,0,0,0,0,0,0,0";
 	var default8 = "0,0,0,0,0,0,0,0";
 	var concursoModificacion = "Concurso";
+	var wait_message = "Espere un momento…";
 
 	var map = new Map({
 	
@@ -201,14 +202,14 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		query3.where = "CONCURSO='"+idConcurso+"' AND TIPO_SERVICIO = '"+idTipoServicio+"'";
 		query3.orderByFields = ["IDENTIFICADOR"];
 		queryTask2.execute(query3).then(function(data){
-			showLoader(true, 'Cargando Datos');
+			showLoader(true);
 			$("#72PerdidasLobulos").trigger('click');
 			changeComboConcurso(data);
 			setIndentificadorConcurso();
 			if(data.features.length == 0){
 				resetSelect('concursos', 'seleccione');
 			}
-			showLoader(false, '');
+			showLoader(false);
 		});
 	}
 
@@ -346,7 +347,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		cargarCalculosGuardados(idIdentificador);
 		queryTask2.execute(queryCenter).then(function(data){
 			$("#72PerdidasLobulos").trigger('click');
-			showLoader(true, 'Cargando Datos');
+			showLoader(true);
 			map.removeAll();
 			if(data.features.length == 0){
 				removeDataConcurso();
@@ -393,7 +394,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				});
 			}
 			setPosicionTools();
-			showLoader(false, '');
+			showLoader(false);
 		});
 	}
 
@@ -420,7 +421,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		queryCenter.where = queryString;
 		queryTask3.execute(queryCenter).then(function(data){
 			$("#72PerdidasLobulos").trigger('click');
-			showLoader(true, 'Cargando Datos');
+			showLoader(true);
 			map.removeAll();
 			if(data.features.length == 0){
 				removeDataConcurso();
@@ -479,7 +480,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				});
 			}
 			setPosicionTools();
-			showLoader(false, '');
+			showLoader(false);
 		});
 	}
 
@@ -531,7 +532,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function clickCalculaPoligonoClick(){
-		showLoader(true, 'Calculando Zona de Propagación');
+		showLoader(true);
 		map.remove(capaCalculoPoligonos);
 		var mapParametros = getMapParameters();
 		// geoProcessor = new Geoprocessor(gpCalculoPredictivo);
@@ -617,7 +618,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	function showError(data){
 		showErrorMessage(data);
 		setPosicionTools();
-		showLoader(false, '');
+		showLoader(false);
 	}
 
 	function setPolygon(data){
@@ -655,7 +656,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		}
 		calculoZonaMaxima = false;
 		setPosicionTools();
-		showLoader(false, '');
+		showLoader(false);
 
 	}
 
@@ -667,92 +668,24 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		return new Zoom().getZoom(value);
 	}
 
-	function imprimirCalculoClick(download){
-		// var mapReporte = getParametersReport();
-		// var form_pdf_data = getFormData(concursoModificacion);
-		// var pdf_name = getFileName(mapReporte.pIdentificador, form_pdf_data.carac_tecnicas.sist_radiante, mapReporte.pIntensidad);
-		// var pdfDocGenerator;
-		// if(concursoModificacion == 'Concurso'){
-		// 	pdfDocGenerator = getPDFConcurso(mapReporte, form_pdf_data);
-		// } else {
-		// 	pdfDocGenerator = getPDFModificacion(mapReporte, form_pdf_data);
-		// }
-		var pdfDocGenerator = getPDFFile();
-		var pdf_name = getFileName($("#identificadores").val(), form_data.carac_tecnicas.sist_radiante, $("#intensidadCampoM").val());
-		pdfDocGenerator.download(pdf_name + '.pdf');
-		// pdfGenerarte(pdf_name, pdfDocGenerator, download);
-	}
-
-	function getPDFFile() {
+	function imprimirCalculoClick(){
 		var mapReporte = getParametersReport();
 		var form_pdf_data = getFormData(concursoModificacion);
-		var pdfDocGenerator;
 		if(concursoModificacion == 'Concurso'){
-			pdfDocGenerator = getPDFConcurso(mapReporte, form_pdf_data);
+			getPDFConcurso(mapReporte, form_pdf_data);
 		} else {
-			pdfDocGenerator = getPDFModificacion(mapReporte, form_pdf_data);
+			getPDFModificacion(mapReporte, form_pdf_data);
 		}
-		return pdfDocGenerator;
-	}
-
-	function getPDFBase64File(kml_base64) {
-		var pdfDocGenerator = getPDFFile();
-		var pdf_base64_file;
-		pdfDocGenerator.getBase64(function(data){
-			pdf_base64_file = data;
-			sendBase64Files(kml_base64, data);
-		})
-		// var p1 = new Promise(function(resolve, reject){
-		// 	console.log(resolve);
-		// 	funcion_base64(pdfDocGenerator);
-		// 	console.log(resolve);
-		// });
-		// p1.then(console.log("dgfg"));
-		// Promise.all( [p1] ).then(function(){  
-		// 	console.log("pdf_base64_file");
-	 //    });
-	}
-
-	function sendBase64Files(kml_base64, pdf_base64) {
-		var files_names = getFileName($("#identificadores").val(), $("#sistRadiante").val(), $("#intensidadCampoM").val());
-		var json_kml = createJSON(files_names+".kml", kml_base64, "Archivo KML");
-		var json_pdf = createJSON(files_names+".pdf", pdf_base64, "Archivo PDF");
-		data = {"usuario_id": parseInt(internal_token), "codigo_postulacion": "dgds", "kml": JSON.stringify(json_kml), "pdf": JSON.stringify(json_pdf)};
-		$.ajax({
-			data: data,
-			url: "/CalculoTVD/calculoTVD/send_file",
-			type: 'POST',
-			success: function(response) {
-				if(response === "OK") {
-					alert("Datos Enviados Correctamente");
-				} else {
-					alert("Error Enviando Datos: "+ response);
-				}
-			},
-			error: function(error) {
-				console.log("Error: " + error);
-			}
-		});
-	}
-
-	function createJSON (name, base64_file, description) {
-		var json_object = new Object();
-		json_object.descripcion = description;
-		json_object.nombre = name;
-		json_object.checksum = "xzvv32435z";
-		json_object.binario = base64_file;
-
-		return json_object;
 	}
 
 	function showDocument(data){
 		showDocumentPopUp(data);
 		setPosicionTools();
-		showLoader(false, '');
+		showLoader(false);
 	}
 
-	function exportKMZClick(download){
-		// showLoader(true, 'Generando Archivo KML');
+	function exportKMZClick(){
+		showLoader(true);
 
 		var form_data = getMapParameters();
 		var radioMaximo = form_data.radioMaximo;
@@ -857,31 +790,25 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		datos.puntos.nuevo.longitud = superView.puntoNuevo.longitud;
 		datos.puntos.nuevo.latitud = superView.puntoNuevo.latitud;
 
-		var kml = getTemplateKML(datos);
-		var data = new Blob([ kml ]);
-		var encodedData = window.btoa(kml);
+		var data = new Blob([ getTemplateKML(datos) ]);
+		var a = URL.createObjectURL( data );
+		var name = $("#identificadores").val();
+		var name2 = getFileName($("#identificadores").val(), $("#sistRadiante").val(), $("#intensidadCampoM").val())
+		var link = document.createElement('a');
+		link.style = 'position: fixed; left -10000px;'; // making it invisible
+		link.href = a; //'data:application/octet-stream,' + encodeURIComponent(address); // forcing content type
+		// link.download = name.indexOf('.kml') < 0 ? name + '.kml' : name;
+		link.download = name2 + ".kml";
+		/* file extension is very important! */
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
 
-		if(download == true) {
-			var a = URL.createObjectURL( data );
-			var name = $("#identificadores").val();
-			var name2 = getFileName($("#identificadores").val(), $("#sistRadiante").val(), $("#intensidadCampoM").val())
-			var link = document.createElement('a');
-			link.style = 'position: fixed; left -10000px;'; // making it invisible
-			link.href = a; //'data:application/octet-stream,' + encodeURIComponent(address); // forcing content type
-			// link.download = name.indexOf('.kml') < 0 ? name + '.kml' : name;
-			link.download = name2 + ".kml";
-			/* file extension is very important! */
-			document.body.appendChild(link);
-			link.click();
-			document.body.removeChild(link);
-
-			showLoader(false, '');
-		} else {
-			return encodedData;
-		}
+		showLoader(false);
 	}
 
 	function cargarCalculosGuardados(identificador) {
+		console.log(internal_token);
 		var params = {
 			"internal_token": internal_token,
 			"identificador": identificador,
@@ -944,7 +871,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function guardarCalculosTVD(nombre, mapParametros, id_calculo, idIdentificador) {
-		showLoader(true, 'Guardando Datos');
+		$("#loadboxright").text("Guardado Cálculos. "+wait_message);
+		showLoader(true);
 		var params = {
 			"calculos": JSON.stringify(mapParametros),
 			"identificador": idIdentificador,
@@ -964,23 +892,18 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function getStatus(data){
-		showLoader(false, '');
+		showLoader(false);
 		if(data.value.status == 'saved') {
-			alert("Datos Guardados Correctamente");
-			updateComboSelectCalculos(data.value);
+			alert("Cálculo Guardado Correctamente");
+			setDataCalculosGuardados(data);
+			$('#selectCalculos option[value='+data.value.mongo_id+']').attr('selected','selected');
 		} else if(data.value.status == 'updated') {
-			alert("Datos Modificados Correctamente");
+			alert("Cálculo Guardado Correctamente");
 		}
 	}
 
-	function updateComboSelectCalculos(value) {
-		var selectCalculos = $("#selectCalculos");
-		selectCalculos.append(new Option(value.nombre, value.mongo_id));
-		$('#selectCalculos option[value='+value.mongo_id+']').attr('selected','selected');
-	}
-
 	function ObtenerDatosCalculos(mongo_id) {
-		showLoader(true, 'Cargando Datos');
+		showLoader(true);
 		var params = {
 			"mongo_id": mongo_id,
 			"internal_token": internal_token,
@@ -988,7 +911,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		}
 		geoProcessor = new Geoprocessor(cargarDataCalculo);
 		geoProcessor.submitJob(params).then(statusFunctionDataCalculo, showError);
-		// showLoader(false, '');
+		showLoader(true);
 	}
 
 	function statusFunctionDataCalculo(data) {
@@ -1018,7 +941,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		$("#longitudSegundosM").val(datos.pLongitudSeconds);
 
 		setRadiales(datos);
-		showLoader(false, '');
+		showLoader(false);
 	}
 
 	function setRadiales(datos) {
@@ -1055,17 +978,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	on(dom.byId("normaAnteriorM"), "change", changeCambiaNormaClick);
 	on(dom.byId("regiones"), "change", changeConcursoRegionesClick);
 	on(dom.byId("calculaPoligono"), "click", clickCalculaPoligonoClick);
-	// on(dom.byId("imprimirCalculo"), "click", imprimirCalculoClick);
-	// on(dom.byId("exportarKMZ"), "click", exportKMZClick);
-
-	$("#exportarKMZ").on('click', function(){
-		showLoader(true, 'Generando Archivo KML');
-		exportKMZClick(true);
-	});
-
-	$("#imprimirCalculo").on('click', function(){
-		imprimirCalculoClick(true);
-	});
+	on(dom.byId("imprimirCalculo"), "click", imprimirCalculoClick);
+	on(dom.byId("exportarKMZ"), "click", exportKMZClick);
 
 	$("#frecuenciaM").on('change', function(){
 
@@ -1152,7 +1066,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	    }
 	});
 
-	$("#enviarCalculosCNTV").on('click', function(){
+	$("#guardarCalculoDefinitivo").on('click', function(){
 		var id_calculo = $("#selectCalculos option:selected").val();
 		var nombre_select = $("#selectCalculos option:selected").text();
 		var idIdentificador = $("#identificadores").text();
@@ -1161,13 +1075,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		mapParametros['form_data'] = form_data;
 		mapParametros['form_general_modificacion'] = form_general_modificacion;
 		mapParametros['form_general_concurso'] = form_general_concurso;
-		// guardarCalculosTVD(nombre_select, mapParametros, id_calculo, idIdentificador);
-		generateBase64Files();
-		// imprimirCalculoClick(false);
-	});
 
-	function generateBase64Files() {
-		var kml_base64 = exportKMZClick(false);
-		getPDFBase64File(kml_base64);
-	}
+		guardarCalculosTVD(nombre_select, mapParametros, id_calculo, idIdentificador);
+	});
 });

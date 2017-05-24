@@ -1,14 +1,14 @@
 var form_pdf_data = {};
 
 function getPDFConcurso(form_elements, form_pdf_data) {
+
     this.form_pdf_data = form_pdf_data;
-    console.log(form_pdf_data);
     var radials = form_elements.radiales;
     var title = 'CÁLCULOS CON ' + radials + ' RADIALES FORMULARIO PROYECTO TÉCNICO PARA EL SERVICIO DE RADIODIFUSIÓN TELEVISIVA'
 
     var doc = {
         info: {
-            title: 'prueba'
+            title: 'FORMULARIO PROYECTO TÉCNICO PARA EL SERVICIO DE RADIODIFUSIÓN TELEVISIVA'
         },
         pageSize: 'A4',
         content: [
@@ -17,9 +17,8 @@ function getPDFConcurso(form_elements, form_pdf_data) {
         ]
     }
 
-    var pdf_name = getFileName(form_elements.pIdentificador);
-
-    pdfMake.createPdf(doc).download(pdf_name + '.pdf');
+    var pdfDocGenerator = pdfMake.createPdf(doc);
+    return pdfDocGenerator;
 }
 
 function getPage(title, form_elements) {
