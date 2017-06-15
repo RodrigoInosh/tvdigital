@@ -688,7 +688,6 @@ function getMapParameters(){
 
 function getParametersReport(){
 	var mapOut = {};
-
 	mapOut["pAlturaAntenaTx"] = $("#alturaAntenaTransmisoraM").val();
 	mapOut["pDivisorPotencia"] = $("#divisorPotenciaM").val();
 	mapOut["pDomicilio"] = $("#idomicilio").val();

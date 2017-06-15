@@ -3,6 +3,7 @@ var ajaxCall1 = {};
 var ajaxCall2 = {};
 var circleFunction;
 var internal_token = 3;
+var codigo = "";
 var is_form_modal_first_openend = true;
 
 require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle",
@@ -18,6 +19,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		 SimpleRenderer, PrintTask, PrintTemplate, PrintParameters,GraphicsLayer,Home, dom, on) {
 
 	internal_token = $("#id").val();
+	codigo = $("#codigo").val();
 	var idConcurso = 0;
 	var idIdentificador = 0;
 	var idTipoServicio = 0;
@@ -668,19 +670,9 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function imprimirCalculoClick(download){
-		// var mapReporte = getParametersReport();
-		// var form_pdf_data = getFormData(concursoModificacion);
-		// var pdf_name = getFileName(mapReporte.pIdentificador, form_pdf_data.carac_tecnicas.sist_radiante, mapReporte.pIntensidad);
-		// var pdfDocGenerator;
-		// if(concursoModificacion == 'Concurso'){
-		// 	pdfDocGenerator = getPDFConcurso(mapReporte, form_pdf_data);
-		// } else {
-		// 	pdfDocGenerator = getPDFModificacion(mapReporte, form_pdf_data);
-		// }
 		var pdfDocGenerator = getPDFFile();
 		var pdf_name = getFileName($("#identificadores").val(), form_data.carac_tecnicas.sist_radiante, $("#intensidadCampoM").val());
 		pdfDocGenerator.download(pdf_name + '.pdf');
-		// pdfGenerarte(pdf_name, pdfDocGenerator, download);
 	}
 
 	function getPDFFile() {
@@ -702,22 +694,14 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			pdf_base64_file = data;
 			sendBase64Files(kml_base64, data);
 		})
-		// var p1 = new Promise(function(resolve, reject){
-		// 	console.log(resolve);
-		// 	funcion_base64(pdfDocGenerator);
-		// 	console.log(resolve);
-		// });
-		// p1.then(console.log("dgfg"));
-		// Promise.all( [p1] ).then(function(){  
-		// 	console.log("pdf_base64_file");
-	 //    });
 	}
 
 	function sendBase64Files(kml_base64, pdf_base64) {
 		var files_names = getFileName($("#identificadores").val(), $("#sistRadiante").val(), $("#intensidadCampoM").val());
-		var json_kml = createJSON(files_names+".kml", kml_base64, "Archivo KML");
-		var json_pdf = createJSON(files_names+".pdf", pdf_base64, "Archivo PDF");
-		data = {"usuario_id": parseInt(internal_token), "codigo_postulacion": "dgds", "kml": JSON.stringify(json_kml), "pdf": JSON.stringify(json_pdf)};
+		var id_tipo_calculo = getIdTipoCalculo($("#intensidadCampoM").val());
+		var json_kml = createJSON(files_names+".kml", kml_base64, id_tipo_calculo);
+		var json_pdf = createJSON(files_names+".pdf", pdf_base64, id_tipo_calculo);
+		data = {"usuario_id": parseInt(internal_token), "codigo_postulacion": codigo, "kml": JSON.stringify(json_kml), "pdf": JSON.stringify(json_pdf)};
 		$.ajax({
 			data: data,
 			url: "/CalculoTVD/calculoTVD/send_file",
@@ -730,16 +714,31 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				}
 			},
 			error: function(error) {
-				console.log("Error: " + error);
+				console.log("error");
+				console.log(error);
 			}
 		});
 	}
 
-	function createJSON (name, base64_file, description) {
+	function getIdTipoCalculo(intensidad_campo) {
+		var id_tipo_calculo = 0;
+		if(zone_service_intensity == intensidad_campo) {
+	        id_tipo_calculo = 1;
+	    } else if(zone_hedge_intensity == intensidad_campo) {
+	        id_tipo_calculo = 2;
+	    } else if(zone_urban_intensity == intensidad_campo) {
+	        id_tipo_calculo = 3;
+	    }
+	    return id_tipo_calculo;
+	}
+
+	function createJSON(name, base64_file, id_tipo_calculo) {
 		var json_object = new Object();
-		json_object.descripcion = description;
+		var sha1_encoded = $.sha1(base64_file);
+		console.log(sha1_encoded);
+		json_object.descripcion = id_tipo_calculo;
 		json_object.nombre = name;
-		json_object.checksum = "xzvv32435z";
+		json_object.checksum = sha1_encoded;
 		json_object.binario = base64_file;
 
 		return json_object;
@@ -752,7 +751,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function exportKMZClick(download){
-		// showLoader(true, 'Generando Archivo KML');
 
 		var form_data = getMapParameters();
 		var radioMaximo = form_data.radioMaximo;
@@ -949,6 +947,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			"calculos": JSON.stringify(mapParametros),
 			"identificador": idIdentificador,
 			"mongo_id": id_calculo,
+			"action": "save",
 			"nombre_calculo": nombre,
 			"internal_id": internal_token,
 		  	"f": 'json'
@@ -970,6 +969,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			updateComboSelectCalculos(data.value);
 		} else if(data.value.status == 'updated') {
 			alert("Datos Modificados Correctamente");
+		} else if(data.value.status == 'usuario no existe') {
+			alert("Error: usuario no existe");
 		}
 	}
 
@@ -988,7 +989,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		}
 		geoProcessor = new Geoprocessor(cargarDataCalculo);
 		geoProcessor.submitJob(params).then(statusFunctionDataCalculo, showError);
-		// showLoader(false, '');
 	}
 
 	function statusFunctionDataCalculo(data) {
@@ -1154,20 +1154,67 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 	$("#enviarCalculosCNTV").on('click', function(){
 		var id_calculo = $("#selectCalculos option:selected").val();
-		var nombre_select = $("#selectCalculos option:selected").text();
+		var nombre_select = getCalculoName();
+		console.log(nombre_select);
 		var idIdentificador = $("#identificadores").text();
 
 		var mapParametros = getParametersReport();
 		mapParametros['form_data'] = form_data;
 		mapParametros['form_general_modificacion'] = form_general_modificacion;
 		mapParametros['form_general_concurso'] = form_general_concurso;
-		// guardarCalculosTVD(nombre_select, mapParametros, id_calculo, idIdentificador);
-		generateBase64Files();
-		// imprimirCalculoClick(false);
+		$("#longitudI").val($("#longitudGradosM").val() + "° "+ $("#longitudMinutosM").val() + "' " + $("#longitudSegundosM").val() + "''");
+		$("#latitudI").val($("#latitudGradosM").val() + "° "+ $("#latitudMinutosM").val() + "' " + $("#latitudSegudosM").val() + "''");
+		var longitudGMS = ComponeCoordenadaNumero($("#longitudGradosM").val(),$("#longitudMinutosM").val(),$("#longitudSegundosM").val());
+		var latitudGMS = ComponeCoordenadaNumero($("#latitudGradosM").val(),$("#latitudMinutosM").val(),$("#latitudSegudosM").val());
+		mapParametros["longitud"] = longitudGMS;
+		mapParametros["latitud"] = latitudGMS;
+		mapParametros["canal"] = getCanal();
+		guardarCalculoDefinitivo(nombre_select, mapParametros, id_calculo, idIdentificador, codigo);
+		// generateBase64Files();
 	});
+
+	function getCanal() {
+		var tipo_concurso = "";
+		console.log(concursoModificacion);
+		if(concursoModificacion == 'Concurso'){
+			tipo_concurso = "digital";
+		} else if (concursoModificacion == 'Modificacion') {
+			tipo_concurso = "analogo";
+		}
+		console.log(tipo_concurso);
+		var canal = getCanalByFrecuencia(tipo_concurso,$("#frecuenciaM").val());
+		return canal;
+	}
+
+	function getCalculoName() {
+		var d = new Date();
+		var n = d.getTime();
+		var nombre_select = $("#selectCalculos option:selected").text();
+		if(nombre_select == "...") {
+			nombre_select = "CalculoDefinitivo" + n;
+		}
+
+		return nombre_select;
+	}
 
 	function generateBase64Files() {
 		var kml_base64 = exportKMZClick(false);
 		getPDFBase64File(kml_base64);
+	}
+
+	function guardarCalculoDefinitivo(nombre, mapParametros, id_calculo, idIdentificador, codigo) {
+		var params = {
+			"calculos": JSON.stringify(mapParametros),
+			"identificador": idIdentificador,
+			"mongo_id": id_calculo,
+			"codigo_postulacion": codigo,
+			"nombre_calculo": nombre,
+			"internal_id": internal_token,
+			"action": "definitive",
+		  	"f": 'json'
+		}
+		console.log(params);
+		// geoProcessor = new Geoprocessor(guardarDataCalculos);
+		// geoProcessor.submitJob(params).then(statusguardarCalculosTVD, showError);
 	}
 });

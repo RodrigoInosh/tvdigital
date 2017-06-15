@@ -14,20 +14,22 @@
 		   var token ="<%=token%>";
 		   var userId ="<%=userId%>";
 		   var codigoPostulacion ="<%=codigoPostulacion%>";
-		   data = {"usuario_id": parseInt(userId), "token": token, "codigo": codigoPostulacion};
-			$.ajax({
-				data: data,
-				url: "/CalculoTVD/calculoTVD/tvdpage",
-				type: 'POST',
-				success: function(response) {
-					if(response != "OK") {
-						window.location.replace(response);
-					}
-				},
-				error: function(error) {
-					window.location.replace('error_page.jsp');
-				}
-			});
+		 //   data = {"usuario_id": parseInt(userId), "token": token, "codigo": codigoPostulacion};
+			// $.ajax({
+			// 	data: data,
+			// 	url: "/CalculoTVD/calculoTVD/tvdpage",
+			// 	type: 'POST',
+			// 	success: function(response) {
+			// 		console.log("response");
+			// 		console.log(response);
+			// 		if(response == "NOK") {
+			// 			window.location.replace('error_page.jsp');
+			// 		}
+			// 	},
+			// 	error: function(error) {
+			// 		window.location.replace('error_page.jsp');
+			// 	}
+			// });
 	</script>
 
 <head>
@@ -41,10 +43,10 @@
 <link rel="stylesheet" href="https://js.arcgis.com/4.1/esri/css/main.css">
 <link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link href="css/form_pdf.css?v=<%= System.currentTimeMillis() %>" rel="stylesheet" type="text/css">
-
 <!-- <script src="js/jquery-3.2.0.min.js"></script>
 <script src="js/jquery-ui.js"></script>
 <script src="js/jquery.soap.js"></script> -->
+
 <script src="js/jquery.dataTables.min.js"></script>
 <script src="js/template_kml.js"></script>
 <script src="js/pdfmake.min.js"></script>
@@ -61,7 +63,7 @@
 <script src="js/interpolacion.js"></script>
 <script src="js/concurso_pdf_export.js?v=<%= System.currentTimeMillis() %>"></script>
 <script src="js/modificacion_pdf_export.js?v=<%= System.currentTimeMillis() %>"></script>
-
+<script src="js/jquery.sha1.js"></script>
 </head>
 <body>
 	<div id="loader">
@@ -538,6 +540,7 @@
 	</div>
 	<div id="info_user" style="display: none;">
 		<input type="text" id="id" value='<%=request.getParameter("userId")%>'>
+		<input type="text" id="codigo" value='<%=request.getParameter("codigo")%>' text="">
 		<input type="text" id="idomicilio" value="" text="">
 		<input type="text" id="iemail" value="">
 		<input type="text" id="ifono" value="">
