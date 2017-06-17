@@ -735,7 +735,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	function createJSON(name, base64_file, id_tipo_calculo) {
 		var json_object = new Object();
 		var sha1_encoded = $.sha1(base64_file);
-		console.log(sha1_encoded);
 		json_object.descripcion = id_tipo_calculo;
 		json_object.nombre = name;
 		json_object.checksum = sha1_encoded;
@@ -1155,13 +1154,13 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	$("#enviarCalculosCNTV").on('click', function(){
 		var id_calculo = $("#selectCalculos option:selected").val();
 		var nombre_select = getCalculoName();
-		console.log(nombre_select);
 		var idIdentificador = $("#identificadores").text();
 
 		var mapParametros = getParametersReport();
 		mapParametros['form_data'] = form_data;
 		mapParametros['form_general_modificacion'] = form_general_modificacion;
 		mapParametros['form_general_concurso'] = form_general_concurso;
+
 		$("#longitudI").val($("#longitudGradosM").val() + "° "+ $("#longitudMinutosM").val() + "' " + $("#longitudSegundosM").val() + "''");
 		$("#latitudI").val($("#latitudGradosM").val() + "° "+ $("#latitudMinutosM").val() + "' " + $("#latitudSegudosM").val() + "''");
 		var longitudGMS = ComponeCoordenadaNumero($("#longitudGradosM").val(),$("#longitudMinutosM").val(),$("#longitudSegundosM").val());
@@ -1175,13 +1174,11 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 	function getCanal() {
 		var tipo_concurso = "";
-		console.log(concursoModificacion);
 		if(concursoModificacion == 'Concurso'){
 			tipo_concurso = "digital";
 		} else if (concursoModificacion == 'Modificacion') {
 			tipo_concurso = "analogo";
 		}
-		console.log(tipo_concurso);
 		var canal = getCanalByFrecuencia(tipo_concurso,$("#frecuenciaM").val());
 		return canal;
 	}
@@ -1207,14 +1204,13 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			"calculos": JSON.stringify(mapParametros),
 			"identificador": idIdentificador,
 			"mongo_id": id_calculo,
-			"codigo_postulacion": codigo,
-			"nombre_calculo": nombre,
 			"internal_id": internal_token,
+			"nombre_calculo": nombre,
+			"codigo": codigo,
 			"action": "definitive",
 		  	"f": 'json'
 		}
-		console.log(params);
-		// geoProcessor = new Geoprocessor(guardarDataCalculos);
-		// geoProcessor.submitJob(params).then(statusguardarCalculosTVD, showError);
+		geoProcessor = new Geoprocessor(guardarDataCalculos);
+		geoProcessor.submitJob(params).then(statusguardarCalculosTVD, showError);
 	}
 });

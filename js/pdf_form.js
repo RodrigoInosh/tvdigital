@@ -169,13 +169,13 @@ $('#saveFormPDF').on('click', function() {
     form_data.estudio_principal.domicilio = $("#direccionP").val();
     form_data.estudio_principal.comuna = $("#comunaP").val();
     form_data.estudio_principal.region = $("#regionP").val();
-    form_data.estudio_principal.latitud = $("#latGradesP").val() + '° ' + $("#latMinP").val() + '\' ' + $("#latMinP").val() + '\'\'';
+    form_data.estudio_principal.latitud = $("#latGradesP").val() + '° ' + $("#latMinP").val() + '\' ' + $("#latSecP").val() + '\'\'';
     form_data.estudio_principal.longitud = $("#longGradesP").val() + '° ' + $("#longMinP").val() + '\' ' + $("#longSecP").val() + '\'\'';
 
     form_data.estudio_alternativo.domicilio = $("#direccionA").val();
     form_data.estudio_alternativo.comuna = $("#comunaA").val();
     form_data.estudio_alternativo.region = $("#regionA").val();
-    form_data.estudio_alternativo.latitud = $("#latGradesA").val() + '° ' + $("#latMinA").val() + '\' ' + $("#latMinA").val() + '\'\'';
+    form_data.estudio_alternativo.latitud = $("#latGradesA").val() + '° ' + $("#latMinA").val() + '\' ' + $("#latSecA").val() + '\'\'';
     form_data.estudio_alternativo.longitud = $("#longGradesA").val() + '° ' + $("#longMinA").val() + '\' ' + $("#longSecA").val() + '\'\'';
 
     form_data.ptx_adicional1.domicilio = $("#direccionPTxAdd1").val();

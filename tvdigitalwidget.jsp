@@ -14,22 +14,20 @@
 		   var token ="<%=token%>";
 		   var userId ="<%=userId%>";
 		   var codigoPostulacion ="<%=codigoPostulacion%>";
-		 //   data = {"usuario_id": parseInt(userId), "token": token, "codigo": codigoPostulacion};
-			// $.ajax({
-			// 	data: data,
-			// 	url: "/CalculoTVD/calculoTVD/tvdpage",
-			// 	type: 'POST',
-			// 	success: function(response) {
-			// 		console.log("response");
-			// 		console.log(response);
-			// 		if(response == "NOK") {
-			// 			window.location.replace('error_page.jsp');
-			// 		}
-			// 	},
-			// 	error: function(error) {
-			// 		window.location.replace('error_page.jsp');
-			// 	}
-			// });
+		   data = {"usuario_id": parseInt(userId), "token": token, "codigo": codigoPostulacion};
+			$.ajax({
+				data: data,
+				url: "/CalculoTVD/calculoTVD/tvdpage",
+				type: 'POST',
+				success: function(response) {
+					if(response == "NOK") {
+						window.location.replace('error_page.jsp');
+					}
+				},
+				error: function(error) {
+					window.location.replace('error_page.jsp');
+				}
+			});
 	</script>
 
 <head>
@@ -43,10 +41,6 @@
 <link rel="stylesheet" href="https://js.arcgis.com/4.1/esri/css/main.css">
 <link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link href="css/form_pdf.css?v=<%= System.currentTimeMillis() %>" rel="stylesheet" type="text/css">
-<!-- <script src="js/jquery-3.2.0.min.js"></script>
-<script src="js/jquery-ui.js"></script>
-<script src="js/jquery.soap.js"></script> -->
-
 <script src="js/jquery.dataTables.min.js"></script>
 <script src="js/template_kml.js"></script>
 <script src="js/pdfmake.min.js"></script>
@@ -92,13 +86,11 @@
 			<div id="selectorconmod">
 				<ul>
 					<li><input type="radio" id="concursoC" name="concursoModificacion" value="concurso">Concurso</input></li>
-					<li><input type="radio" id="modificacionM" name="concursoModificacion" value="modificacion">Modificaci&oacute;n</li>
+					<li><input type="radio" disabled="disabled" id="modificacionM" name="concursoModificacion" value="modificacion">Modificaci&oacute;n</li>
 					<li style="padding-top: 5px; font-weight: 100; width: 117px; text-align: right;">Recomendaci&oacute;n: </li>
 					<li style="padding-top: 2px; width: 50px;">
 						<select name="recomendacion" id="recomendacion" style="width: 65px;">
-							<!--option value="370">370</option-->
 							<option value="1546" selected="true">1546</option>
-							<!--option value="1546+">1546+</option-->
 						</select>
 					</li>
 				</ul>
