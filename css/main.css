@@ -30,8 +30,34 @@ button{
 #botonHerramientas{
 	position: absolute;
 	left: 10px;
-	top: 130px;
+	top: 170px;
 	cursor: pointer;
+}
+
+#pdf{
+	position: absolute;
+	left: 16px;
+	top: 130px;
+	font-size: 14px;
+    background-color: #fff;
+    color: #6e6e6e;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    transition: background-color 125ms ease-in-out 0ms;
+}
+
+#pdf:hover {
+	background-color:#f2f2f2;
+	color:#2e2e2e
 }
 
 #basemapToggleDiv {
@@ -266,7 +292,7 @@ button{
 
 #tab2 {
 	border: solid 1px #C0C0C0;
-	height: 290px;
+	height: 279px;
 	padding-top: 10x;
 	position: relative;
 	width: 423px;
@@ -483,7 +509,7 @@ button{
 #divGuardarCalculos {
 	float: left;
 	width: 100%;
-	height: 30px;
+	height: 27px;
 }
 
 #subbox2left {
@@ -501,7 +527,7 @@ button{
 	margin-left: 10px; 
 	margin-right: 10px; 
 	padding-bottom: 5px;
-	height: 60px;
+	height: 55px;
 	width: 400px;
 	margin-top: 5px;
 }
@@ -528,8 +554,8 @@ button{
 	width: 400px;
 	position: relative;
 	margin-left: 10px;
-	margin-top: 5px;
-	height: 60px;
+	margin-top: 4px;
+	height: 55px;
 }
 
 #subbox2bottom1 ul{

@@ -75,6 +75,11 @@
 		<div id="topGobBlue"></div>
 	</div>
 	<div id="viewDiv">
+		<div id="pdf" class = "esri-button2 esri-widget-button2 esri-interactive" title="Descarga Manual de Usuario">
+			<a class="btn btn-info" href="/CalculoTVD/calculoTVD/userGuide">
+	  			<i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i>
+	  		</a>
+  		</div>
 		<div id="botonHerramientas"><img src="images/terra-globe-icon-png-24.png" width="40" height="40" /></div>
 		<div id="caltool">
 			<div id="titulocaltool" style="height: 3px;">
@@ -199,7 +204,15 @@
 					<div id="subbox2left">
 						<ul>
 							<li><label style="padding-right: 0px;">Intensidad de campo:</label></li>
-							<li><input type="text" value="" id="intensidadCampoM" style="width: 40px;"/><b>[dB(uV/m)]</b></li>
+							<li>
+								<select id="intensidadCampoM" style="width: 45px; height: 18px;">
+									<option>40</option>
+									<option>48</option>
+									<option>66</option>
+								</select>
+								<b>[dB(uV/m)]</b>
+							<!-- <input type="text" value="" id="intensidadCampoM" style="width: 40px;"/><b>[dB(uV/m)]</b> -->
+							</li>
 							<div id="separador"></div>
 							<li><label style="padding-right: 16px;">Altura Antena Tx:</label></li>
 							<li><input type="text" value="" id="alturaAntenaTransmisoraM" style="width: 40px;"/><b>[m]</b></li>
@@ -260,7 +273,7 @@
 
 						</ul>
 					</div>
-					<div id="separador" style="height: 3px;"></div>
+					<!-- <div id="separador" style="height: 3px;"></div> -->
 					<div id="subbox2bottom2">
 						<ul>
 							<li style="text-align: left;" id="opcionesAvanzadasButton"><a href="#">Par&aacute;metros Avanzados</a></li>
@@ -276,7 +289,7 @@
 								<li><label><b><u>Zona Digital Calculada</u></b></label></li>
 								<div id="separador" style="height: 1px;"></div>
 								<li><label>Localidad: &nbsp;</label></li>
-								<li style="font-weight: bold"><label id="localidadI"></label></li>
+								<li style="font-weight: bold;"><label id="localidadI"></label></li>
 								<div id="separador"></div>
 								<li><label>Potencia: &nbsp;</label></li>
 								<li style="font-weight: bold"><label id="potenciaI"></label><label> Watts</label></li>
@@ -285,6 +298,7 @@
 						</div>
 						<div id="subbox3topright">
 							<ul>
+								<li><label>Concurso: &nbsp;</label></li>
 								<li style="font-weight: bold"><label id="identificadorI"></label></li>
 								<div id="separador"></div>
 								<li><label>Frecuencia: &nbsp;</label></li>

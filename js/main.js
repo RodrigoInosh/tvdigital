@@ -735,6 +735,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	function createJSON(name, base64_file, id_tipo_calculo) {
 		var json_object = new Object();
 		var sha1_encoded = $.sha1(base64_file);
+		console.log(name);
+		console.log(sha1_encoded);
 		json_object.descripcion = id_tipo_calculo;
 		json_object.nombre = name;
 		json_object.checksum = sha1_encoded;
@@ -926,9 +928,9 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		var idIdentificador = dom.byId("identificadores").value;
 
 		if(id_calculo == '0') {
-			nombre_save = prompt("Ingrese Nommbre del Cálculo", "");
+			nombre_save = prompt("Ingrese Nombre del Cálculo", "");
 		} else {
-			nombre_save = prompt("Ingrese Nommbre del Cálculo", nombre_select);
+			nombre_save = prompt("Ingrese Nombre del Cálculo", nombre_select);
 		}
 
 		if(nombre_save != nombre_select) {
@@ -1169,7 +1171,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		mapParametros["latitud"] = latitudGMS;
 		mapParametros["canal"] = getCanal();
 		guardarCalculoDefinitivo(nombre_select, mapParametros, id_calculo, idIdentificador, codigo);
-		// generateBase64Files();
+		generateBase64Files();
 	});
 
 	function getCanal() {
