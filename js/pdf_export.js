@@ -149,9 +149,10 @@ function getRadialsTableRowData(title, form_elements, init_grade, added_grades, 
 function getFileName(identificator, sist_radiante, intensidad_campo) {
 
     var date_in_milis = new Date();
+
     var year = date_in_milis.getFullYear();
-    var month = date_in_milis.getMonth();
-    var day = date_in_milis.getDay();
+    var month = date_in_milis.getMonth()+1;
+    var day = date_in_milis.getUTCDate();
     var hour = date_in_milis.getHours();
     var minutes = date_in_milis.getMinutes();
     var type_sist_radiant = getSistRadiantType(sist_radiante);
