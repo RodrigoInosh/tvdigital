@@ -215,26 +215,26 @@
 							</li>
 							<div id="separador"></div>
 							<li><label style="padding-right: 16px;">Altura Antena Tx:</label></li>
-							<li><input type="text" value="" id="alturaAntenaTransmisoraM" style="width: 40px;"/><b>[m]</b></li>
+							<li><input class="number_input" type="text" value="" id="alturaAntenaTransmisoraM" style="width: 40px;"/><b>[m]</b></li>
 							<li><label style="padding-right: 39px;">P&eacute;rdidas CC:</label></li>
-							<li><input type="text" value="" id="perdidasCablesConectoresM" style="width: 40px;"/><b>[dB]</b></li>
+							<li><input class="number_input" type="text" value="" id="perdidasCablesConectoresM" style="width: 40px;"/><b>[dB]</b></li>
 							<div id="separador"></div>
 							<li><label style="padding-right: 6px;">Divisor de potencia:</label></li>
-							<li><input type="text" value="" id="divisorPotenciaM" style="width: 40px;"/><b>[dB]</b></li>
+							<li><input class="number_input" type="text" value="" id="divisorPotenciaM" style="width: 40px;"/><b>[dB]</b></li>
 						</ul>
 					</div>
 					<div id="subbox2right">
 						<ul>
-							<li><label style="padding-right: 31px;">Potencia:</label></li>
+							<li><label class="number_input" style="padding-right: 31px;">Potencia:</label></li>
 							<li><input type="text" value="" id="potenciaM" style="width: 40px;" /><b>[W]</b></li>
 							<div id="separador"></div>
 							<li><label style="padding-right: 26px;">Ganancia:</label></li>
-							<li><input type="text" value="" id="gananciaM" style="width: 40px;"/><b>[dBd]</b></li>
+							<li><input class="number_input" type="text" value="" id="gananciaM" style="width: 40px;"/><b>[dBd]</b></li>
 							<div id="separador"></div>
 							<li><label style="padding-right: 18px;">Frecuencia:</label></li>
-							<li><input type="text" value="" id="frecuenciaM" style="width: 40px;"/><b>[Mhz]</b></li>
+							<li><input class="number_input" type="text" value="" id="frecuenciaM" style="width: 40px;"/><b>[Mhz]</b></li>
 							<li><label>Otras P&eacute;rdidas:</label></li>
-							<li><input type="text" value="" id="otrasPerdidasM" style="width: 40px;"/><b>[dB]</b></li>
+							<li><input class="number_input" type="text" value="" id="otrasPerdidasM" style="width: 40px;"/><b>[dB]</b></li>
 						</ul>
 					</div>
 					<div id="separador"></div>

@@ -1156,8 +1156,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	$("#enviarCalculosCNTV").on('click', function(){
 		var id_calculo = $("#selectCalculos option:selected").val();
 		var nombre_select = getCalculoName();
-		var idIdentificador = $("#identificadores").text();
-
+		var idIdentificador = $("#identificadores option:selected").text();
 		var mapParametros = getParametersReport();
 		mapParametros['form_data'] = form_data;
 		mapParametros['form_general_modificacion'] = form_general_modificacion;
@@ -1171,7 +1170,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		mapParametros["latitud"] = latitudGMS;
 		mapParametros["canal"] = getCanal();
 		guardarCalculoDefinitivo(nombre_select, mapParametros, id_calculo, idIdentificador, codigo);
-		generateBase64Files();
+		// generateBase64Files();
 	});
 
 	function getCanal() {
@@ -1202,17 +1201,67 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function guardarCalculoDefinitivo(nombre, mapParametros, id_calculo, idIdentificador, codigo) {
-		var params = {
-			"calculos": JSON.stringify(mapParametros),
-			"identificador": idIdentificador,
-			"mongo_id": id_calculo,
-			"internal_id": internal_token,
-			"nombre_calculo": nombre,
-			"codigo": codigo,
-			"action": "definitive",
-		  	"f": 'json'
+		if(validate_data(mapParametros)) {
+			var params = {
+				"calculos": JSON.stringify(mapParametros),
+				"identificador": idIdentificador,
+				"mongo_id": id_calculo,
+				"internal_id": internal_token,
+				"nombre_calculo": nombre,
+				"codigo": codigo,
+				"action": "definitive",
+			  	"f": 'json'
+			}
+			geoProcessor = new Geoprocessor(guardarDataCalculos);
+			geoProcessor.submitJob(params).then(statusguardarCalculosTVD, showError);
 		}
-		geoProcessor = new Geoprocessor(guardarDataCalculos);
-		geoProcessor.submitJob(params).then(statusguardarCalculosTVD, showError);
+	}
+
+	function validate_data(mapParametros) {
+
+		if(mapParametros["canal"] == "[N/A]") {
+			alert("Frecuencia del canal incorrecta");
+			return false;
+		}
+		if(mapParametros['form_data'].carac_tecnicas.antena_combi == "") {
+			alert("Debe seleccionar una opción de 'Antena Combinada'");
+			return false;	
+		}
+		if(mapParametros['form_data'].carac_tecnicas.tipo_antena == "") {
+			alert("Debe seleccionar una opción de 'Tipo de Antena'");
+			return false;	
+		}
+		if(mapParametros['form_data'].carac_tecnicas.num_elem == "" || isNaN(mapParametros['form_data'].carac_tecnicas.num_elem)) {
+			alert("El N° de Elementos Debe ser cero o mayor que cero");
+			return false;	
+		}
+		if(mapParametros['form_data'].carac_tecnicas.perc_horizontal == "" || mapParametros['form_data'].carac_tecnicas.perc_vertical == "") {
+			alert("Faltan valores en 'Polarización'");
+			return false;	
+		}
+		if(mapParametros['form_data'].carac_tecnicas.comunaPTx == "") {
+			alert("Debe anotar la Comuna (Revise tildes)");
+			return false;	
+		}
+		if(mapParametros['form_data'].carac_tecnicas.regionPTx == "") {
+			alert("Debe anotar la Región (Revise tildes)");
+			return false;
+		}
+		if(mapParametros['form_general_concurso'].plazos.ini_obras == ""){
+			alert("Debe ingresar 'Inicio de Obras'");
+			return false;
+		}
+		if(mapParametros['form_general_concurso'].plazos.tipo_emision == ""){
+			alert("Debe ingresar 'Tipo de Emision'");
+			return false;
+		}
+		if(mapParametros['form_general_concurso'].plazos.fin_obras == ""){
+			alert("Debe ingresar 'Término de Obras'");
+			return false;
+		}
+		if(mapParametros['form_general_concurso'].plazos.ini_serv == ""){
+			alert("Debe ingresar 'Inicio de Servicio'");
+			return false;
+		}
 	}
 });
