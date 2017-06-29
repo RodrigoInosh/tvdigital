@@ -1170,7 +1170,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		mapParametros["latitud"] = latitudGMS;
 		mapParametros["canal"] = getCanal();
 		guardarCalculoDefinitivo(nombre_select, mapParametros, id_calculo, idIdentificador, codigo);
-		// generateBase64Files();
+		generateBase64Files();
 	});
 
 	function getCanal() {
