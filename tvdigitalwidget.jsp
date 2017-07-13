@@ -14,20 +14,20 @@
 		   var token ="<%=token%>";
 		   var userId ="<%=userId%>";
 		   var codigoPostulacion ="<%=codigoPostulacion%>";
-		   data = {"usuario_id": parseInt(userId), "token": token, "codigo": codigoPostulacion};
-			$.ajax({
-				data: data,
-				url: "/CalculoTVD/calculoTVD/tvdpage",
-				type: 'POST',
-				success: function(response) {
-					if(response == "NOK") {
-						window.location.replace('error_page.jsp');
-					}
-				},
-				error: function(error) {
-					window.location.replace('error_page.jsp');
-				}
-			});
+		 //   data = {"usuario_id": parseInt(userId), "token": token, "codigo": codigoPostulacion};
+			// $.ajax({
+			// 	data: data,
+			// 	url: "/CalculoTVD/calculoTVD/tvdpage",
+			// 	type: 'POST',
+			// 	success: function(response) {
+			// 		if(response == "NOK") {
+			// 			window.location.replace('error_page.jsp');
+			// 		}
+			// 	},
+			// 	error: function(error) {
+			// 		window.location.replace('error_page.jsp');
+			// 	}
+			// });
 	</script>
 
 <head>
@@ -41,6 +41,7 @@
 <link rel="stylesheet" href="https://js.arcgis.com/4.1/esri/css/main.css">
 <link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link href="css/form_pdf.css?v=<%= System.currentTimeMillis() %>" rel="stylesheet" type="text/css">
+<script src="js/xlsx.full.min.js?v=<%= System.currentTimeMillis() %>"></script>
 <script src="js/jquery.dataTables.min.js"></script>
 <script src="js/template_kml.js"></script>
 <script src="js/pdfmake.min.js"></script>
@@ -273,7 +274,6 @@
 
 						</ul>
 					</div>
-					<!-- <div id="separador" style="height: 3px;"></div> -->
 					<div id="subbox2bottom2">
 						<ul>
 							<li style="text-align: left;" id="opcionesAvanzadasButton"><a href="#">Par&aacute;metros Avanzados</a></li>
@@ -294,6 +294,8 @@
 								<li><label>Potencia: &nbsp;</label></li>
 								<li style="font-weight: bold"><label id="potenciaI"></label><label> Watts</label></li>
 								<div id="separador"></div>
+								<li><label>N° de Viviendas: &nbsp;</label></li>
+								<li style="font-weight: bold"><label id="viviendasI"></label></li>
 							</ul>
 						</div>
 						<div id="subbox3topright">
@@ -303,14 +305,12 @@
 								<div id="separador"></div>
 								<li><label>Frecuencia: &nbsp;</label></li>
 								<li style="text-align:left; font-weight: bold"><label id="frecuenciaI"></label><label> Mhz</label></li>
-											
 							</ul>
 						</div>
 					</div>
-					<div id="separador"></div>
 					<div id="subbox3bottom1">
 						<ul>
-							<li><label><u>Coordenadas de Ubicaci&oacute;n Digital para Planta TxWGS84</u></label></li>
+							<li><label><b><u>Coordenadas de Ubicaci&oacute;n Digital para Planta TxWGS84</u></b></label></li>
 							<div id="separador"></div>
 							<li><label>Latitud:</label></li>
 							<li><input id="latitudI" type="text" value="" style="width: 100px;" disabled="disabled"/></li>
@@ -318,7 +318,6 @@
 							<li><input id="longitudI" type="text" value="" style="width: 100px;" disabled="disabled"/></li>
 						</ul>
 					</div>
-					<div id="separador"></div>
 					<div id="datospostulante">
 						<ul>
 							<li><label><b><u>Proyecto T&eacute;cnico</u></b></label></li>
@@ -380,9 +379,13 @@
 						<li><input type="text" value="0" id="I18PL<%= 240+(20*ix) %>" style="width: 40px" class="number_input"/></li>
 					<% } %>
 					<div id="separador"></div>
-					<li style="width: 250px; text-align: right; padding-top: 10px;">
-					<a href="#" id="omni18" align="left" style="padding-right: 140px" title="Todos a Cero">Omni</a>
-					<button type="button" style="width: 70px;" id="save18PerdidasLobulosButton">Aceptar</button>
+					<li style="width: 66%; text-align: left; padding-top: 10px; padding-left: 17px">
+						<a href="#" id="omni18" style="padding-right: 5px" title="Todos a Cero">Omni</a>
+						<input id="file18" name="I18PL" style="display: none;" type="file"/>
+						<a href="" id="upload18">Carga P&eacute;rdidas(CSV)</a>
+					</li>
+					<li style="width: 20%; text-align: right; padding-top: 10px;">
+						<button type="button" id="save18PerdidasLobulosButton">Aceptar</button>
 					</li>
 				</ul>
 			</div>
@@ -406,10 +409,21 @@
 						<li><input type="text" value="0" id="I72PL<%= 300+(5*ix) %>" style="width: 40px" class="number_input"/></li>
 					<% } %>
 					<div id="separador"></div>
-					<li style="width: 480px; text-align: right; padding-top: 10px;">
-					<a href="#" id="omni72" align="left" style="padding-right: 350px" title="Todos a Cero">Omni</a>
-					<button type="button" style="width: 70px;" id="save72PerdidasLobulosButton">Aceptar</button>
+					<li style="width: 66%; text-align: left; padding-top: 10px; padding-left: 17px">
+						<a href="#" id="omni72" style="padding-right: 5px" title="Todos a Cero">Omni</a>
+						<input id="file72" name="I72PL" style="display: none;" type="file"/>
+						<a href="" id="upload72">Carga P&eacute;rdidas(CSV)</a>
 					</li>
+					<li style="width: 20%; text-align: right; padding-top: 10px;">
+						<button type="button" id="save72PerdidasLobulosButton">Aceptar</button>
+					</li>
+					<!-- <li style="width: 70%; text-align: left; padding-top: 10px; padding-left: 33px">
+					<a href="#" id="omni72" style="padding-right: 10px;" title="Todos a Cero">Omni</a>
+					<a href="#" id="cargaPerdidas" title="Cargar P&eacute;rdidas por L&oacute;bulo desde un CSV">Carga P&eacute;rdidas (CSV)</a>
+					</li>
+					<li style="width: 20%; text-align: right; padding-top: 10px;">
+					<button type="button" id="save72PerdidasLobulosButton">Aceptar</button>
+					</li> -->
 				</ul>
 			</div>
 			<div id="frame18Radiales">

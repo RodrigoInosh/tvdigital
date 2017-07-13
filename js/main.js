@@ -229,7 +229,9 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	function changeComboIdentificadorClick(){
 		concursoC = dom.byId("concursoC").checked;
 		modificacionM = dom.byId("modificacionM").checked;
+		$("#pestanaTab3").hide();
 		$("#72PerdidasLobulos").trigger('click');
+
 		if(concursoC){
 			setIndentificadorConcurso();
 		}
@@ -240,18 +242,19 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	
 	function changeComboTipoServicioClick(){
 		view.graphics.removeAll();
-		// removeDataConcurso();
 		concursoC = dom.byId("concursoC").checked;
 		modificacionM = dom.byId("modificacionM").checked;
 		idConcurso = dom.byId("concursos").value;
 		idTipoServicio = dom.byId("tipoServicio").value;
 		idRegion = dom.byId("regiones").value;
+
+		var query3 = new Query();
+		query3.returnGeometry = true;
+		query3.outFields = ["IDENTIFICADOR"];
+		query3.orderByFields = ["IDENTIFICADOR"];
+
 		if(concursoC){
-			var query3 = new Query();
-			query3.returnGeometry = true;
-			query3.outFields = ["IDENTIFICADOR"];
 			query3.where = "CONCURSO='"+idConcurso+"' AND TIPO_SERVICIO = '"+idTipoServicio+"'";
-			query3.orderByFields = ["IDENTIFICADOR"];
 			queryTask2.execute(query3).then(function(data){
 				$("#72PerdidasLobulos").trigger('click');
 				changeListaIdentificadores(data);
@@ -261,13 +264,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				}
 			});
 		}
-		if(modificacionM){
-			var query3 = new Query();
-			query3.returnGeometry = true;
-			query3.outFields = ["IDENTIFICADOR"];
+		else if(modificacionM){
 			query3.where = "REG="+idRegion+" AND TIPO_SERVICIO = '"+idTipoServicio+"'";
-			query3.orderByFields = ["IDENTIFICADOR"];
-
 			queryTask3.execute(query3).then(function(data){
 				$("#72PerdidasLobulos").trigger('click');
 				changeListaIdentificadores(data);
@@ -345,9 +343,9 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		queryCenter.returnGeometry = true;
 		queryCenter.outFields = ["IDENTIFICADOR"];
 		queryCenter.where = queryString;
-		cargarCalculosGuardados(idIdentificador);
 		queryTask2.execute(queryCenter).then(function(data){
 			$("#72PerdidasLobulos").trigger('click');
+			cargarCalculosGuardados(idIdentificador);
 			showLoader(true, 'Cargando Datos');
 			map.removeAll();
 			if(data.features.length == 0){
@@ -491,7 +489,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		view.on("click", obtieneNuevaCoordenada);
 	}
 
-	function obtieneNuevaCoordenada(event){        
+	function obtieneNuevaCoordenada(event){
 		if(nuevaCoordenada){
 			map.remove(capaCalculoPuntos);
 			var point = new Point({
@@ -515,7 +513,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			cursorDefault();
 		}
 	}
-	function cambiaNuevaCoordenada(latitud,longitud){        
+	function cambiaNuevaCoordenada(latitud,longitud){
 		map.remove(capaCalculoPuntos);
 		var point = new Point({
 			longitude: longitud,
@@ -570,6 +568,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		  "env:outSR": 102100,
 		  "f": 'json'
         };
+        console.log(params);
 		geoProcessor.submitJob(params).then(sendRequestPolygon, showError);
 	}
 
@@ -614,12 +613,18 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		var MAX_VALUE = 100000;
 		geoProcessor.getResultData(jobId, "area").then(setPolygon, showError);
 		geoProcessor.getResultData(jobId, "distancias").then(setDataReporteOut, showError);
+		// geoProcessor.getResultData(jobId, "capaCensal").then(getDataCensal, showError);
 	}
 
 	function showError(data){
 		showErrorMessage(data);
 		setPosicionTools();
+		hidePestanaTab3();
 		showLoader(false, '');
+	}
+
+	function getDataCensal(data) {
+		setCantidadViviendas()
 	}
 
 	function setPolygon(data){
@@ -1172,6 +1177,70 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		guardarCalculoDefinitivo(nombre_select, mapParametros, id_calculo, idIdentificador, codigo);
 		generateBase64Files();
 	});
+
+	$("#upload18").on('click', function(event){
+	    event.preventDefault();
+	    $("#file18:hidden").trigger('click');
+	});
+
+	$("#upload72").on('click', function(event){
+	    event.preventDefault();
+	    $("#file72:hidden").trigger('click');
+	});
+
+	$("#file18").change(function(event) {
+		var file_extension = $("input#file18").val().split(".").pop().toLowerCase();
+	    // if(file_extension == "csv") {
+	    	rellenarPerdidasLobulo(event, 'I18PL', 'file18');
+	    // } else {
+	    // 	alert("El archivo debe ser un CSV");
+	    // }
+	});
+
+	$("#file72").change(function(event) {
+		var file_extension = $("input#file72").val().split(".").pop().toLowerCase();
+	    if(file_extension == "csv") {
+	    	rellenarPerdidasLobulo(event, 'I72PL', 'file72');
+	    } else {
+	    	alert("El archivo debe ser un CSV");
+	    }
+	});
+
+	function rellenarPerdidasLobulo(event, tabla_perdidas, input_file) {
+		if (event.target.files != undefined) {
+    		var fileInput = document.getElementById(input_file)
+    		var fileReader = new FileReader();
+    		var file = fileInput.files[0];
+	        // reader.onload = function () {
+	        // 	var csvval=reader.result.split("\n");
+	        // 	var csv_headers = csvval[0].split(";");
+	        // 	var csv_values = csvval[1].split(";");
+	        // 	var lobulo_grado = 0;
+
+	        // 	for(var aux in csv_headers) {
+	        // 		lobulo_grado = csv_headers[aux].replace('°', '');
+	        // 		$("#"+tabla_perdidas+lobulo_grado).val(csv_values[aux]);
+	        // 	}
+	        // };
+	        // reader.readAsBinaryString(fileInput.files[0]);
+	        fileReader.onload = function (e) {
+		    var filename = file.name;
+		    console.log(filename);
+		    // pre-process data
+		    var binary = "";
+		    var bytes = new Uint8Array(e.target.result);
+		    var length = bytes.byteLength;
+
+		    for (var i = 0; i < length; i++) {
+		      binary += String.fromCharCode(bytes[i]);
+		    }
+		    var oFile = XLSX.read(binary, {type: 'binary', cellDates:true, cellStyles:true});
+		  };
+		  fileReader.readAsArrayBuffer(file);
+    	} else {
+    		console.log("Error obteniendo archivo");
+    	}
+	}
 
 	function getCanal() {
 		var tipo_concurso = "";

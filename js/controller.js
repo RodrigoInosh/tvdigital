@@ -492,6 +492,10 @@ function setDataReporte(data){
 	}
 }
 
+function setCantidadViviendas(cantidad_viviendas) {
+	$("#viviendasI").text(cantidad_viviendas);
+}
+
 function setDistanciasKilometros(){
 	var radial = $("input[name=radialesRadio]:checked").val();
 	var grados = 360/radial;
@@ -535,7 +539,7 @@ function removeDataInforme(){
 function removeDataConcurso(){
 	interpola = false;
 	$("#normaActualM").prop('checked', true);
-	// $("#tipoServicio option:contains(...)").prop("selected",true);
+	$("#tipoServicio option:contains(...)").prop("selected",true);
 	$("#localidadC").val("");
 	$("#frecuenciaC").val("");
 	$("#potenciaMaximaC").val("");
@@ -617,6 +621,7 @@ function setPosicionTools(){
 }
 
 function showErrorMessage(value){
+	console.log(value);
 	alert("Hubo un problema generando el cálculo de zona.");
 }
 
@@ -726,7 +731,7 @@ function getParametersReport(){
 		if(radial == 18)
 	        mapOut[llave] = perdidasLobulos18Map[llave];
 		if(radial ==72)
-	        mapOut[llave] = perdidasLobulos72Map[llave];              
+	        mapOut[llave] = perdidasLobulos72Map[llave];
 	}
 	return mapOut;
 }
@@ -745,7 +750,13 @@ function showPestanaTab3(){
 	$("#tabdatos").tabs({active: 2});
 }
 
+function hidePestanaTab3(){
+	$("#pestanaTab3").hide();
+	$("#tabdatos").tabs({active: 0});
+}
+
 function showInitPestana(){
+	console.log("show init pestaña");
 	$("#pestanaTab2").hide();
 	$("#pestanaTab3").hide();
 	$("#tabdatos").tabs({active: 0});
