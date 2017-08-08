@@ -1,5 +1,6 @@
 var rows_table_anthenas = 11;
 var tipo_licitacion = "";
+var comunas = [];
 
 var tabla_antenas = {
     "numero": {"ant_num0":""},
@@ -255,6 +256,7 @@ $("#closeFrom").on('click', function() {
 });
 
 $(document).ready(function() {
+
     var table = $('#example').DataTable({
         "scrollCollapse": true,
         "paging": false,
@@ -309,6 +311,18 @@ function showDatosGenerales(concursoModificacion) {
     }
 }
 
+function setSelectRegiones(regiones, comunas) {
+    this.comunas = comunas;
+
+    regiones.forEach(function(value){
+        if(value.codigo != 0){
+            $("#regionP").append($("<option>").attr('value',value.codRegion).text(value.codRegion + ' - ' + value.descripcion));
+            $("#regionA").append($("<option>").attr('value',value.codRegion).text(value.codRegion + ' - ' + value.descripcion));
+            $("#regionPTx").append($("<option>").attr('value',value.codRegion).text(value.codRegion + ' - ' + value.descripcion));
+        }
+    });
+}
+
 $("#perc_horizontal").on('change', function() {
     var num = Number($("#perc_horizontal").val());
     
@@ -332,3 +346,30 @@ $("#perc_vertical").on('change', function() {
 
     $("#perc_horizontal").val(new_val_vertical);
 });
+
+$("#regionP").on('change', function(value){
+    var value = $("#regionP option:selected").val();
+    var comunas_region_selected = comunas[value];
+    setSelectComuna("comunaP", comunas_region_selected);
+});
+
+$("#regionPTx").on('change', function(value){
+    var value = $("#regionPTx option:selected").val();
+    var comunas_region_selected = comunas[value];
+    setSelectComuna("comunaPTx", comunas_region_selected);
+});
+
+$("#regionA").on('change', function(value){
+    var value = $("#regionA option:selected").val();
+    var comunas_region_selected = comunas[value];
+    setSelectComuna("comunaA", comunas_region_selected);
+});
+
+function setSelectComuna(id_select_comuna, comunas_region_selected) {
+    $("#"+id_select_comuna).empty();
+    $("#"+id_select_comuna).append(new Option("Seleccione una Comuna", ""));
+
+    $.each( comunas_region_selected, function( key, value ) {
+        $("#"+id_select_comuna).append(new Option(value, key));
+    });
+}

@@ -107,11 +107,17 @@
         </li>
         <li style="width: 40px; text-align: left">Comuna:</li>
         <li>
-            <input type="text" value="" id="comunaP" />
+            <select id="comunaP">
+                <option value="">Seleccione una Comuna</option>
+            </select>
+            <!-- <input type="text" value="" id="comunaP" /> -->
         </li>
         <li style="width: 40px; text-align: left">Regi&oacute;n:</li>
         <li>
-            <input type="text" value="" id="regionP" />
+            <select id="regionP">
+                <option value="">Seleccione una Regi&oacute;n</option>
+            </select>
+            <!-- <input type="text" value="" id="regionP" /> -->
         </li>
         <div id="separador"></div>
         <li style="width: 60px; text-align: left">Latitud Sur:</li>
@@ -143,11 +149,17 @@
         </li>
         <li style="width: 40px; text-align: left">Comuna:</li>
         <li>
-            <input type="text" value="" id="comunaA" />
+            <select id="comunaA">
+                <option value="">Seleccione una Comuna</option>
+            </select>
+            <!-- <input type="text" value="" id="comunaA" /> -->
         </li>
         <li style="width: 40px; text-align: left">Regi&oacute;n:</li>
         <li>
-            <input type="text" value="" id="regionA" />
+            <select id="regionA">
+                <option value="">Seleccione una Regi&oacute;n</option>
+            </select>
+            <!-- <input type="text" value="" id="regionA" /> -->
         </li>
         <div id="separador"></div>
         <li style="width: 60px; text-align: left">Latitud Sur:</li>
@@ -230,11 +242,17 @@
         </li>
         <li style="width: 40px; text-align: left">Comuna:</li>
         <li>
-            <input type="text" value="" id="comunaPTx" />
+            <select id="comunaPTx">
+                <option value="">Seleccione una Comuna</option>
+            </select>
+            <!-- <input type="text" value="" id="comunaPTx" /> -->
         </li>
         <li style="width: 40px; text-align: left">Regi&oacute;n:</li>
         <li>
-            <input type="text" value="" id="regionPTx" />
+            <select id="regionPTx">
+                <option value="">Seleccione una Reg&oacute;n</option>
+            </select>
+            <!-- <input type="text" value="" id="regionPTx" /> -->
         </li>
         <!-- -->
         <div id="div_planta_adicional" style="display: none;">

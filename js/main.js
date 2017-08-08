@@ -49,6 +49,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	var default18 = "0,0,0,0,0,0,0,0,0,0";
 	var default8 = "0,0,0,0,0,0,0,0";
 	var concursoModificacion = "Concurso";
+	var regiones = [];
+	var comunas = [];
 
 	var map = new Map({
 	
@@ -170,6 +172,28 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	homeWidget.on("click", function(event){
 		goHome();
 	});
+
+	getDataRegiones();
+
+	function getDataRegiones() {
+		$.ajax({
+			url: "/CalculoTVD/calculoTVD/regiones",
+			type: 'GET',
+			success: function(response) {
+				var datos = response.resp;
+				comunas = response.comunas;
+				var arr = $.parseJSON(datos);
+				arr.forEach(function(val){
+					regiones.push(val);
+				});
+			},
+			error: function(error) {
+				console.log("error");
+				console.log(error);
+			}
+		});
+
+	}
 	
 	// Conversion de coordenadas de arcgis a geograficas reales
 	function toGeographic(xMercator, yMercator) {
@@ -231,7 +255,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		modificacionM = dom.byId("modificacionM").checked;
 		$("#pestanaTab3").hide();
 		$("#72PerdidasLobulos").trigger('click');
-
+		showLoader(true, '');
 		if(concursoC){
 			setIndentificadorConcurso();
 		}
@@ -346,7 +370,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		queryTask2.execute(queryCenter).then(function(data){
 			$("#72PerdidasLobulos").trigger('click');
 			cargarCalculosGuardados(idIdentificador);
-			showLoader(true, 'Cargando Datos');
+			// showLoader(true, 'Cargando Datos');
 			map.removeAll();
 			if(data.features.length == 0){
 				removeDataConcurso();
@@ -393,7 +417,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				});
 			}
 			setPosicionTools();
-			showLoader(false, '');
+			// showLoader(false, '');
 		});
 	}
 
@@ -568,7 +592,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		  "env:outSR": 102100,
 		  "f": 'json'
         };
-        console.log(params);
+
 		geoProcessor.submitJob(params).then(sendRequestPolygon, showError);
 	}
 
@@ -621,6 +645,12 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		setPosicionTools();
 		hidePestanaTab3();
 		showLoader(false, '');
+	}
+
+	function showErrorCalculosGuardados(data) {
+		console.log(data);
+		showLoader(false, '');
+		alert("Hubo un problema cargando datos guardados.");
 	}
 
 	function getDataCensal(data) {
@@ -892,7 +922,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		  	"f": 'json'
 		}
 		geoProcessor = new Geoprocessor(cargarListaCalculos);
-		geoProcessor.submitJob(params).then(statusFunctionCargarCalculos, showError);
+		geoProcessor.submitJob(params).then(statusFunctionCargarCalculos, showErrorCalculosGuardados);
 	}
 
 	function statusFunctionCargarCalculos(data) {
@@ -923,6 +953,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				selectCalculos.append(new Option(value.nombre, value.mongo_id));
 			}
 		});
+		showLoader(false, '');
 	}
 
 	function preparedDataCalculosTVD() {
@@ -1122,6 +1153,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		if(is_form_modal_first_openend){
 			$("#openModal").load("form_pdf.jsp", function(){
 				showDatosGenerales(concursoModificacion);
+				setSelectRegiones(regiones, comunas);
 			});
 			is_form_modal_first_openend = false;
 		}
@@ -1163,6 +1195,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		var nombre_select = getCalculoName();
 		var idIdentificador = $("#identificadores option:selected").text();
 		var mapParametros = getParametersReport();
+		console.log(form_data);
 		mapParametros['form_data'] = form_data;
 		mapParametros['form_general_modificacion'] = form_general_modificacion;
 		mapParametros['form_general_concurso'] = form_general_concurso;
@@ -1174,8 +1207,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		mapParametros["longitud"] = longitudGMS;
 		mapParametros["latitud"] = latitudGMS;
 		mapParametros["canal"] = getCanal();
-		guardarCalculoDefinitivo(nombre_select, mapParametros, id_calculo, idIdentificador, codigo);
-		generateBase64Files();
+		// showLoader(true, 'Guardando Informacion');
+		// guardarCalculoDefinitivo(nombre_select, mapParametros, id_calculo, idIdentificador, codigo);
 	});
 
 	$("#upload18").on('click', function(event){
@@ -1190,43 +1223,32 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 	$("#file18").change(function(event) {
 		var file_extension = $("input#file18").val().split(".").pop().toLowerCase();
-	    // if(file_extension == "csv") {
-	    	rellenarPerdidasLobulo(event, 'I18PL', 'file18');
-	    // } else {
-	    // 	alert("El archivo debe ser un CSV");
-	    // }
+	    rellenarPerdidasLobulo(event, file_extension, 'I18PL', 'file18');
 	});
 
 	$("#file72").change(function(event) {
 		var file_extension = $("input#file72").val().split(".").pop().toLowerCase();
-	    if(file_extension == "csv") {
-	    	rellenarPerdidasLobulo(event, 'I72PL', 'file72');
-	    } else {
-	    	alert("El archivo debe ser un CSV");
-	    }
+	    rellenarPerdidasLobulo(event, file_extension, 'I72PL', 'file72');
 	});
 
-	function rellenarPerdidasLobulo(event, tabla_perdidas, input_file) {
+	function rellenarPerdidasLobulo(event, file_extension, tabla_perdidas, input_file) {
 		if (event.target.files != undefined) {
     		var fileInput = document.getElementById(input_file)
     		var fileReader = new FileReader();
     		var file = fileInput.files[0];
-	        // reader.onload = function () {
-	        // 	var csvval=reader.result.split("\n");
-	        // 	var csv_headers = csvval[0].split(";");
-	        // 	var csv_values = csvval[1].split(";");
-	        // 	var lobulo_grado = 0;
 
-	        // 	for(var aux in csv_headers) {
-	        // 		lobulo_grado = csv_headers[aux].replace('°', '');
-	        // 		$("#"+tabla_perdidas+lobulo_grado).val(csv_values[aux]);
-	        // 	}
-	        // };
-	        // reader.readAsBinaryString(fileInput.files[0]);
-	        fileReader.onload = function (e) {
-		    var filename = file.name;
-		    console.log(filename);
-		    // pre-process data
+	        if(file_extension == 'xlsx') {
+	        	rellenarPerdidasLobuloByXLSX(file, fileReader, tabla_perdidas);
+	        } else if(file_extension == 'csv') {
+	        	rellenarPerdidasLobuloByCSV(file, fileReader, tabla_perdidas);
+	        }
+    	} else {
+    		console.log("Error obteniendo archivo");
+    	}
+	}
+
+	function rellenarPerdidasLobuloByXLSX(file, fileReader, tabla_perdidas) {
+		fileReader.onload = function (e) {
 		    var binary = "";
 		    var bytes = new Uint8Array(e.target.result);
 		    var length = bytes.byteLength;
@@ -1234,12 +1256,43 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		    for (var i = 0; i < length; i++) {
 		      binary += String.fromCharCode(bytes[i]);
 		    }
-		    var oFile = XLSX.read(binary, {type: 'binary', cellDates:true, cellStyles:true});
-		  };
-		  fileReader.readAsArrayBuffer(file);
-    	} else {
-    		console.log("Error obteniendo archivo");
-    	}
+
+		    var woorkbook = XLSX.read(binary, {type: 'binary', cellDates:true, cellStyles:true});
+
+		    woorkbook.SheetNames.forEach(function(sheetName){
+	            var xlsx_row_object = XLSX.utils.sheet_to_row_object_array(woorkbook.Sheets[sheetName]);
+	            console.log("sheet");
+	            xlsx_row_object.forEach(function(row){
+	            	if(!$.isNumeric(row["P Lóbulo"])) {
+	            		alert("El valor de P. Lóbulo en el Az°: "+row["Az°"]+ " no es un valor numérico.");
+	            		throw BreakException;
+	            	} else {
+	            		$("#"+tabla_perdidas+row["Az°"]).val(row["P Lóbulo"]);
+	            	}
+	            });
+
+	            var json_object = JSON.stringify(xlsx_row_object);
+	        });
+	  	};
+
+	  	fileReader.readAsArrayBuffer(file);
+	}
+
+	function rellenarPerdidasLobuloByCSV(file, fileReader, tabla_perdidas) {
+		fileReader.onload = function () {
+	    	var csv_data = fileReader.result.split("\n");
+
+	    	csv_data.forEach(function(row) {
+	    		row_data = row.split(";");
+				if(!$.isNumeric(row_data[1])) {
+            		alert("El valor de P. Lóbulo en el Az°: "+row_data[0]+ " no es un valor numérico.");
+            		throw BreakException;
+            	} else {
+            		$("#"+tabla_perdidas+row_data[0]).val(row_data[1]);
+            	}
+	    	});
+	    };
+	    fileReader.readAsBinaryString(file);
 	}
 
 	function getCanal() {
@@ -1265,12 +1318,14 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function generateBase64Files() {
+		console.log("generandoooooo");
 		var kml_base64 = exportKMZClick(false);
 		getPDFBase64File(kml_base64);
 	}
 
 	function guardarCalculoDefinitivo(nombre, mapParametros, id_calculo, idIdentificador, codigo) {
 		if(validate_data(mapParametros)) {
+			generateBase64Files();
 			var params = {
 				"calculos": JSON.stringify(mapParametros),
 				"identificador": idIdentificador,
@@ -1283,6 +1338,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			}
 			geoProcessor = new Geoprocessor(guardarDataCalculos);
 			geoProcessor.submitJob(params).then(statusguardarCalculosTVD, showError);
+		} else {
+			showLoader(false, '');
 		}
 	}
 
@@ -1292,45 +1349,48 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			alert("Frecuencia del canal incorrecta");
 			return false;
 		}
-		if(mapParametros['form_data'].carac_tecnicas.antena_combi == "") {
+		else if(mapParametros['form_data'].carac_tecnicas.antena_combi == "") {
 			alert("Debe seleccionar una opción de 'Antena Combinada'");
 			return false;	
 		}
-		if(mapParametros['form_data'].carac_tecnicas.tipo_antena == "") {
+		else if(mapParametros['form_data'].carac_tecnicas.tipo_antena == "") {
 			alert("Debe seleccionar una opción de 'Tipo de Antena'");
 			return false;	
 		}
-		if(mapParametros['form_data'].carac_tecnicas.num_elem == "" || isNaN(mapParametros['form_data'].carac_tecnicas.num_elem)) {
+		else if(mapParametros['form_data'].carac_tecnicas.num_elem == "" || isNaN(mapParametros['form_data'].carac_tecnicas.num_elem)) {
 			alert("El N° de Elementos Debe ser cero o mayor que cero");
 			return false;	
 		}
-		if(mapParametros['form_data'].carac_tecnicas.perc_horizontal == "" || mapParametros['form_data'].carac_tecnicas.perc_vertical == "") {
+		else if(mapParametros['form_data'].carac_tecnicas.perc_horizontal == "" || mapParametros['form_data'].carac_tecnicas.perc_vertical == "") {
 			alert("Faltan valores en 'Polarización'");
 			return false;	
 		}
-		if(mapParametros['form_data'].carac_tecnicas.comunaPTx == "") {
+		else if(mapParametros['form_data'].carac_tecnicas.comunaPTx == "") {
 			alert("Debe anotar la Comuna (Revise tildes)");
 			return false;	
 		}
-		if(mapParametros['form_data'].carac_tecnicas.regionPTx == "") {
+		else if(mapParametros['form_data'].carac_tecnicas.regionPTx == "") {
 			alert("Debe anotar la Región (Revise tildes)");
 			return false;
 		}
-		if(mapParametros['form_general_concurso'].plazos.ini_obras == ""){
+		else if(mapParametros['form_general_concurso'].plazos.ini_obras == ""){
 			alert("Debe ingresar 'Inicio de Obras'");
 			return false;
 		}
-		if(mapParametros['form_general_concurso'].plazos.tipo_emision == ""){
+		else if(mapParametros['form_general_concurso'].plazos.tipo_emision == ""){
 			alert("Debe ingresar 'Tipo de Emision'");
 			return false;
 		}
-		if(mapParametros['form_general_concurso'].plazos.fin_obras == ""){
+		else if(mapParametros['form_general_concurso'].plazos.fin_obras == ""){
 			alert("Debe ingresar 'Término de Obras'");
 			return false;
 		}
-		if(mapParametros['form_general_concurso'].plazos.ini_serv == ""){
+		else if(mapParametros['form_general_concurso'].plazos.ini_serv == ""){
 			alert("Debe ingresar 'Inicio de Servicio'");
 			return false;
+		}
+		else {
+			return true;
 		}
 	}
 });
