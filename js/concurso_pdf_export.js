@@ -177,7 +177,7 @@ function getPage(title, form_elements) {
                             border: [true, false, false, false]
                         }, {},
                         {
-                            text: 'Comuna: ' + estudio_princ.comuna,
+                            text: 'Comuna: ' + estudio_princ.comunaName,
                             fontSize: 10,
                             colSpan: 2,
                             border: [false, false, true, false]
@@ -189,7 +189,7 @@ function getPage(title, form_elements) {
                         fontSize: 10,
                         border: [true, false, false, false]
                     }, {}, {
-                        text: 'Región: ' + estudio_princ.region,
+                        text: 'Región: ' + estudio_princ.regionName,
                         fontSize: 10,
                         colSpan: 2,
                         border: [false, false, true, false]
@@ -225,7 +225,7 @@ function getPage(title, form_elements) {
                             border: [true, false, false, false]
                         }, {},
                         {
-                            text: 'Comuna: ' + estudio_alter.comuna,
+                            text: 'Comuna: ' + estudio_alter.comunaName,
                             fontSize: 10,
                             colSpan: 2,
                             border: [false, false, true, false]
@@ -237,7 +237,7 @@ function getPage(title, form_elements) {
                         fontSize: 10,
                         border: [true, false, false, false]
                     }, {}, {
-                        text: 'Región: ' + estudio_alter.region,
+                        text: 'Región: ' + estudio_alter.regionName,
                         fontSize: 10,
                         colSpan: 2,
                         border: [false, false, true, false]
@@ -272,7 +272,7 @@ function getPage(title, form_elements) {
                             border: [true, false, false, false]
                         }, {},
                         {
-                            text: 'Comuna: ' + form_pdf_data.carac_tecnicas.comunaPTx,
+                            text: 'Comuna: ' + form_pdf_data.carac_tecnicas.comunaNamePTx,
                             fontSize: 10,
                             colSpan: 2,
                             border: [false, false, true, false]
@@ -284,7 +284,7 @@ function getPage(title, form_elements) {
                         fontSize: 10,
                         border: [true, false, false, false]
                     }, {}, {
-                        text: 'Región: ' + form_pdf_data.carac_tecnicas.regionPTx,
+                        text: 'Región: ' + form_pdf_data.carac_tecnicas.regionNamePTx,
                         fontSize: 10,
                         colSpan: 2,
                         border: [false, false, true, false]

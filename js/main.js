@@ -144,6 +144,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	var cargarListaCalculos = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/CargarInfoCalculos/GPServer/Modelo";
 	var cargarDataCalculo = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/ObtenerDatosCalculos/GPServer/Modelo";
 	var scriptCalculoPrueba = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/ModelPrueba2/GPServer/CalculoPredictivo72";
+	var gpCalculoPredictivoCensal = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Pruebas/CapaCensal/GPServer/CalculoPredictivo72";
 	
 	var queryTask1 = new QueryTask({ url: identificadores21 });
 	var queryTask2 = new QueryTask({ url: identificadores22 });
@@ -558,8 +559,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		showLoader(true, 'Calculando Zona de Propagación');
 		map.remove(capaCalculoPoligonos);
 		var mapParametros = getMapParameters();
-		// geoProcessor = new Geoprocessor(gpCalculoPredictivo);
-		geoProcessor = new Geoprocessor(scriptCalculoPrueba);
+		geoProcessor = new Geoprocessor(gpCalculoPredictivoCensal);
+		// geoProcessor = new Geoprocessor(scriptCalculoPrueba);
 		
 		var recomendacion = mapParametros.recomendacion;
 		if(calculoZonaMaxima && dom.byId("normaAnteriorM").checked){
@@ -592,7 +593,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		  "env:outSR": 102100,
 		  "f": 'json'
         };
-
+        // console.log(params);
 		geoProcessor.submitJob(params).then(sendRequestPolygon, showError);
 	}
 
@@ -632,12 +633,13 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function sendRequestPolygon(data) {
+		console.log(data);
 		areaCalculo = 0;
 		var jobId = data.jobId;
 		var MAX_VALUE = 100000;
 		geoProcessor.getResultData(jobId, "area").then(setPolygon, showError);
 		geoProcessor.getResultData(jobId, "distancias").then(setDataReporteOut, showError);
-		// geoProcessor.getResultData(jobId, "capaCensal").then(getDataCensal, showError);
+		geoProcessor.getResultData(jobId, "capaCensal").then(getDataCensal, showError);
 	}
 
 	function showError(data){
@@ -648,13 +650,13 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function showErrorCalculosGuardados(data) {
-		console.log(data);
 		showLoader(false, '');
 		alert("Hubo un problema cargando datos guardados.");
 	}
 
 	function getDataCensal(data) {
-		setCantidadViviendas()
+		// console.log(data);
+		setCantidadViviendas(data);
 	}
 
 	function setPolygon(data){
@@ -770,8 +772,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	function createJSON(name, base64_file, id_tipo_calculo) {
 		var json_object = new Object();
 		var sha1_encoded = $.sha1(base64_file);
-		console.log(name);
-		console.log(sha1_encoded);
+
 		json_object.descripcion = id_tipo_calculo;
 		json_object.nombre = name;
 		json_object.checksum = sha1_encoded;
@@ -1195,7 +1196,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		var nombre_select = getCalculoName();
 		var idIdentificador = $("#identificadores option:selected").text();
 		var mapParametros = getParametersReport();
-		console.log(form_data);
+
 		mapParametros['form_data'] = form_data;
 		mapParametros['form_general_modificacion'] = form_general_modificacion;
 		mapParametros['form_general_concurso'] = form_general_concurso;
@@ -1207,8 +1208,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		mapParametros["longitud"] = longitudGMS;
 		mapParametros["latitud"] = latitudGMS;
 		mapParametros["canal"] = getCanal();
-		// showLoader(true, 'Guardando Informacion');
-		// guardarCalculoDefinitivo(nombre_select, mapParametros, id_calculo, idIdentificador, codigo);
+		showLoader(true, 'Guardando Informacion');
+		guardarCalculoDefinitivo(nombre_select, mapParametros, id_calculo, idIdentificador, codigo);
 	});
 
 	$("#upload18").on('click', function(event){
@@ -1261,7 +1262,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 		    woorkbook.SheetNames.forEach(function(sheetName){
 	            var xlsx_row_object = XLSX.utils.sheet_to_row_object_array(woorkbook.Sheets[sheetName]);
-	            console.log("sheet");
 	            xlsx_row_object.forEach(function(row){
 	            	if(!$.isNumeric(row["P Lóbulo"])) {
 	            		alert("El valor de P. Lóbulo en el Az°: "+row["Az°"]+ " no es un valor numérico.");
@@ -1344,14 +1344,30 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function validate_data(mapParametros) {
-
+		var sistema_radiante = mapParametros['form_data'].carac_tecnicas.sist_radiante;
 		if(mapParametros["canal"] == "[N/A]") {
 			alert("Frecuencia del canal incorrecta");
 			return false;
 		}
+		else if(sistema_radiante === "sistRadiantePrinc" && mapParametros['form_data'].estudio_principal.regionName === "") {
+			alert("Debe seleccionar la Región de la Planta Principal");
+			return false;
+		}
+		else if(sistema_radiante === "sistRadiantePrinc" && mapParametros['form_data'].estudio_principal.comunaName === "") {
+			alert("Debe seleccionar la Comuna de la Planta Principal");
+			return false;
+		}
+		else if((sistema_radiante === "sistRadianteAdic1" || sistema_radiante === "sistRadianteAdic2") && mapParametros['form_data'].estudio_alternativo.regionName === "") {
+			alert("Debe seleccionar la Región de la Planta Adicional");
+			return false;
+		}
+		else if((sistema_radiante === "sistRadianteAdic1" || sistema_radiante === "sistRadianteAdic2") && mapParametros['form_data'].estudio_alternativo.comunaName === "") {
+			alert("Debe seleccionar la Región de la Planta Adicional");
+			return false;
+		}
 		else if(mapParametros['form_data'].carac_tecnicas.antena_combi == "") {
 			alert("Debe seleccionar una opción de 'Antena Combinada'");
-			return false;	
+			return false;
 		}
 		else if(mapParametros['form_data'].carac_tecnicas.tipo_antena == "") {
 			alert("Debe seleccionar una opción de 'Tipo de Antena'");
@@ -1365,12 +1381,12 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			alert("Faltan valores en 'Polarización'");
 			return false;	
 		}
-		else if(mapParametros['form_data'].carac_tecnicas.comunaPTx == "") {
-			alert("Debe anotar la Comuna (Revise tildes)");
-			return false;	
-		}
 		else if(mapParametros['form_data'].carac_tecnicas.regionPTx == "") {
-			alert("Debe anotar la Región (Revise tildes)");
+			alert("Debe seleccionar una Región en el Sistema Radiante");
+			return false;
+		}
+		else if(mapParametros['form_data'].carac_tecnicas.comunaPTx == "") {
+			alert("Debe seleccionar una Comuna en el Sistema Radiante");
 			return false;
 		}
 		else if(mapParametros['form_general_concurso'].plazos.ini_obras == ""){

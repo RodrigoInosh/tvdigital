@@ -493,7 +493,7 @@ function setDataReporte(data){
 }
 
 function setCantidadViviendas(cantidad_viviendas) {
-	$("#viviendasI").text(cantidad_viviendas);
+	$("#viviendasI").text(Number(cantidad_viviendas.value).toLocaleString('de-DE'));
 }
 
 function setDistanciasKilometros(){
@@ -621,7 +621,6 @@ function setPosicionTools(){
 }
 
 function showErrorMessage(value){
-	console.log(value);
 	alert("Hubo un problema generando el cálculo de zona.");
 }
 
@@ -756,7 +755,6 @@ function hidePestanaTab3(){
 }
 
 function showInitPestana(){
-	console.log("show init pestaña");
 	$("#pestanaTab2").hide();
 	$("#pestanaTab3").hide();
 	$("#tabdatos").tabs({active: 0});

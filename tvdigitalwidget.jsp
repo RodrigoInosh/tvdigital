@@ -11,23 +11,23 @@
 	<script src="js/jquery-ui.js"></script>
 	<script src="js/jquery.soap.js"></script>
 	<script language="javascript">
-		   var token ="<%=token%>";
+		 //   var token ="<%=token%>";
 		   var userId ="<%=userId%>";
 		   var codigoPostulacion ="<%=codigoPostulacion%>";
-		 //   data = {"usuario_id": parseInt(userId), "token": token, "codigo": codigoPostulacion};
-			// $.ajax({
-			// 	data: data,
-			// 	url: "/CalculoTVD/calculoTVD/tvdpage",
-			// 	type: 'POST',
-			// 	success: function(response) {
-			// 		if(response == "NOK") {
-			// 			window.location.replace('error_page.jsp');
-			// 		}
-			// 	},
-			// 	error: function(error) {
-			// 		window.location.replace('error_page.jsp');
-			// 	}
-			// });
+		   data = {"usuario_id": parseInt(userId), "token": token, "codigo": codigoPostulacion};
+			$.ajax({
+				data: data,
+				url: "/CalculoTVD/calculoTVD/tvdpage",
+				type: 'POST',
+				success: function(response) {
+					if(response == "NOK") {
+						window.location.replace('error_page.jsp');
+					}
+				},
+				error: function(error) {
+					window.location.replace('error_page.jsp');
+				}
+			});
 	</script>
 
 <head>

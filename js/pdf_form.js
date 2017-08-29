@@ -146,17 +146,23 @@ var frecuencias_canal_digital = {
     "677": "48",
     "683": "49",
     "689": "50",
-    "659": "51"
+    "695": "51"
 }
 
 $(".number_input" ).keypress(function(evt) {
-        var code = evt.which;
-        if((code > 47 && code < 58) || code == 0 || code == 8 || code == 46) {
-            return true
-        } else {
-            evt.preventDefault();
-        }
-    });
+    var code = evt.which;
+    if((code > 47 && code < 58) || code == 0 || code == 8 || code == 46) {
+        return true
+    } else {
+        evt.preventDefault();
+    }
+});
+
+$("#numElem").on("input", function() {
+    if(this.value > 10) {
+        this.value = 10;
+    }
+});
 
 $('#saveFormPDF').on('click', function() {
 
@@ -178,25 +184,33 @@ $('#saveFormPDF').on('click', function() {
 
     form_data.estudio_principal.domicilio = $("#direccionP").val();
     form_data.estudio_principal.comuna = $("#comunaP").val();
+    form_data.estudio_principal.comunaName = getComunaName($("#comunaP option:selected").text());
     form_data.estudio_principal.region = $("#regionP").val();
+    form_data.estudio_principal.regionName = getRegionName($("#regionP option:selected").text());
     form_data.estudio_principal.latitud = $("#latGradesP").val() + '° ' + $("#latMinP").val() + '\' ' + $("#latSecP").val() + '\'\'';
     form_data.estudio_principal.longitud = $("#longGradesP").val() + '° ' + $("#longMinP").val() + '\' ' + $("#longSecP").val() + '\'\'';
 
     form_data.estudio_alternativo.domicilio = $("#direccionA").val();
     form_data.estudio_alternativo.comuna = $("#comunaA").val();
+    form_data.estudio_alternativo.comunaName = getComunaName($("#comunaA option:selected").text());
     form_data.estudio_alternativo.region = $("#regionA").val();
+    form_data.estudio_alternativo.regionName = getRegionName($("#regionA option:selected").text());
     form_data.estudio_alternativo.latitud = $("#latGradesA").val() + '° ' + $("#latMinA").val() + '\' ' + $("#latSecA").val() + '\'\'';
     form_data.estudio_alternativo.longitud = $("#longGradesA").val() + '° ' + $("#longMinA").val() + '\' ' + $("#longSecA").val() + '\'\'';
 
     form_data.ptx_adicional1.domicilio = $("#direccionPTxAdd1").val();
     form_data.ptx_adicional1.comuna = $("#comunaPTxAdd1").val();
+    form_data.ptx_adicional1.comunaName = getComunaName($("#comunaPTxAdd1 option:selected").text());
     form_data.ptx_adicional1.region = $("#regionPTxAdd1").val();
+    form_data.ptx_adicional1.regionName = getRegionName($("#regionPTxAdd1 option:selected").text());
     form_data.ptx_adicional1.latitud = $("#latGradesPTxAdd1").val() + '° ' + $("#latMinPTxAdd1").val() + '\' ' + $("#latSecPTxAdd1").val() + '\'\'';
     form_data.ptx_adicional1.longitud = $("#longGradesPTxAdd1").val() + '° ' + $("#longMinPTxAdd1").val() + '\' ' + $("#longSecPTxAdd1").val() + '\'\'';
 
     form_data.ptx_adicional2.domicilio = $("#direccionPTxAdd2").val();
     form_data.ptx_adicional2.comuna = $("#comunaPTxAdd2").val();
+    form_data.ptx_adicional2.comunaName = getComunaName($("#comunaPTxAdd2 option:selected").text());
     form_data.ptx_adicional2.region = $("#regionPTxAdd2").val();
+    form_data.ptx_adicional2.regionName = getRegionName($("#regionPTxAdd2 option:selected").text());
     form_data.ptx_adicional2.latitud = $("#latGradesPTxAdd2").val() + '° ' + $("#latMinPTxAdd2").val() + '\' ' + $("#latSecPTxAdd2").val() + '\'\'';
     form_data.ptx_adicional2.longitud = $("#longGradesPTxAdd2").val() + '° ' + $("#longMinPTxAdd2").val() + '\' ' + $("#longSecPTxAdd2").val() + '\'\'';
 
@@ -210,8 +224,9 @@ $('#saveFormPDF').on('click', function() {
     form_data.carac_tecnicas.angulo_tilt = $("#anguloTilt").val();
     form_data.carac_tecnicas.domicilioPTx = $("#domicilioPTx").val();
     form_data.carac_tecnicas.comunaPTx = $("#comunaPTx").val();
+    form_data.carac_tecnicas.comunaNamePTx = getComunaName($("#comunaPTx option:selected").text());
     form_data.carac_tecnicas.regionPTx = $("#regionPTx").val();
-
+    form_data.carac_tecnicas.regionNamePTx = getRegionName($("#regionPTx option:selected").text());
 
     for (var ix = 0; ix < rows_table_anthenas; ix++) {
         tabla_antenas.numero["ant_num" + ix] = $("#ant_num" + ix).val();
@@ -248,6 +263,24 @@ function getFormData(concursoModificacion) {
         form_data.tab_general = form_general_modificacion;
     }
     return form_data;
+}
+
+function getRegionName(text) {
+    var splitted_name = text.split(" - ");
+
+    if(typeof splitted_name[1] === "undefined") {
+        return '';
+    } else {
+        return splitted_name[1];
+    }
+}
+
+function getComunaName(text) {
+    if(text === "Seleccione una Comuna") {
+        return '';
+    } else {
+        return text;
+    }
 }
 
 $("#closeFrom").on('click', function() {

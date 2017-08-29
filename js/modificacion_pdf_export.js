@@ -262,7 +262,7 @@ function getPage1(title, form_elements) {
                         fontSize: 10,
                         border: [true, false, false, false]
                     }, {}, {
-                        text: 'Región:    ' + estudio_princ.region,
+                        text: 'Región:    ' + estudio_princ.regionName,
                         fontSize: 10,
                         colSpan: 2,
                         border: [false, false, true, false]
@@ -345,7 +345,7 @@ function getPage1(title, form_elements) {
                             border: [true, false, false, false]
                         }, {},
                         {
-                            text: 'Comuna: ' + form_pdf_data.carac_tecnicas.comunaPTx,
+                            text: 'Comuna: ' + form_pdf_data.carac_tecnicas.comunaNamePTx,
                             fontSize: 10,
                             colSpan: 2,
                             border: [false, false, true, false]
@@ -357,7 +357,7 @@ function getPage1(title, form_elements) {
                         fontSize: 10,
                         border: [true, false, false, false]
                     }, {}, {
-                        text: 'Región: ' + form_pdf_data.carac_tecnicas.regionPTx,
+                        text: 'Región: ' + form_pdf_data.carac_tecnicas.regionNamePTx,
                         fontSize: 10,
                         colSpan: 2,
                         border: [false, false, true, false]
@@ -393,7 +393,7 @@ function getPage1(title, form_elements) {
                             border: [true, false, false, false]
                         }, {},
                         {
-                            text: 'Comuna:    ' + ptx_adic1.comuna,
+                            text: 'Comuna:    ' + ptx_adic1.comunaName,
                             fontSize: 10,
                             colSpan: 2,
                             border: [false, false, true, false]
@@ -405,7 +405,7 @@ function getPage1(title, form_elements) {
                         fontSize: 10,
                         border: [true, false, false, false]
                     }, {}, {
-                        text: 'Región:    ' + ptx_adic1.region,
+                        text: 'Región:    ' + ptx_adic1.regionName,
                         fontSize: 10,
                         colSpan: 2,
                         border: [false, false, true, false]
@@ -440,7 +440,7 @@ function getPage1(title, form_elements) {
                             border: [true, false, false, false]
                         }, {},
                         {
-                            text: 'Comuna:    ' + ptx_adic2.comuna,
+                            text: 'Comuna:    ' + ptx_adic2.comunaName,
                             fontSize: 10,
                             colSpan: 2,
                             border: [false, false, true, false]
@@ -452,7 +452,7 @@ function getPage1(title, form_elements) {
                         fontSize: 10,
                         border: [true, false, false, false]
                     }, {}, {
-                        text: 'Región:    ' + ptx_adic2.region,
+                        text: 'Región:    ' + ptx_adic2.regionName,
                         fontSize: 10,
                         colSpan: 2,
                         border: [false, false, true, false]
