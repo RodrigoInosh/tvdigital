@@ -5,6 +5,9 @@ var circleFunction;
 var internal_token = 3;
 var codigo = "";
 var is_form_modal_first_openend = true;
+var token_tvdigital = "digital";
+var token_radio_difusion = "radio";
+var token_servicios_publicos = "servicios";
 
 require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle",
 		"esri/widgets/BasemapToggle", "esri/tasks/support/Query", "esri/tasks/QueryTask", 
@@ -174,9 +177,10 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		goHome();
 	});
 
-	getDataRegiones();
+	setIdentificadoresQueryTasks();
+	setDataCombosRegiones();
 
-	function getDataRegiones() {
+	function setDataCombosRegiones() {
 		$.ajax({
 			url: "/CalculoTVD/calculoTVD/regiones",
 			type: 'GET',
@@ -194,6 +198,18 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			}
 		});
 
+	}
+
+	function setIdentificadoresQueryTasks() {
+		var token_seccion = $("#token").val();
+
+		if(token_seccion === token_tvdigital) {
+
+		} else if (token_seccion === token_radio_difusion) {
+
+		} else if (token_seccion === token_servicios_publicos) {
+			
+		}
 	}
 	
 	// Conversion de coordenadas de arcgis a geograficas reales

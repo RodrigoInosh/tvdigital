@@ -11,9 +11,10 @@
 	<script src="js/jquery-ui.js"></script>
 	<script src="js/jquery.soap.js"></script>
 	<script language="javascript">
-		 //   var token ="<%=token%>";
+		   var token ="<%=token%>";
 		   var userId ="<%=userId%>";
 		   var codigoPostulacion ="<%=codigoPostulacion%>";
+
 		   data = {"usuario_id": parseInt(userId), "token": token, "codigo": codigoPostulacion};
 			$.ajax({
 				data: data,
@@ -212,7 +213,6 @@
 									<option>66</option>
 								</select>
 								<b>[dB(uV/m)]</b>
-							<!-- <input type="text" value="" id="intensidadCampoM" style="width: 40px;"/><b>[dB(uV/m)]</b> -->
 							</li>
 							<div id="separador"></div>
 							<li><label style="padding-right: 16px;">Altura Antena Tx:</label></li>
@@ -294,7 +294,7 @@
 								<li><label>Potencia: &nbsp;</label></li>
 								<li style="font-weight: bold"><label id="potenciaI"></label><label> Watts</label></li>
 								<div id="separador"></div>
-								<li><label>N° de Viviendas: &nbsp;</label></li>
+								<li><label>N° de Habitantes: &nbsp;</label></li>
 								<li style="font-weight: bold"><label id="viviendasI"></label></li>
 							</ul>
 						</div>
@@ -423,13 +423,6 @@
 					<li style="width: 20%; text-align: right; padding-top: 10px;">
 						<button type="button" id="save72PerdidasLobulosButton">Aceptar</button>
 					</li>
-					<!-- <li style="width: 70%; text-align: left; padding-top: 10px; padding-left: 33px">
-					<a href="#" id="omni72" style="padding-right: 10px;" title="Todos a Cero">Omni</a>
-					<a href="#" id="cargaPerdidas" title="Cargar P&eacute;rdidas por L&oacute;bulo desde un CSV">Carga P&eacute;rdidas (CSV)</a>
-					</li>
-					<li style="width: 20%; text-align: right; padding-top: 10px;">
-					<button type="button" id="save72PerdidasLobulosButton">Aceptar</button>
-					</li> -->
 				</ul>
 			</div>
 			<div id="frame18Radiales">
@@ -543,8 +536,8 @@
 					<li><input type="text" value="20" id="obstaculosCircundantesRx" style="width: 25px" disabled /><b>[m]</b></li>
 					<div id="separador"></div>
 					<li style="width: 143px; text-align: left">Tolerancia zonas de sombra:</li>
-					<li><input type="text" value="20" id="toleranciaZonasSombras" style="width: 25px" disabled /><b>[km]</b></li
->					<li style="width: 148px; text-align: left">Resoluci&oacute;n de c&aacute;lculo:</li>
+					<li><input type="text" value="20" id="toleranciaZonasSombras" style="width: 25px" disabled /><b>[km]</b></li>	
+					<li style="width: 148px; text-align: left">Resoluci&oacute;n de c&aacute;lculo:</li>
 					<li><input type="text" value="500" id="resolucionCalculo" style="width: 25px" disabled /><b>[m]</b></li>
 					<div id="separador"></div>
 					<li style="width: 144px; text-align: left">Porcentaje de tiempo:</li>
