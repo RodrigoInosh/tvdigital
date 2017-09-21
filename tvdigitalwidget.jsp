@@ -101,11 +101,13 @@
 			<div id="selectorconmod">
 				<ul>
 					<li><input type="radio" id="concursoC" name="concursoModificacion" value="concurso">Concurso</input></li>
-					<li><input type="radio" disabled="disabled" id="modificacionM" name="concursoModificacion" value="modificacion">Modificaci&oacute;n</li>
+					<li><input type="radio" id="modificacionM" name="concursoModificacion" value="modificacion">Modificaci&oacute;n</li>
 					<li style="padding-top: 5px; font-weight: 100; width: 117px; text-align: right;">Recomendaci&oacute;n: </li>
 					<li style="padding-top: 2px; width: 50px;">
 						<select name="recomendacion" id="recomendacion" style="width: 65px;">
+							<option value="370" selected="true">370</option>
 							<option value="1546" selected="true">1546</option>
+							<option value="1546+">1546+</option>
 						</select>
 					</li>
 				</ul>
@@ -149,6 +151,10 @@
 						<li>
 							<select name="tipoServicio" id="tipoServicio" style="width: 65px">
 								<option value="">...</option>
+								<option value="FM">FM</option>
+								<option value="AM">AM</option>
+								<option value="RCC">RCC</option>
+								<option value="VHF">VHF</option>
 								<option value="ISDBT">ISDBT</option>
 							</select>
 						</li>
@@ -268,8 +274,8 @@
 							<li><label><b><u>P&eacute;rdidas por L&oacute;bulo</u></b></label></li>
 							<div id="separador"></div>
 							<li>
-								<input type="radio" name="radialesRadio" id="8PerdidasLobulos" value="8" checked="true" disabled>
-								<button type="button" id="show8PerdidasLobulos" disabled>8 radiales &nbsp;</button>
+								<input type="radio" name="radialesRadio" id="8PerdidasLobulos" value="8" checked="true">
+								<button type="button" id="show8PerdidasLobulos">8 radiales &nbsp;</button>
 							</li>
 							<li>
 								<input type="radio" name="radialesRadio" id="18PerdidasLobulos" value="18">
@@ -538,25 +544,26 @@
 					<div id="separador" style="height: 1px;"></div>
 					<li style="width: 143px; text-align: left">Obst&aacute;culos Circundantes Tx:</li>
 					<li style="width: 56px;">
-						<input type="text" value="20" id="obstaculosCircundantesTx" style="width: 25px" disabled /><b>[m]</b>
+						<input type="text" value="20" id="obstaculosCircundantesTx" style="width: 25px" /><b>[m]</b>
 					</li>
 					<li style="width: 149px; text-align: left">Obst&aacute;culos Circundantes Rx:</li>
-					<li><input type="text" value="20" id="obstaculosCircundantesRx" style="width: 25px" disabled /><b>[m]</b></li>
+					<li><input type="text" value="20" id="obstaculosCircundantesRx" style="width: 25px" /><b>[m]</b></li>
 					<div id="separador"></div>
 					<li style="width: 143px; text-align: left">Tolerancia zonas de sombra:</li>
-					<li><input type="text" value="20" id="toleranciaZonasSombras" style="width: 25px" disabled /><b>[km]</b></li>	
+					<li><input type="text" value="20" id="toleranciaZonasSombras" style="width: 25px" /><b>[km]</b></li>	
 					<li style="width: 148px; text-align: left">Resoluci&oacute;n de c&aacute;lculo:</li>
-					<li><input type="text" value="500" id="resolucionCalculo" style="width: 25px" disabled /><b>[m]</b></li>
+					<li><input type="text" value="500" id="resolucionCalculo" style="width: 25px" /><b>[m]</b></li>
 					<div id="separador"></div>
 					<li style="width: 144px; text-align: left">Porcentaje de tiempo:</li>
 					<li style="width: 56px;">
-						<input type="text" value="50" id="porcentajeTiempo" style="width: 25px" disabled /><b>[%]&nbsp;</b>
+						<input type="text" value="50" id="porcentajeTiempo" style="width: 25px" /><b>[%]&nbsp;</b>
 					</li>
 					<li style="width: 148px; text-align: left">Porcentaje de ubicaci&oacute;n:</li>
-					<li><input type="text" value="50" id="porcentajeUbicacion" style="width: 25px" disabled /><b>[%]</b></li>
+					<li><input type="text" value="50" id="porcentajeUbicacion" style="width: 25px" /><b>[%]</b></li>
 					<div id="separador"></div>
 					<li style="width: 143px; text-align: left">Altura Antena Receptora:</li>
-					<li><input type="text" value="20" id="alturaAntenaRx" style="width: 25px" disabled /><b>[m]&nbsp;</b></li>
+					<li><input type="text" value="20" id="alturaAntenaRx" style="width: 25px" /><b>[m]&nbsp;</b></li>
+					<li style="width: 75px;"><button type="button" style="width: 70px;" id="generarMatrizCotas">Matriz</button></li>
 					<li style="width: 75px; float: right;"><button type="button" style="width: 70px;" id="saveParametrosAvanzadosButton">Aceptar</button></li>
 				</ul>
 			</div>
@@ -576,7 +583,6 @@
 		<input type="text" id="icomuna" value=''>
 		<input type="text" id="iregion" value=''>
 	</div>
-	<a href="#"></a>
 </div>
 </body>
 </html>

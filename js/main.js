@@ -570,48 +570,10 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function clickCalculaPoligonoClick(){
-		// showLoader(true, 'Calculando Zona de Propagación');
+		showLoader(true, 'Calculando Zona de Propagación');
 		map.remove(capaCalculoPoligonos);
 		var mapParametros = getMapParameters();
-		// geoProcessor = new Geoprocessor(gpCalculoPredictivoCensal);
-		// // geoProcessor = new Geoprocessor(scriptCalculoPrueba);
-		
-		// var recomendacion = mapParametros.recomendacion;
-		// /*PROBABLEMENTE ESTÉ DEPRECADO*/
-		// if(calculoZonaMaxima && dom.byId("normaAnteriorM").checked){
-		// 	var recomendacion = '370';
-		// }
-		// cambiaNuevaCoordenada(mapParametros.latitud,mapParametros.longitud);
-
-		// superView.puntoNuevo = {"longitud": mapParametros.longitud, "latitud": mapParametros.latitud };
-		// var params = {
-  //         "latitud": mapParametros.latitud,
-  //         "longitud": mapParametros.longitud,
-  //         "potencia": mapParametros.potenciaM,
-  //         "ganancia": mapParametros.gananciaM,
-  //         "alturaAntenaTx": mapParametros.alturaAntenaTransmisoraM,
-  //         "alturaAntenaRx": mapParametros.alturaAntenaRx,
-  //         "perdidaCablesConectores": mapParametros.perdidasCablesConectoresM,
-  //         "perdidaDivisorPotencia": mapParametros.divisorPotenciaM,
-  //         "otrasPerdidas": mapParametros.otrasPerdidasM,
-  //         "perdidasLobulo": setRadiansString(mapParametros),
-  //         "obtaculosCircundantesTx": mapParametros.obstaculosCircundantesTx,
-  //         "obstaculosCircundantesRx": mapParametros.obstaculosCircundantesRx,
-  //         "toleranciaZonasSombra": mapParametros.toleranciaZonasSombras,
-  //         "resolucionCalculo": mapParametros.resolucionCalculo,
-  //         "porcentajeTiempo": mapParametros.porcentajeTiempo,
-  //         "porcentajeUbicacion": mapParametros.porcentajeUbicacion,
-  //         "frecuencia": mapParametros.frecuenciaM,
-  //         "intensidadCampoReferencia": mapParametros.intensidadCampoM,
-  //         "recomendacion": recomendacion,
-		//   "radiales": mapParametros.radiales,
-		//   "env:outSR": 102100,
-		//   "f": 'json'
-  //       };
-  //       // console.log(params);
-		// geoProcessor.submitJob(params).then(sendRequestPolygon, showError);
-
-		geoProcessor = new Geoprocessor(gpCalculoMatrizCotas);
+		geoProcessor = new Geoprocessor(gpCalculoPredictivoCensal);
 		// geoProcessor = new Geoprocessor(scriptCalculoPrueba);
 		
 		var recomendacion = mapParametros.recomendacion;
@@ -626,13 +588,47 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
           "latitud": mapParametros.latitud,
           "longitud": mapParametros.longitud,
           "potencia": mapParametros.potenciaM,
+          "ganancia": mapParametros.gananciaM,
+          "alturaAntenaTx": mapParametros.alturaAntenaTransmisoraM,
+          "alturaAntenaRx": mapParametros.alturaAntenaRx,
+          "perdidaCablesConectores": mapParametros.perdidasCablesConectoresM,
+          "perdidaDivisorPotencia": mapParametros.divisorPotenciaM,
+          "otrasPerdidas": mapParametros.otrasPerdidasM,
+          "perdidasLobulo": setRadiansString(mapParametros),
+          "obtaculosCircundantesTx": mapParametros.obstaculosCircundantesTx,
+          "obstaculosCircundantesRx": mapParametros.obstaculosCircundantesRx,
+          "toleranciaZonasSombra": mapParametros.toleranciaZonasSombras,
           "resolucionCalculo": mapParametros.resolucionCalculo,
+          "porcentajeTiempo": mapParametros.porcentajeTiempo,
+          "porcentajeUbicacion": mapParametros.porcentajeUbicacion,
+          "frecuencia": mapParametros.frecuenciaM,
+          "intensidadCampoReferencia": mapParametros.intensidadCampoM,
+          "recomendacion": recomendacion,
 		  "radiales": mapParametros.radiales,
 		  "env:outSR": 102100,
 		  "f": 'json'
         };
         // console.log(params);
 		geoProcessor.submitJob(params).then(sendRequestPolygon, showError);
+	}
+
+	function clickGenerarMatrizCotas(){
+		showLoader(true, 'Generando Matriz de Cotas');
+		var mapParametros = getMapParameters();
+
+		geoProcessor = new Geoprocessor(gpCalculoMatrizCotas);
+
+		var params = {
+          "latitud": mapParametros.latitud,
+          "longitud": mapParametros.longitud,
+          "potencia": mapParametros.potenciaM,
+          "resolucionCalculo": mapParametros.resolucionCalculo,
+		  "radiales": mapParametros.radiales,
+		  "env:outSR": 102100,
+		  "f": 'json'
+        };
+
+		geoProcessor.submitJob(params).then(sendRequestCotas, showError);
 	}
 
 	function setRadiansString(data){
@@ -671,13 +667,16 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function sendRequestPolygon(data) {
-		// // console.log(data);
-		// areaCalculo = 0;
 		var jobId = data.jobId;
 		var MAX_VALUE = 100000;
-		// geoProcessor.getResultData(jobId, "area").then(setPolygon, showError);
-		// geoProcessor.getResultData(jobId, "distancias").then(setDataReporteOut, showError);
-		// geoProcessor.getResultData(jobId, "capaCensal").then(getDataCensal, showError);
+		geoProcessor.getResultData(jobId, "area").then(setPolygon, showError);
+		geoProcessor.getResultData(jobId, "distancias").then(setDataReporteOut, showError);
+		geoProcessor.getResultData(jobId, "capaCensal").then(getDataCensal, showError);
+	}
+
+	function sendRequestCotas(data) {
+		var jobId = data.jobId;
+		var MAX_VALUE = 100000;
 		geoProcessor.getResultData(jobId, "nube").then(getDataNube, showError);
 	}
 
@@ -1155,6 +1154,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	on(dom.byId("normaAnteriorM"), "change", changeCambiaNormaClick);
 	on(dom.byId("regiones"), "change", changeConcursoRegionesClick);
 	on(dom.byId("calculaPoligono"), "click", clickCalculaPoligonoClick);
+	on(dom.byId("generarMatrizCotas"), "click", clickGenerarMatrizCotas);
 	// on(dom.byId("imprimirCalculo"), "click", imprimirCalculoClick);
 	// on(dom.byId("exportarKMZ"), "click", exportKMZClick);
 
@@ -1523,6 +1523,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		downloadLink.href = encodedUri;
 		downloadLink.download = "data.csv";
 
+		showLoader(false, '');
+		
 		document.body.appendChild(downloadLink);
 		downloadLink.click();
 		document.body.removeChild(downloadLink);
