@@ -5,9 +5,7 @@ var circleFunction;
 var internal_token = 3;
 var codigo = "";
 var is_form_modal_first_openend = true;
-var token_tvdigital = "digital";
-var token_radio_difusion = "radio";
-var token_servicios_publicos = "servicios";
+var TIPO_SECCION = ""; 
 
 require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle",
 		"esri/widgets/BasemapToggle", "esri/tasks/support/Query", "esri/tasks/QueryTask", 
@@ -23,6 +21,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 	internal_token = $("#id").val();
 	codigo = $("#codigo").val();
+	TIPO_SECCION = $("#seccion").val();
+	
 	var idConcurso = 0;
 	var idIdentificador = 0;
 	var idTipoServicio = 0;
@@ -148,6 +148,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	var cargarDataCalculo = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/ObtenerDatosCalculos/GPServer/Modelo";
 	var scriptCalculoPrueba = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/ModelPrueba2/GPServer/CalculoPredictivo72";
 	var gpCalculoPredictivoCensal = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Pruebas/CapaCensal/GPServer/CalculoPredictivo72";
+	var gpCalculoMatrizCotas = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Pruebas/Test2/GPServer/Test2";
 	
 	var queryTask1 = new QueryTask({ url: identificadores21 });
 	var queryTask2 = new QueryTask({ url: identificadores22 });
@@ -177,7 +178,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		goHome();
 	});
 
-	setIdentificadoresQueryTasks();
 	setDataCombosRegiones();
 
 	function setDataCombosRegiones() {
@@ -198,18 +198,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			}
 		});
 
-	}
-
-	function setIdentificadoresQueryTasks() {
-		var token_seccion = $("#token").val();
-
-		if(token_seccion === token_tvdigital) {
-
-		} else if (token_seccion === token_radio_difusion) {
-
-		} else if (token_seccion === token_servicios_publicos) {
-			
-		}
 	}
 	
 	// Conversion de coordenadas de arcgis a geograficas reales
@@ -245,7 +233,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		query3.orderByFields = ["IDENTIFICADOR"];
 		queryTask2.execute(query3).then(function(data){
 			showLoader(true, 'Cargando Datos');
-			$("#72PerdidasLobulos").trigger('click');
+			triggerPerdidasLobulos();
+			// $("#72PerdidasLobulos").trigger('click');
 			changeComboConcurso(data);
 			setIndentificadorConcurso();
 			if(data.features.length == 0){
@@ -271,7 +260,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		concursoC = dom.byId("concursoC").checked;
 		modificacionM = dom.byId("modificacionM").checked;
 		$("#pestanaTab3").hide();
-		$("#72PerdidasLobulos").trigger('click');
+		triggerPerdidasLobulos();
+		// $("#18PerdidasLobulos").trigger('click');
 		showLoader(true, '');
 		if(concursoC){
 			setIndentificadorConcurso();
@@ -297,7 +287,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		if(concursoC){
 			query3.where = "CONCURSO='"+idConcurso+"' AND TIPO_SERVICIO = '"+idTipoServicio+"'";
 			queryTask2.execute(query3).then(function(data){
-				$("#72PerdidasLobulos").trigger('click');
+				// $("#18PerdidasLobulos").trigger('click');
 				changeListaIdentificadores(data);
 				setIndentificadorConcurso();
 				if(data.features.length == 0){
@@ -308,7 +298,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		else if(modificacionM){
 			query3.where = "REG="+idRegion+" AND TIPO_SERVICIO = '"+idTipoServicio+"'";
 			queryTask3.execute(query3).then(function(data){
-				$("#72PerdidasLobulos").trigger('click');
+				// $("#18PerdidasLobulos").trigger('click');
 				changeListaIdentificadores(data);
 				setIndentificadorRegion();
 				if(data.features.length == 0){
@@ -358,6 +348,14 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	function changeCambiaNormaClick(){
 		setIndentificadorRegion();
 	}
+
+	function triggerPerdidasLobulos() {
+		if(TIPO_SECCION == "digital") {
+			$("#72PerdidasLobulos").trigger('click');
+		} else {
+			$("#18PerdidasLobulos").trigger('click');
+		}
+	}
 	
 	function changeConcursoRegionesClick(){
 		idRegion = dom.byId("regiones").value;
@@ -369,7 +367,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		query3.orderByFields = ["IDENTIFICADOR"];
 
 		queryTask3.execute(query3).then(function(data){
-			$("#72PerdidasLobulos").trigger('click');
+			// $("#18PerdidasLobulos").trigger('click');
 			changeListaIdentificadores(data);
 			setIndentificadorRegion();
 		});
@@ -385,7 +383,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		queryCenter.outFields = ["IDENTIFICADOR"];
 		queryCenter.where = queryString;
 		queryTask2.execute(queryCenter).then(function(data){
-			$("#72PerdidasLobulos").trigger('click');
+			// $("#18PerdidasLobulos").trigger('click');
 			cargarCalculosGuardados(idIdentificador);
 			// showLoader(true, 'Cargando Datos');
 			map.removeAll();
@@ -460,7 +458,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		queryCenter.outFields = ["*"];
 		queryCenter.where = queryString;
 		queryTask3.execute(queryCenter).then(function(data){
-			$("#72PerdidasLobulos").trigger('click');
+			// $("#18PerdidasLobulos").trigger('click');
 			showLoader(true, 'Cargando Datos');
 			map.removeAll();
 			if(data.features.length == 0){
@@ -572,13 +570,52 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function clickCalculaPoligonoClick(){
-		showLoader(true, 'Calculando Zona de Propagación');
+		// showLoader(true, 'Calculando Zona de Propagación');
 		map.remove(capaCalculoPoligonos);
 		var mapParametros = getMapParameters();
-		geoProcessor = new Geoprocessor(gpCalculoPredictivoCensal);
+		// geoProcessor = new Geoprocessor(gpCalculoPredictivoCensal);
+		// // geoProcessor = new Geoprocessor(scriptCalculoPrueba);
+		
+		// var recomendacion = mapParametros.recomendacion;
+		// /*PROBABLEMENTE ESTÉ DEPRECADO*/
+		// if(calculoZonaMaxima && dom.byId("normaAnteriorM").checked){
+		// 	var recomendacion = '370';
+		// }
+		// cambiaNuevaCoordenada(mapParametros.latitud,mapParametros.longitud);
+
+		// superView.puntoNuevo = {"longitud": mapParametros.longitud, "latitud": mapParametros.latitud };
+		// var params = {
+  //         "latitud": mapParametros.latitud,
+  //         "longitud": mapParametros.longitud,
+  //         "potencia": mapParametros.potenciaM,
+  //         "ganancia": mapParametros.gananciaM,
+  //         "alturaAntenaTx": mapParametros.alturaAntenaTransmisoraM,
+  //         "alturaAntenaRx": mapParametros.alturaAntenaRx,
+  //         "perdidaCablesConectores": mapParametros.perdidasCablesConectoresM,
+  //         "perdidaDivisorPotencia": mapParametros.divisorPotenciaM,
+  //         "otrasPerdidas": mapParametros.otrasPerdidasM,
+  //         "perdidasLobulo": setRadiansString(mapParametros),
+  //         "obtaculosCircundantesTx": mapParametros.obstaculosCircundantesTx,
+  //         "obstaculosCircundantesRx": mapParametros.obstaculosCircundantesRx,
+  //         "toleranciaZonasSombra": mapParametros.toleranciaZonasSombras,
+  //         "resolucionCalculo": mapParametros.resolucionCalculo,
+  //         "porcentajeTiempo": mapParametros.porcentajeTiempo,
+  //         "porcentajeUbicacion": mapParametros.porcentajeUbicacion,
+  //         "frecuencia": mapParametros.frecuenciaM,
+  //         "intensidadCampoReferencia": mapParametros.intensidadCampoM,
+  //         "recomendacion": recomendacion,
+		//   "radiales": mapParametros.radiales,
+		//   "env:outSR": 102100,
+		//   "f": 'json'
+  //       };
+  //       // console.log(params);
+		// geoProcessor.submitJob(params).then(sendRequestPolygon, showError);
+
+		geoProcessor = new Geoprocessor(gpCalculoMatrizCotas);
 		// geoProcessor = new Geoprocessor(scriptCalculoPrueba);
 		
 		var recomendacion = mapParametros.recomendacion;
+		/*PROBABLEMENTE ESTÉ DEPRECADO*/
 		if(calculoZonaMaxima && dom.byId("normaAnteriorM").checked){
 			var recomendacion = '370';
 		}
@@ -589,22 +626,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
           "latitud": mapParametros.latitud,
           "longitud": mapParametros.longitud,
           "potencia": mapParametros.potenciaM,
-          "ganancia": mapParametros.gananciaM,
-          "alturaAntenaTx": mapParametros.alturaAntenaTransmisoraM,
-          "alturaAntenaRx": mapParametros.alturaAntenaRx,
-          "perdidaCablesConectores": mapParametros.perdidasCablesConectoresM,
-          "perdidaDivisorPotencia": mapParametros.divisorPotenciaM,
-          "otrasPerdidas": mapParametros.otrasPerdidasM,
-          "perdidasLobulo": setRadiansString(mapParametros),
-          "obtaculosCircundantesTx": mapParametros.obstaculosCircundantesTx,
-          "obstaculosCircundantesRx": mapParametros.obstaculosCircundantesRx,
-          "toleranciaZonasSombra": mapParametros.toleranciaZonasSombras,
           "resolucionCalculo": mapParametros.resolucionCalculo,
-          "porcentajeTiempo": mapParametros.porcentajeTiempo,
-          "porcentajeUbicacion": mapParametros.porcentajeUbicacion,
-          "frecuencia": mapParametros.frecuenciaM,
-          "intensidadCampoReferencia": mapParametros.intensidadCampoM,
-          "recomendacion": recomendacion,
 		  "radiales": mapParametros.radiales,
 		  "env:outSR": 102100,
 		  "f": 'json'
@@ -649,13 +671,14 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function sendRequestPolygon(data) {
-		console.log(data);
-		areaCalculo = 0;
+		// // console.log(data);
+		// areaCalculo = 0;
 		var jobId = data.jobId;
 		var MAX_VALUE = 100000;
-		geoProcessor.getResultData(jobId, "area").then(setPolygon, showError);
-		geoProcessor.getResultData(jobId, "distancias").then(setDataReporteOut, showError);
-		geoProcessor.getResultData(jobId, "capaCensal").then(getDataCensal, showError);
+		// geoProcessor.getResultData(jobId, "area").then(setPolygon, showError);
+		// geoProcessor.getResultData(jobId, "distancias").then(setDataReporteOut, showError);
+		// geoProcessor.getResultData(jobId, "capaCensal").then(getDataCensal, showError);
+		geoProcessor.getResultData(jobId, "nube").then(getDataNube, showError);
 	}
 
 	function showError(data){
@@ -671,8 +694,31 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function getDataCensal(data) {
-		// console.log(data);
 		setCantidadViviendas(data);
+	}
+
+	function getDataNube(data) {
+		var fields = data.value.features;
+		console.log(fields);
+		var csv_data = ["angulo", "distancia", "Z"];
+		var dataString = [];
+
+		fields.forEach(function(value, index){
+			// var row_data = {}; 
+			// row_data.push(value.attributes.angulo);
+			// row_data.push(value.attributes.distancia);
+			// row_data.push(value.attributes.Z);
+			// console.log(row_data);
+			var value_Z = value.attributes.Z.toString().replace(".", ",");
+			console.log(value_Z);
+			dataString.push({
+				"Angulo": value.attributes.angulo,
+				"distancia": value.attributes.distancia,
+				"Z" : "\""+value_Z+ "\""
+			});
+		});
+		console.log(dataString);
+		downloadCSV(dataString);
 	}
 
 	function setPolygon(data){
@@ -1192,6 +1238,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	});
 
 	$("#frame18PerdidasLobulos input, #frame72PerdidasLobulos input").on('change', function(event) {
+		console.log("A");
 		var id_target = event.target.id;
 		if($("#"+id_target).val() == '' || typeof $("#"+id_target).val() == undefined){
 			$("#"+id_target).val(0);
@@ -1334,7 +1381,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function generateBase64Files() {
-		console.log("generandoooooo");
 		var kml_base64 = exportKMZClick(false);
 		getPDFBase64File(kml_base64);
 	}
@@ -1425,4 +1471,60 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			return true;
 		}
 	}
+ 
+    function convertArrayOfObjectsToCSV(args) {
+        var result, ctr, keys, columnDelimiter, lineDelimiter, data;
+ 
+        data = args.data || null;
+        if (data == null || !data.length) {
+            return null;
+        }
+ 
+        columnDelimiter = args.columnDelimiter || ',';
+        console.log("C:"+columnDelimiter);
+        lineDelimiter = args.lineDelimiter || '\n';
+ 
+        keys = Object.keys(data[0]);
+        result = 'sep=' + columnDelimiter;
+        result += lineDelimiter;
+        result += keys.join(columnDelimiter);
+        result += lineDelimiter;
+
+        data.forEach(function(item) {
+            ctr = 0;
+            keys.forEach(function(key) {
+                if (ctr > 0) result += columnDelimiter;
+ 
+                result += item[key];
+                ctr++;
+            });
+            result += lineDelimiter;
+        });
+
+        return result;
+    }
+ 
+    function downloadCSV(stockData) {
+        var data, filename, link;
+ 
+        var csv = convertArrayOfObjectsToCSV({
+            data: stockData
+        });
+
+        if (csv == null) return;
+ 
+        if (!csv.match(/^data:text\/csv/i)) {
+            csv = 'data:text/csv;charset=utf-8,' + csv;
+        }
+
+        data = encodeURI(csv);
+        var encodedUri = encodeURI(csv);
+		var downloadLink = document.createElement("a");
+		downloadLink.href = encodedUri;
+		downloadLink.download = "data.csv";
+
+		document.body.appendChild(downloadLink);
+		downloadLink.click();
+		document.body.removeChild(downloadLink);
+    }
 });

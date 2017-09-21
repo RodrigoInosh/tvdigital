@@ -6,6 +6,12 @@
 		String token = request.getParameter("token");
 		String userId = request.getParameter("userId");
 		String codigoPostulacion = request.getParameter("codigo");
+		String seccion = "asdf";
+		if(request.getParameter("seccion") == null) {
+			seccion = "digital";
+		} else {
+			seccion = request.getParameter("seccion");
+		}
 	%>
 	<script src="js/jquery-3.2.0.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
@@ -14,23 +20,25 @@
 		   var token ="<%=token%>";
 		   var userId ="<%=userId%>";
 		   var codigoPostulacion ="<%=codigoPostulacion%>";
+		   var seccion = "<%=seccion%>";
 
-		   data = {"usuario_id": parseInt(userId), "token": token, "codigo": codigoPostulacion};
-			$.ajax({
-				data: data,
-				url: "/CalculoTVD/calculoTVD/tvdpage",
-				type: 'POST',
-				success: function(response) {
-					if(response == "NOK") {
-						window.location.replace('error_page.jsp');
-					}
-				},
-				error: function(error) {
-					window.location.replace('error_page.jsp');
-				}
-			});
+		 //   if (seccion == "digital") {
+			//    data = {"usuario_id": parseInt(userId), "token": token, "codigo": codigoPostulacion};
+			// 	$.ajax({
+			// 		data: data,
+			// 		url: "/CalculoTVD/calculoTVD/tvdpage",
+			// 		type: 'POST',
+			// 		success: function(response) {
+			// 			if(response == "NOK") {
+			// 				window.location.replace('error_page.jsp');
+			// 			}
+			// 		},
+			// 		error: function(error) {
+			// 			window.location.replace('error_page.jsp');
+			// 		}
+			// 	});
+			// }
 	</script>
-
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -294,7 +302,7 @@
 								<li><label>Potencia: &nbsp;</label></li>
 								<li style="font-weight: bold"><label id="potenciaI"></label><label> Watts</label></li>
 								<div id="separador"></div>
-								<li><label>N° de Habitantes: &nbsp;</label></li>
+								<li><label>N&deg; de Viviendas: &nbsp;</label></li>
 								<li style="font-weight: bold"><label id="viviendasI"></label></li>
 							</ul>
 						</div>
@@ -328,7 +336,7 @@
 							<li><button type="button" id="pdfForm">Agregar Datos</button></li>
 							<li><button type="button" id="imprimirCalculo">Generar PDF</button></li>
 							<div id="separador"></div>
-							<li><button type="button" id="enviarCalculosCNTV" class="button_info"><b>Enviar a CNTV</b></button></li>
+							<li><button type="button" id="enviarCalculosCNTV" class="button_info" disabled="disabled"><b>Enviar a CNTV</b></button></li>
 						</ul>
 					</div>
 				</div>
@@ -568,6 +576,7 @@
 		<input type="text" id="icomuna" value=''>
 		<input type="text" id="iregion" value=''>
 	</div>
+	<a href="#"></a>
 </div>
 </body>
 </html>
