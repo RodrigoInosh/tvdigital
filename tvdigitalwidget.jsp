@@ -21,7 +21,7 @@
 		   var userId ="<%=userId%>";
 		   var codigoPostulacion ="<%=codigoPostulacion%>";
 		   var seccion = "<%=seccion%>";
-
+		   console.log(seccion);
 		 //   if (seccion == "digital") {
 			//    data = {"usuario_id": parseInt(userId), "token": token, "codigo": codigoPostulacion};
 			// 	$.ajax({
@@ -168,7 +168,7 @@
 						<li><input id="localidadC" type="text" value="" style="width: 298px" disabled="disabled" /></li>
 						<div id="separador"></div>
 						<li><label style="padding-right: 4px;">Frecuencia:</label></li>
-						<li><input id="frecuenciaC" type="text" value="" style="width: 40px;" disabled="disabled" /><b>[Mhz]</b></li>
+						<li><input id="frecuenciaC" type="text" value="" style="width: 46px;" disabled="disabled" /><b>[Mhz]</b></li>
 						<li><label>Intensidad de campo:</label></li>
 						<li><input id="intensidadCampoC" type="text" value="" style="width: 40px" disabled="disabled" /><b>[dB(uV/m)]</b></li>
 						<li><label style="padding-right: 16px;">Pot. Max:</label></li>
@@ -339,6 +339,7 @@
 							<li><label><b><u>Proyecto T&eacute;cnico</u></b></label></li>
 							<div id="separador"></div>
 							<li><button type="button" style="font-size: 11px;" id="verDistancia" class="button_info">Ver Resultado</button></li>
+							<li><button type="button" style="font-size: 11px;" id="verDeltaH" class="button_info">Ver Delta H</button></li>
 							<div id="separador"></div>
 							<li><button type="button" id="exportarKMZ">Exportar a GoogleEarth</button></li>
 							<li><button type="button" id="pdfForm">Agregar Datos</button></li>
@@ -351,7 +352,7 @@
 			</div>
 			<div id="curtainCaltool"></div>
 			<div id="frame8PerdidasLobulos">
-				<img id="closeImage8" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<img id="closeImage8" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>
 					<li><label><b><u>8 Radiales</u></b></label></li>
 					<div id="separador"></div>
@@ -384,7 +385,7 @@
 				</ul>
 			</div>
 			<div id="frame18PerdidasLobulos">
-				<img id="closeImage18" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<img id="closeImage18" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>
 					<li><label><b><u>18 Radiales [dB]</u></b></label></li>
 					<% for(int ix = 0; ix < 6; ix++) { %>
@@ -411,7 +412,7 @@
 				</ul>
 			</div>
 			<div id="frame72PerdidasLobulos">
-				<img id="closeImage72" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<img id="closeImage72" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>
 					<li><label><b><u>72 Radiales [dB]</u></b></label></li>
 					<% for(int ix = 0; ix < 12; ix++) { %>
@@ -444,7 +445,7 @@
 				</ul>
 			</div>
 			<div id="frame18Radiales">
-				<img id="closeImage18Radiales" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<img id="closeImage18Radiales" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>
 					<li><label><b><u>Distancia M&iacute;nima en Kilometros</u></b></label></li>
 					<% for(int ix = 0; ix < 6; ix++) { %>
@@ -459,7 +460,7 @@
 				</ul>
 			</div>
 			<div id="frame72Radiales">
-				<img id="closeImage72Radiales" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<img id="closeImage72Radiales" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>
 					<li><label><b><u>Distancia M&iacute;nima en Kilometros</u></b></label></li>
 					<% for(int ix = 0; ix < 12; ix++) { %>
@@ -480,7 +481,7 @@
 				</ul>
 			</div>
 			<div id="distanciaKilometro8">
-				<img id="closeImageDK8" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<img id="closeImageDK8" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>
 					<li><label><b><u>Distancia en Kilometros</u></b></label></li>
 					<div id="separador"></div>
@@ -506,38 +507,81 @@
 				</ul>
 			</div>
 			<div id="distanciaKilometro18">
-				<img id="closeImageDK18" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<img id="closeImageDK18" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>
 					<li><label><b><u>Distancia en Kilometros</u></b></label></li>
 					<% for(int ix = 0; ix < 6; ix++) { %>
 						<div id="separador"></div>
-						<li style="width: 25px;"><%= 0+(20*ix) %>&deg</li>
-						<li><input type="text" value="0" id="I18DK<%= 0+(20*ix) %>" style="width: 40px" disabled="disabled" /></li>
-						<li style="width: 25px;"><%= 120+(20*ix) %>&deg</li>
-						<li><input type="text" value="0" id="I18DK<%= 120+(20*ix) %>" style="width: 40px" disabled="disabled"/></li>
-						<li style="width: 25px;"><%= 240+(20*ix) %>&deg</li>
-						<li><input type="text" value="0" id="I18DK<%= 240+(20*ix) %>" style="width: 40px" disabled="disabled"/></li>
+						<% for(int iy= 0; iy < 3; iy++) {%>
+						<li style="width: 25px;"><%= (120*iy)+(20*ix) %>&deg</li>
+						<li><input type="text" value="0" id="I18DK<%= (120*iy)+(20*ix) %>" style="width: 40px" disabled="disabled" /></li>
+						<% } %>
 					<% } %>
 				</ul>
 			</div>
 			<div id="distanciaKilometro72">
-				<img id="closeImageDK72" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<img id="closeImageDK72" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>
 					<li><label><b><u>Distancia en Kilometros</u></b></label></li>
 					<% for(int ix = 0; ix < 12; ix++) { %>
 						<div id="separador"></div>
-						<li style="width: 25px;"><%= 0+(5*ix) %>&deg</li>
-						<li><input type="text" value="0" id="I72DK<%= 0+(5*ix) %>" style="width: 40px" disabled="disabled" /></li>
-						<li style="width: 25px;"><%= 60+(5*ix) %>&deg</li>
-						<li><input type="text" value="0" id="I72DK<%= 60+(5*ix) %>" style="width: 40px" disabled="disabled"/></li>
-						<li style="width: 25px;"><%= 120+(5*ix) %>&deg</li>
-						<li><input type="text" value="0" id="I72DK<%= 120+(5*ix) %>" style="width: 40px" disabled="disabled"/></li>
-						<li style="width: 25px;"><%= 180+(5*ix) %>&deg</li>
-						<li><input type="text" value="0" id="I72DK<%= 180+(5*ix) %>" style="width: 40px" disabled="disabled" /></li>
-						<li style="width: 25px;"><%= 240+(5*ix) %>&deg</li>
-						<li><input type="text" value="0" id="I72DK<%= 240+(5*ix) %>" style="width: 40px" disabled="disabled"/></li>
-						<li style="width: 25px;"><%= 300+(5*ix) %>&deg</li>
-						<li><input type="text" value="0" id="I72DK<%= 300+(5*ix) %>" style="width: 40px" disabled="disabled"/></li>
+						<% for(int iy= 0; iy < 6; iy++) {%>
+							<li style="width: 25px;"><%= (60*iy)+(5*ix) %>&deg</li>
+							<li><input type="text" value="0" id="I72DK<%= (60*iy)+(5*ix) %>" style="width: 40px" disabled="disabled" /></li>
+						<% } %>
+					<% } %>
+				</ul>
+			</div>
+
+			<!-- <div id="deltaH8">
+				<img id="closeDeltaH" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<ul>
+					<li><label><b><u>Delta H</u></b></label></li>
+					<div id="separador"></div>
+					<li>&nbsp; &nbsp;  0&deg</li>
+					<li><input type="text" value="0" id="I8DH0" style="width: 40px" disabled="disabled" /></li>
+					<li>180&deg</li>
+					<li><input type="text" value="0" id="I8DH180" style="width: 40px" disabled="disabled" /></li>
+					<div id="separador"></div>
+					<li>&nbsp; 45&deg</li>
+					<li><input type="text" value="0" id="I8DH45" style="width: 40px" disabled="disabled" /></li>
+					<li>225&deg</li>
+					<li><input type="text" value="0" id="I8DH225" style="width: 40px" disabled="disabled" /></li>
+					<div id="separador"></div>
+					<li>&nbsp; 90&deg</li>
+					<li><input type="text" value="0" id="I8DH90" style="width: 40px" disabled="disabled" /></li>
+					<li>270&deg</li>
+					<li><input type="text" value="0" id="I8DH270" style="width: 40px" disabled="disabled" /></li>
+					<div id="separador"></div>
+					<li>135&deg</li>
+					<li><input type="text" value="0" id="I8DH135" style="width: 40px" disabled="disabled" /></li>
+					<li>315&deg</li>
+					<li><input type="text" value="0" id="I8DH315" style="width: 40px" disabled="disabled" /></li>
+				</ul>
+			</div> -->
+			<div id="deltaH18">
+				<img id="closeDeltaH" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<ul>
+					<li><label><b><u>Delta H</u></b></label></li>
+					<% for(int ix = 0; ix < 6; ix++) { %>
+						<div id="separador"></div>
+						<% for(int iy= 0; iy < 3; iy++) {%>
+						<li style="width: 25px;"><%= (120*iy)+(20*ix) %>&deg</li>
+						<li><input type="text" value="0" id="I18DH<%= (120*iy)+(20*ix) %>" style="width: 40px" disabled="disabled" /></li>
+						<% } %>
+					<% } %>
+				</ul>
+			</div>
+			<div id="deltaH72">
+				<img id="closeDeltaH" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<ul>
+					<li><label><b><u>Delta H</u></b></label></li>
+					<% for(int ix = 0; ix < 12; ix++) { %>
+						<div id="separador"></div>
+						<% for(int iy= 0; iy < 6; iy++) {%>
+							<li style="width: 25px;"><%= (60*iy)+(5*ix) %>&deg</li>
+							<li><input type="text" value="0" id="I72DH<%= (60*iy)+(5*ix) %>" style="width: 40px" disabled="disabled" /></li>
+						<% } %>
 					<% } %>
 				</ul>
 			</div>
@@ -579,6 +623,7 @@
 	<div id="info_user" style="display: none;">
 		<input type="text" id="id" value='<%=request.getParameter("userId")%>'>
 		<input type="text" id="codigo" value='<%=request.getParameter("codigo")%>' text="">
+		<input type="text" id="seccion" value='<%=request.getParameter("seccion")%>' text="">
 		<input type="text" id="idomicilio" value="" text="">
 		<input type="text" id="iemail" value="">
 		<input type="text" id="ifono" value="">

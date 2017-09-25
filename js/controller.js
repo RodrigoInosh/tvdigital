@@ -9,7 +9,7 @@ var longitudM = 0;
 var perdidasCablesConectoresM = 0;
 var divisorPotenciaM = 0;
 var otrasPerdidasM = 0;
-var ZS0M = 0; 
+var ZS0M = 0;
 var ZS120M = 0;
 var ZS240M = 0;
 var ZS20M = 0;
@@ -59,8 +59,8 @@ $(document).ready(function() {
 		$("#caltool").draggable({ containment: "#viewDiv", scroll: false });
 	});
 	$(function() {
-		$("#tabdatos").tabs({ 
-			active: 0 
+		$("#tabdatos").tabs({
+			active: 0
 		});
 	});
 	$("#botonHerramientas").click(function() {
@@ -75,18 +75,9 @@ $(document).ready(function() {
 		}
 	});
 
-	$("#closeImage8").click(function() {
-		$("#frame8PerdidasLobulos").hide();
-		$("#curtainCaltool").hide();
-	});
-
-	$("#closeImage18").click(function() {
-		$("#frame18PerdidasLobulos").hide();
-		$("#curtainCaltool").hide();
-	});
-
-	$("#closeImage72").click(function() {
-		$("#frame72PerdidasLobulos").hide();
+	$(".close").click(function(e) {
+		var parent_id = e.currentTarget.parentNode.id;
+		$("#"+parent_id).hide();
 		$("#curtainCaltool").hide();
 	});
 
@@ -160,33 +151,45 @@ $(document).ready(function() {
 		if(numeroRadiales == 72)
 			$("#frame72Radiales").show();
 	});
-	$("#closeImage18Radiales").click(function() {
-		$("#frame18Radiales").hide();
-		$("#curtainCaltool").hide();
-	});
-	$("#closeImage72Radiales").click(function() {
-		$("#frame72Radiales").hide();
-		$("#curtainCaltool").hide();
-	});
-	$("#closeImageDK8").click(function() {
-		$("#distanciaKilometro8").hide();
-		$("#curtainCaltool").hide();
-	});
-	$("#closeImageDK18").click(function() {
-		$("#distanciaKilometro18").hide();
-		$("#curtainCaltool").hide();
-	});
-	$("#closeImageDK72").click(function() {
-		$("#distanciaKilometro72").hide();
-		$("#curtainCaltool").hide();
-	});
+	
+	// $("#closeImage18Radiales, #closeImage72Radiales").click(function() {
+	// 	console.log("this");
+	// 	$("#frame18Radiales").hide();
+	// 	$("#frame72Radiales").hide();
+	// 	$("#curtainCaltool").hide();
+	// });
+	// $("#closeImage72Radiales").click(function() {
+	// 	$("#frame72Radiales").hide();
+	// 	$("#curtainCaltool").hide();
+	// });
+	// $("#closeImageDK8").click(function() {
+	// 	$("#distanciaKilometro8").hide();
+	// 	$("#curtainCaltool").hide();
+	// });
+	// $("#closeImageDK18").click(function() {
+	// 	$("#distanciaKilometro18").hide();
+	// 	$("#curtainCaltool").hide();
+	// });
+	// $("#closeImageDK72").click(function() {
+	// 	$("#distanciaKilometro72").hide();
+	// 	$("#curtainCaltool").hide();
+	// });
+	// $("#closeDeltaH").click(function() {
+	// 	$("#deltaH8").hide();
+	// 	$("#deltaH18").hide();
+	// 	$("#deltaH72").hide();
+	// 	$("#curtainCaltool").hide();
+	// });
 	$("#72PerdidasLobulos").prop("checked", true);
 	$("#concursoC").prop("checked", true);
-	$("#recomendacion option:eq(3)").attr("selected", "selected");
+	// $("#recomendacion option:eq(3)").attr("selected", "selected");
 	$("#verDistancia").click(function() {
 		setDistanciasKilometros();
 		$("#distanciaKilometro"+radialesCalculo).show();
-		// $("#curtainCaltool").show();
+	});
+	$("#verDeltaH").click(function() {
+		// setDistanciasKilometros();
+		$("#deltaH"+radialesCalculo).show();
 	});
 	// $("#verRadiales").prop("disabled", true);
 	$("#opcionesAvanzadasButton").click(function(){
@@ -274,7 +277,6 @@ function set18PerdidasLobulos(pLobulos){
 			$("#I18PL"+(twenty*i)).val(perdidasLobulos18Map["M18PL"+(twenty*i)]);
 		}
 	}
-	
 }
 
 function set72PerdidasLobulos(pLobulos){
@@ -309,7 +311,7 @@ function setOmni(){
 			perdidasLobulos8Map["M8PL"+(fortyFive*i)] = 0;
 			$("#I8PL"+(fortyFive*i)).val(0);
 		}
-	}	
+	}
 }
 
 function setFrameRadiales(){
@@ -329,7 +331,7 @@ function save72PerdidasLobulos(){
 	}
 	$("#frame72PerdidasLobulos").hide();
 }
-	
+
 function save18PerdidasLobulos(){
 	for(i=0;i<18;i++){
 		perdidasLobulos18Map["M18PL"+(twenty*i)] = $("#I18PL"+(twenty*i)).val();
@@ -374,8 +376,8 @@ function changeComboConcurso(data){
 		$(data.features).each(function(index, value) {
 			identificadores.append(new Option(value.attributes.IDENTIFICADOR, value.attributes.IDENTIFICADOR));
 		});
-	}	
-}	
+	}
+}
 
 function changeListaIdentificadores(data){
 	var identificadores = $("#identificadores");
@@ -387,7 +389,7 @@ function changeListaIdentificadores(data){
 		$(data.features).each(function(index, value) {
 			identificadores.append(new Option(value.attributes.IDENTIFICADOR, value.attributes.IDENTIFICADOR));
 		});
-	}	
+	}
 }
 
 function setDataIdentificador(data, coords, decimales){
@@ -417,7 +419,7 @@ function setDataIdentificador(data, coords, decimales){
 		numeroRadiales = data.RADIALES;
 		// setRadialesModificacion(data);
 		setDataRadiales(data, 1);
-		porcentajeUbicacion = data.PORCENTAJE_UBICACION 
+		porcentajeUbicacion = data.PORCENTAJE_UBICACION
 	}
 
 	setDataPLOB(data);
@@ -552,7 +554,7 @@ function removeDataConcurso(){
 	$("#longitudC").val("");
 	$("#identificadores").empty();
 	$("#identificadores").append(new Option("Seleccione", "seleccione"));
-	$("#identificadores option:contains(seleccione)").prop("selected",true); 
+	$("#identificadores option:contains(seleccione)").prop("selected",true);
 	$("#potenciaM").val("");
 	$("#gananciaM").val("");
 	$("#frecuenciaM").val("");
@@ -570,7 +572,7 @@ function removeDataConcurso(){
 	$("#72PerdidasLobulos").trigger('click');
 	removeDataInforme();
 	showInitPestana();
-}	
+}
 
 function setComboRegion(value){
 	removeDataConcurso();
@@ -584,7 +586,7 @@ function setComboRegion(value){
 		$("#labelRadioCircuferencia").show();
 		$("#labelInfoRadiales").hide();
 		$("#concursos option:contains(Seleccione)").prop("selected",true);
-		disabledAll();  
+		disabledAll();
 	}else{
 		concurso = false;
 		$("#concursoLabel").hide();
@@ -595,7 +597,7 @@ function setComboRegion(value){
 		$("#labelInfoRadiales").show();
 	}
 }
-	
+
 function setCombosToStart(is_modificacion){
 	$("#regiones").val(0);
 	$("#tipoServicio").find('option').remove();
@@ -614,12 +616,12 @@ function showLoader(value, text){
 		$("#loader").show();
 	}else{
 		$("#loader").hide();
-	}		
+	}
 }
 
 function setPosicionTools(){
 	$("#caltool").css("top", "15px");
-	$("#caltool").css("left", "55px");	
+	$("#caltool").css("left", "55px");
 }
 
 function showErrorMessage(value){
@@ -671,14 +673,14 @@ function getMapParameters(){
 	if(radiales == 8){
 		for(var ix = 0; ix < 8; ix++){
 			var radial = 45*ix;
-			mapOut["M8PL"+radial] = perdidasLobulos18Map["M8PL"+radial];	
+			mapOut["M8PL"+radial] = perdidasLobulos18Map["M8PL"+radial];
 		}
 	}
 
 	if(radiales == 18){
 		for(var ix = 0; ix < 18; ix++){
 			var radial = 20*ix;
-			mapOut["M18PL"+radial] = perdidasLobulos18Map["M18PL"+radial];	
+			mapOut["M18PL"+radial] = perdidasLobulos18Map["M18PL"+radial];
 		}
 	}
 
@@ -686,7 +688,7 @@ function getMapParameters(){
 	if(radiales == 72){
 		for(var ix = 0; ix < 72; ix++){
 			var radial = 5*ix;
-			mapOut["M72PL"+radial] = perdidasLobulos72Map["M72PL"+radial];	
+			mapOut["M72PL"+radial] = perdidasLobulos72Map["M72PL"+radial];
 		}
 	}
 	return mapOut;

@@ -5,7 +5,8 @@ var circleFunction;
 var internal_token = 3;
 var codigo = "";
 var is_form_modal_first_openend = true;
-var TIPO_SECCION = ""; 
+var TIPO_SECCION = "";
+var decimales_frecuencias = 0;
 
 require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle",
 		"esri/widgets/BasemapToggle", "esri/tasks/support/Query", "esri/tasks/QueryTask", 
@@ -178,7 +179,19 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		goHome();
 	});
 
+	setDecimalesFrecuenciasValue();
 	setDataCombosRegiones();
+
+	function setDecimalesFrecuenciasValue() {
+		console.log(TIPO_SECCION);
+		if(TIPO_SECCION == 'digital') {
+			decimales_frecuencias = 0;
+		} else if (TIPO_SECCION == 'radiodifusion') {
+			decimales_frecuencias = 1;
+		} else if (TIPO_SECCION == 'servicios') {
+			decimales_frecuencias = 3;
+		}
+	}
 
 	function setDataCombosRegiones() {
 		$.ajax({
@@ -417,7 +430,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				queryData.where = queryString;
 				queryTask2.execute(queryData).then(function(data){
 					superView.punto = data;
-					setDataIdentificador(data.features[0].attributes, coords, 1);
+					setDataIdentificador(data.features[0].attributes, coords, decimales_frecuencias);
 					view.zoom = setZoom(data.features[0].attributes);
 				});
 
@@ -427,7 +440,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				queryData.where = queryString;
 				queryTask2.execute(queryData).then(function(data){
 					superView.circulo = data;
-					setDataIdentificador(data.features[0].attributes, coords, 1);
+					setDataIdentificador(data.features[0].attributes, coords, decimales_frecuencias);
 					view.zoom = setZoom(data.features[0].attributes);
 				});
 			}
@@ -513,7 +526,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 				queryTask3.execute(queryData).then(function(data){
 					superView.punto = data;
 					activeAll();
-					setDataIdentificador(data.features[0].attributes, coords, 2);
+					setDataIdentificador(data.features[0].attributes, coords, decimales_frecuencias);
 					view.zoom = setZoom(data.features[0].attributes);
 				});
 			}
@@ -633,7 +646,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 	function setRadiansString(data){
 		var radiales = "";
-		// if(data["M"+data.radiales+"PL0"] != undefined)
 		if(data.radiales == 72){
 			if(data.M72PL0 == undefined){
 				return default72;
