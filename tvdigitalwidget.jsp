@@ -105,9 +105,10 @@
 					<li style="padding-top: 5px; font-weight: 100; width: 117px; text-align: right;">Recomendaci&oacute;n: </li>
 					<li style="padding-top: 2px; width: 50px;">
 						<select name="recomendacion" id="recomendacion" style="width: 65px;">
-							<option value="370" selected="true">370</option>
+							<option value="370">370</option>
 							<option value="1546" selected="true">1546</option>
 							<option value="1546+">1546+</option>
+							<option value="1812">1812</option>
 						</select>
 					</li>
 				</ul>
@@ -155,6 +156,7 @@
 								<option value="AM">AM</option>
 								<option value="RCC">RCC</option>
 								<option value="VHF">VHF</option>
+								<option value="UHF">UHF</option>
 								<option value="ISDBT">ISDBT</option>
 							</select>
 						</li>
@@ -193,9 +195,9 @@
 								<div id="separador"></div>
 								<li><input type="radio" id ="normaActualM"  name="normaTecnica" value="normaTecnica1546" checked="true">Norma T&eacute;cnica Actual</input></li>
 								<div id="separador"></div>
-								<li style="display:none"><input type="radio" id ="normaAnteriorM"  name="normaTecnica" value="normaTecnica370" disabled="disabled" >Norma T&eacute;cnica Anterior</input></li>
+								<li><input type="radio" id ="normaAnteriorM"  name="normaTecnica" value="normaTecnica370">Norma T&eacute;cnica Anterior</input></li>
 								<li id="labelRadioCircuferencia"><label>Radio Circunferencia M&aacute;xima:</label>
-									<input type="text" value="" id="radioCircunferenciaMaxina" style="width: 40px;" checked="true" disabled="disabled" />
+									<input type="text" value="" id="radioCircunferenciaMaxina" style="width: 40px;" checked="true"/>
 									<b>[km]</b>
 								</li>
 								<li id="labelInfoRadiales" style="display: none; text-align: center; width: 220px; margin-top; -3px; ">
@@ -373,9 +375,11 @@
 					<li>315&deg</li>
 					<li><input type="text" value="0" id="I8PL315" style="width: 40px" /></li>
 					<div id="separador"></div>
-					<li style="width: 163px; text-align: right; padding-top: 10px;">
-					<a href="#" id="omni8" align="left" style="padding-right: 100px" title="Todos a Cero">Omni</a>
-					<button type="button" style="width: 70px; " id="save8PerdidasLobulosButton">Aceptar</button>
+					<li style="width: 45%; padding-top: 10px; padding-left: 35px">
+						<a href="#" id="omni8" align="left" title="Todos a Cero">Omni</a>
+					</li>
+					<li style="width: 20%; text-align: right; padding-top: 10px;">
+						<button type="button" style="width: 70px;" id="save8PerdidasLobulosButton">Aceptar</button>
 					</li>
 				</ul>
 			</div>

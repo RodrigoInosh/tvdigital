@@ -120,6 +120,7 @@ $(document).ready(function() {
 
 	$("#show8PerdidasLobulos").click(function() {
 		$("#8PerdidasLobulos").prop("checked", true);
+		$("#calculaPoligono").text("Calcular Zona [8 radiales]");
 		var interpola8 = null;
 		if(plCheckActual == 18)
 			interpola8 = interpola_18_to_8(perdidasLobulos18Map);
@@ -187,7 +188,7 @@ $(document).ready(function() {
 		$("#distanciaKilometro"+radialesCalculo).show();
 		// $("#curtainCaltool").show();
 	});
-	$("#verRadiales").prop("disabled", true);
+	// $("#verRadiales").prop("disabled", true);
 	$("#opcionesAvanzadasButton").click(function(){
 		$("#opcionesAvanzadas").show();
 		$("#curtainCaltool").show();
@@ -469,6 +470,7 @@ function setDataPLOB(data){
 }
 
 function setDataRadiales(data, factor) {
+	$("#verRadiales").prop("disabled", false);
 	if(numeroRadiales == 72) {
 		for(var ix = 0; ix < 72; ix++) {
 			var radial = 5*ix;

@@ -332,7 +332,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 			if(modificacionM){
 				concursoModificacion = "Modificacion";
 				setComboRegion(false);
-				$("#verRadiales").prop("disabled", false);
+				$("#verRadiales").prop("disabled", true);
 				$("#label_zona_max").text("Zona de Servicio Mínima");
 			}
 		} else {
@@ -346,7 +346,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 	
 	function changeCambiaNormaClick(){
-		setIndentificadorRegion();
+		// setIndentificadorRegion();
 	}
 
 	function triggerPerdidasLobulos() {
@@ -613,7 +613,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	}
 
 	function clickGenerarMatrizCotas(){
-		showLoader(true, 'Generando Matriz de Cotas');
+		// showLoader(true, 'Generando Matriz de Cotas');
 		var mapParametros = getMapParameters();
 
 		geoProcessor = new Geoprocessor(gpCalculoMatrizCotas);
@@ -698,25 +698,18 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 	function getDataNube(data) {
 		var fields = data.value.features;
-		console.log(fields);
 		var csv_data = ["angulo", "distancia", "Z"];
 		var dataString = [];
 
 		fields.forEach(function(value, index){
-			// var row_data = {}; 
-			// row_data.push(value.attributes.angulo);
-			// row_data.push(value.attributes.distancia);
-			// row_data.push(value.attributes.Z);
-			// console.log(row_data);
 			var value_Z = value.attributes.Z.toString().replace(".", ",");
-			console.log(value_Z);
 			dataString.push({
 				"Angulo": value.attributes.angulo,
 				"distancia": value.attributes.distancia,
 				"Z" : "\""+value_Z+ "\""
 			});
 		});
-		console.log(dataString);
+
 		downloadCSV(dataString);
 	}
 
@@ -1203,8 +1196,11 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		$("#"+select_name).val(new_value);
 	}
 
-	$('input[type="radio"][id="18PerdidasLobulos"]').change(function() {
+	$('input[type="radio"][id="8PerdidasLobulos"]').on('change',function() {
+		$("#calculaPoligono").text("Calcular Zona [8 radiales]");
+    });
 
+    $('input[type="radio"][id="18PerdidasLobulos"]').on('change',function() {
 		$("#calculaPoligono").text("Calcular Zona [18 radiales]");
     });
 
@@ -1481,7 +1477,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
         }
  
         columnDelimiter = args.columnDelimiter || ',';
-        console.log("C:"+columnDelimiter);
         lineDelimiter = args.lineDelimiter || '\n';
  
         keys = Object.keys(data[0]);
@@ -1506,7 +1501,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
  
     function downloadCSV(stockData) {
         var data, filename, link;
- 
         var csv = convertArrayOfObjectsToCSV({
             data: stockData
         });
@@ -1516,15 +1510,17 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
         if (!csv.match(/^data:text\/csv/i)) {
             csv = 'data:text/csv;charset=utf-8,' + csv;
         }
-
+        
         data = encodeURI(csv);
         var encodedUri = encodeURI(csv);
 		var downloadLink = document.createElement("a");
 		downloadLink.href = encodedUri;
-		downloadLink.download = "data.csv";
 
-		showLoader(false, '');
-		
+		var date = new Date();
+		var hour = date.getHours() + 1;
+		var min = date.getMinutes();
+		downloadLink.download = "Export_Output_"+hour+""+min+".csv";
+
 		document.body.appendChild(downloadLink);
 		downloadLink.click();
 		document.body.removeChild(downloadLink);
