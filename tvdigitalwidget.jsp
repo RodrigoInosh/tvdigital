@@ -224,9 +224,9 @@
 							<li><label style="padding-right: 0px;">Intensidad de campo:</label></li>
 							<li>
 								<select id="intensidadCampoM" style="width: 45px; height: 18px;">
-									<option>40</option>
+<!-- 									<option>40</option>
 									<option>48</option>
-									<option>66</option>
+									<option>66</option> -->
 								</select>
 								<b>[dB(uV/m)]</b>
 							</li>
@@ -377,7 +377,7 @@
 					<li><input type="text" value="0" id="I8PL315" style="width: 40px" /></li>
 					<div id="separador"></div>
 					<li style="width: 45%; padding-top: 10px; padding-left: 35px">
-						<a href="#" id="omni8" align="left" title="Todos a Cero">Omni</a>
+						<a href="#" id="omni8" class="closeOmni" align="left" title="Todos a Cero">Omni</a>
 					</li>
 					<li style="width: 20%; text-align: right; padding-top: 10px;">
 						<button type="button" style="width: 70px;" id="save8PerdidasLobulosButton">Aceptar</button>
@@ -399,7 +399,7 @@
 					<% } %>
 					<div id="separador"></div>
 					<li style="width: 66%; text-align: left; padding-top: 10px; padding-left: 17px">
-						<a href="#" id="omni18" style="padding-right: 5px" title="Todos a Cero">Omni</a>
+						<a href="#" id="omni18" class="closeOmni" style="padding-right: 5px" title="Todos a Cero">Omni</a>
 						<a class="btn btn-info" href="/CalculoTVD/calculoTVD/Plantillas/18">
 							<i class="fa fa-file-pdf-o fa-1x" style="padding-right: 5px" aria-hidden="true"></i>
 						</a>
@@ -432,7 +432,7 @@
 					<% } %>
 					<div id="separador"></div>
 					<li style="width: 66%; text-align: left; padding-top: 10px; padding-left: 17px">
-						<a href=#" id="omni72" style="padding-right: 5px" title="Todos a Cero">Omni</a>
+						<a href="#" id="omni72" class="closeOmni" style="padding-right: 5px" title="Todos a Cero">Omni</a>
 						<a class="btn btn-info" href="/CalculoTVD/calculoTVD/Plantillas/72">
 							<i class="fa fa-file-pdf-o fa-1x" style="padding-right: 5px" aria-hidden="true"></i>
 						</a>
@@ -533,7 +533,7 @@
 				</ul>
 			</div>
 
-			<!-- <div id="deltaH8">
+			<div id="deltaH8">
 				<img id="closeDeltaH" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>
 					<li><label><b><u>Delta H</u></b></label></li>
@@ -558,7 +558,7 @@
 					<li>315&deg</li>
 					<li><input type="text" value="0" id="I8DH315" style="width: 40px" disabled="disabled" /></li>
 				</ul>
-			</div> -->
+			</div>
 			<div id="deltaH18">
 				<img id="closeDeltaH" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>
@@ -586,7 +586,7 @@
 				</ul>
 			</div>
 			<div id="opcionesAvanzadas">
-				<img id="closeImageOA" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<img id="closeImageOA" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>
 					<li><label><b><u>Par&aacute;metros avanzados</u></b></label></li>
 					<div id="separador" style="height: 1px;"></div>

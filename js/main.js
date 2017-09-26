@@ -147,6 +147,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	var guardarDataCalculos = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/GuardarCalculos/GPServer/Modelo";
 	var cargarListaCalculos = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/CargarInfoCalculos/GPServer/Modelo";
 	var cargarDataCalculo = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/ObtenerDatosCalculos/GPServer/Modelo";
+
+	//**CAMBIAR LOS SCRIPT DE CALCULO AL CORRESPONDIENTE**//
 	var scriptCalculoPrueba = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/ModelPrueba2/GPServer/CalculoPredictivo72";
 	var gpCalculoPredictivoCensal = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Pruebas/CapaCensal/GPServer/CalculoPredictivo72";
 	var gpCalculoMatrizCotas = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Pruebas/Test2/GPServer/Test2";
@@ -238,6 +240,8 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		idConcurso = dom.byId("concursos").value;
 		idIdentificador = 0;
 		idTipoServicio = getServiceType();
+
+		setVariablesByIntensidadCampo(idTipoServicio);
 		var query3 = new Query();
 		query3.returnGeometry = true;
 
@@ -247,9 +251,9 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		queryTask2.execute(query3).then(function(data){
 			showLoader(true, 'Cargando Datos');
 			triggerPerdidasLobulos();
-			// $("#72PerdidasLobulos").trigger('click');
 			changeComboConcurso(data);
 			setIndentificadorConcurso();
+
 			if(data.features.length == 0){
 				resetSelect('concursos', 'seleccione');
 			}
@@ -270,11 +274,10 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
     }
 	
 	function changeComboIdentificadorClick(){
+		$("#pestanaTab3").hide();
 		concursoC = dom.byId("concursoC").checked;
 		modificacionM = dom.byId("modificacionM").checked;
-		$("#pestanaTab3").hide();
 		triggerPerdidasLobulos();
-		// $("#18PerdidasLobulos").trigger('click');
 		showLoader(true, '');
 		if(concursoC){
 			setIndentificadorConcurso();
@@ -300,7 +303,6 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		if(concursoC){
 			query3.where = "CONCURSO='"+idConcurso+"' AND TIPO_SERVICIO = '"+idTipoServicio+"'";
 			queryTask2.execute(query3).then(function(data){
-				// $("#18PerdidasLobulos").trigger('click');
 				changeListaIdentificadores(data);
 				setIndentificadorConcurso();
 				if(data.features.length == 0){
@@ -311,13 +313,21 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		else if(modificacionM){
 			query3.where = "REG="+idRegion+" AND TIPO_SERVICIO = '"+idTipoServicio+"'";
 			queryTask3.execute(query3).then(function(data){
-				// $("#18PerdidasLobulos").trigger('click');
-				changeListaIdentificadores(data);
-				setIndentificadorRegion();
-				if(data.features.length == 0){
-					resetSelect('regiones', '0');
-				}
+				setIdentificadoresData(data);
+				// changeListaIdentificadores(data);
+				// setIndentificadorRegion();
+				// if(data.features.length == 0){
+				// 	resetSelect('regiones', '0');
+				// }
 			});
+		}
+	}
+
+	function setIdentificadoresData(data) {
+		changeListaIdentificadores(data);
+		setIndentificadorRegion();
+		if(data.features.length == 0){
+			resetSelect('regiones', '0');
 		}
 	}
 	
@@ -716,7 +726,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		fields.forEach(function(value, index){
 			var value_Z = value.attributes.Z.toString().replace(".", ",");
 			dataString.push({
-				"Angulo": value.attributes.angulo,
+				"angulo": value.attributes.angulo,
 				"distancia": value.attributes.distancia,
 				"Z" : "\""+value_Z+ "\""
 			});
