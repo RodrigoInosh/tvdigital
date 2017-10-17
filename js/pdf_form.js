@@ -151,7 +151,7 @@ var frecuencias_canal_digital = {
 
 $(".number_input" ).keypress(function(evt) {
     var code = evt.which;
-    if((code > 47 && code < 58) || code == 0 || code == 8 || code == 46) {
+    if((code > 47 && code < 58) || code == 0 || code == 8 || code == 46 || code == 45) {
         return true
     } else {
         evt.preventDefault();

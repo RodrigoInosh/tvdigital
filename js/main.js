@@ -140,14 +140,12 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 	//Zonas_Modificacion_370_30p (12)
 	var identificadores212 = `http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/${identificador}/MapServer/8`;
 	
-	var gpCalculoPredictivo = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/calculozona/GPServer/CalculoPredictivo72";
+	var gpCalculoPredictivo = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/CalculoPredictivo/GPServer/CalculoPredictivo72";
 	var ptReporte = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Imprimir/GPServer/Imprimir";
 	var gpScriptExportarKMZ = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/ScriptExportarKMZ/GPServer/ScriptExportarKMZ/";
 	var guardarDataCalculos = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/GuardarCalculos/GPServer/Modelo";
 	var cargarListaCalculos = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/CargarInfoCalculos/GPServer/Modelo";
 	var cargarDataCalculo = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/ObtenerDatosCalculos/GPServer/Modelo";
-	var scriptCalculoPrueba = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/ModelPrueba2/GPServer/CalculoPredictivo72";
-	var gpCalculoPredictivoCensal = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Pruebas/CapaCensal/GPServer/CalculoPredictivo72";
 	
 	var queryTask1 = new QueryTask({ url: identificadores21 });
 	var queryTask2 = new QueryTask({ url: identificadores22 });
@@ -575,8 +573,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		showLoader(true, 'Calculando Zona de Propagación');
 		map.remove(capaCalculoPoligonos);
 		var mapParametros = getMapParameters();
-		geoProcessor = new Geoprocessor(gpCalculoPredictivoCensal);
-		// geoProcessor = new Geoprocessor(scriptCalculoPrueba);
+		geoProcessor = new Geoprocessor(gpCalculoPredictivo);
 		
 		var recomendacion = mapParametros.recomendacion;
 		if(calculoZonaMaxima && dom.byId("normaAnteriorM").checked){
@@ -609,7 +606,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 		  "env:outSR": 102100,
 		  "f": 'json'
         };
-        // console.log(params);
+        console.log(params);
 		geoProcessor.submitJob(params).then(sendRequestPolygon, showError);
 	}
 
@@ -1200,7 +1197,7 @@ function(Map, Basemap, MapView, Circulo, BasemapToggle, Query, QueryTask, Featur
 
 	$(".number_input" ).keypress(function(evt) {
 	    var code = evt.which;
-	    if((code > 47 && code < 58) || code == 0 || code == 8 || code == 46) {
+	    if((code > 47 && code < 58) || code == 0 || code == 8 || code == 46 || code == 45) {
 	        return true
 	    } else {
 	        evt.preventDefault();
