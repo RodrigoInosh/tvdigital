@@ -1,5 +1,4 @@
-<script src="js/pdf_form.js?v=<%= System.currentTimeMillis() %>">
-</script>
+
 <div class="tab">
     <button class="tablinks active" name="subtab" id="tabA">Datos Generales</button>
     <button class="tablinks" name="subtab" id="tabB">Estudio</button>

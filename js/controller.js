@@ -372,6 +372,7 @@ function setComboIdentificadores(data){
 function changeComboConcurso(data){
 	$("#identificadores").empty();
 	var identificadores = $("#identificadores");
+
 	if(data.features.length == 0){
 		var identificadores = $("#identificadores");
 		identificadores.append(new Option("Seleccione", "seleccione"));
@@ -601,13 +602,13 @@ function setComboRegion(value){
 
 function setCombosToStart(is_modificacion){
 	$("#regiones").val(0);
-	$("#tipoServicio").find('option').remove();
+	// $("#tipoServicio").find('option').remove();
 
-	$("#tipoServicio").append($("<option></option>", {'value':''}).text('...'));
-	$("#tipoServicio").append($("<option></option>", {'value':'ISDBT'}).text('ISDBT'));
-	if(is_modificacion) {
-		$("#tipoServicio").append($("<option></option>", {'value':'VHF'}).text('VHF'));
-	}
+	// $("#tipoServicio").append($("<option></option>", {'value':''}).text('...'));
+	// $("#tipoServicio").append($("<option></option>", {'value':'ISDBT'}).text('ISDBT'));
+	// if(is_modificacion) {
+	// 	$("#tipoServicio").append($("<option></option>", {'value':'VHF'}).text('VHF'));
+	// }
 }
 
 function showLoader(value, text){

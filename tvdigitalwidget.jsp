@@ -21,7 +21,6 @@
 		   var userId ="<%=userId%>";
 		   var codigoPostulacion ="<%=codigoPostulacion%>";
 		   var seccion = "<%=seccion%>";
-		   console.log(seccion);
 		 //   if (seccion == "digital") {
 			//    data = {"usuario_id": parseInt(userId), "token": token, "codigo": codigoPostulacion};
 			// 	$.ajax({
@@ -52,18 +51,21 @@
 <link href="css/form_pdf.css?v=<%= System.currentTimeMillis() %>" rel="stylesheet" type="text/css">
 <script src="js/xlsx.full.min.js?v=<%= System.currentTimeMillis() %>"></script>
 <script src="js/jquery.dataTables.min.js"></script>
+<script src="js/xls-export.js"></script>
 <script src="js/template_kml.js"></script>
 <script src="js/pdfmake.min.js"></script>
 <script src="js/vfs_fonts.js"></script>
 <script src="js/underscore.string.min.js"></script>
 <script src="js/underscore-min.js"></script>
 <script src="https://js.arcgis.com/4.2/"></script>
-<script src="js/main.js?v=<%= System.currentTimeMillis() %>"></script>
-<script src="js/geopoint.js"></script>
-<script src="js/zoom.js?v=<%= System.currentTimeMillis() %>"></script>
 <script src="js/pdf_form.js?v=<%= System.currentTimeMillis() %>"></script>
 <script src="js/controller.js?v=<%= System.currentTimeMillis() %>"></script>
 <script src="js/pdf_export.js?v=<%= System.currentTimeMillis() %>"></script>
+<script src="js/files_utils.js?v=<%= System.currentTimeMillis() %>"></script>
+<script src="js/Identificadores.js?v=<%= System.currentTimeMillis() %>"></script>
+<script src="js/main.js?v=<%= System.currentTimeMillis() %>"></script>
+<script src="js/geopoint.js"></script>
+<script src="js/zoom.js?v=<%= System.currentTimeMillis() %>"></script>
 <script src="js/interpolacion.js"></script>
 <script src="js/concurso_pdf_export.js?v=<%= System.currentTimeMillis() %>"></script>
 <script src="js/modificacion_pdf_export.js?v=<%= System.currentTimeMillis() %>"></script>
@@ -116,7 +118,7 @@
 			<div id="tabdatos">
 				<ul>
 					<li id="pestanaTab1"><a href="#tab1">Bases de Concurso</a></li>
-					<li id="pestanaTab2"><a href="#tab2">C&aacute;lculo Zona Digital</a></li>
+					<li id="pestanaTab2"><a href="#tab2">C&aacute;lculo Zona Propagaci&oacute;n</a></li>
 					<li id="pestanaTab3"><a href="#tab3">Resultado</a></li>
 				</ul>
 				<div id="separador"></div>
@@ -195,7 +197,7 @@
 								<div id="separador"></div>
 								<li><input type="radio" id ="normaActualM"  name="normaTecnica" value="normaTecnica1546" checked="true">Norma T&eacute;cnica Actual</input></li>
 								<div id="separador"></div>
-								<li><input type="radio" id ="normaAnteriorM"  name="normaTecnica" value="normaTecnica370">Norma T&eacute;cnica Anterior</input></li>
+								<li><input type="radio" id ="normaAnteriorM"  name="normaTecnica" value="normaTecnica370" disabled="disabled">Norma T&eacute;cnica Anterior</input></li>
 								<li id="labelRadioCircuferencia"><label>Radio Circunferencia M&aacute;xima:</label>
 									<input type="text" value="" id="radioCircunferenciaMaxina" style="width: 40px;" checked="true"/>
 									<b>[km]</b>
@@ -223,11 +225,7 @@
 						<ul>
 							<li><label style="padding-right: 0px;">Intensidad de campo:</label></li>
 							<li>
-								<select id="intensidadCampoM" style="width: 45px; height: 18px;">
-<!-- 									<option>40</option>
-									<option>48</option>
-									<option>66</option> -->
-								</select>
+								<select id="intensidadCampoM" style="width: 45px; height: 18px;"></select>
 								<b>[dB(uV/m)]</b>
 							</li>
 							<div id="separador"></div>
@@ -611,14 +609,14 @@
 					<div id="separador"></div>
 					<li style="width: 143px; text-align: left">Altura Antena Receptora:</li>
 					<li><input type="text" value="20" id="alturaAntenaRx" style="width: 25px" /><b>[m]&nbsp;</b></li>
-					<li style="width: 75px;"><button type="button" style="width: 70px;" id="generarMatrizCotas">Matriz</button></li>
+					<li style="width: 75px;"><button type="button" style="width: 103px;" id="generarMatrizCotas">Nube de Cotas</button></li>
 					<li style="width: 75px; float: right;"><button type="button" style="width: 70px;" id="saveParametrosAvanzadosButton">Aceptar</button></li>
 				</ul>
 			</div>
 			<div id="msgbox"><p>Seleccione nueva ubicaci&oacute;n en el mapa</p></div>
 		</div>
 	</div>
-	<div id="openModal" class="modalForm">
+	<div id="openModal" class="modalForm"><jsp:include page="form_pdf.jsp" />
 	</div>
 	<div id="info_user" style="display: none;">
 		<input type="text" id="id" value='<%=request.getParameter("userId")%>'>
