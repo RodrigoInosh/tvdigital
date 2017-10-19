@@ -6,7 +6,7 @@
 		String token = request.getParameter("token");
 		String userId = request.getParameter("userId");
 		String codigoPostulacion = request.getParameter("codigo");
-		String seccion = "asdf";
+		String seccion = "digital";
 		if(request.getParameter("seccion") == null) {
 			seccion = "digital";
 		} else {

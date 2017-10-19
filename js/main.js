@@ -241,7 +241,6 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         setInitConcursosParametros();
         setDataCombosRegiones();
 
-        console.log(identificadores.identificador_lista_concursos);
         queryTask1 = new QueryTask({
             url: identificadores.identificador_lista_concursos
         });
@@ -278,11 +277,22 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         function setInitConcursosParametros() {
             if (TIPO_SECCION == 'digital') {
                 decimales_frecuencias = 0;
+                $("#recomendacion option[value=1546]").prop('selected', true);
+                $("#8PerdidasLobulos").prop('disabled', true);
+                $("#show8PerdidasLobulos").prop("disabled", true);
                 identificadores = new Identificadores(identificadores21, identificadores23, identificadores27, identificadores28);
             } else if (TIPO_SECCION == 'radiodifusion') {
+            	$("#recomendacion option[value='1546+']").prop('selected', true);
+            	$("#72PerdidasLobulos").prop('disabled', true);
+            	$("#show72PerdidasLobulos").prop("disabled", true);
                 decimales_frecuencias = 1;
                 identificadores = new Identificadores(identificadores20, identificadores24, identificadores29, identificadores210);
-            } else if (TIPO_SECCION == 'servicios') {
+            } else if (TIPO_SECCION == 'servicios') { 
+            	$("#recomendacion option[value=370]").prop('selected', true);
+            	$("#18PerdidasLobulos").prop('disabled', true);
+            	$("#72PerdidasLobulos").prop('disabled', true);
+            	$("#show18PerdidasLobulos").prop("disabled", true);
+            	$("#show72PerdidasLobulos").prop("disabled", true);
                 decimales_frecuencias = 3;
                 identificadores = new Identificadores(identificadores20, identificadores25, identificadores211, identificadores212);
             }
@@ -337,7 +347,6 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
 
         function getServiceType() {
             var service_type = dom.byId("tipoServicio").value;
-            // if (service_type == "" && concursoModificacion == 'Concurso') {
         	if(TIPO_SECCION === 'digital'){
         		service_type = "ISDBT";
         	} else if (TIPO_SECCION === 'radiodifusion') {
@@ -345,10 +354,8 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         	} else if (TIPO_SECCION === 'servicios') {
         		service_type = "VHF";
         	}
-            // } else if (service_type == "" && concursoModificacion == 'Modificacion') {
-            //     service_type = "VHF";
-            // }
             $("#tipoServicio").val(service_type);
+
             return service_type;
         }
 

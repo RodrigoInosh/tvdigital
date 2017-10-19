@@ -29,7 +29,6 @@ function getDataNube(data) {
 
     fields.forEach(function(value, index) {
         var value_Z = value.attributes.Z.toString().replace(".", ",");
-        // console.log(value.attributes.angulo + "==> " + (value.attributes.angulo === "0") + " | " + (value.attributes.angulo === 0));
         angulo = value.attributes.angulo === 0 ? 0.0 : value.attributes.angulo;
         distancia = value.attributes.distancia === 0 ? 0.0 : value.attributes.distancia;
         dataString.push({
@@ -39,7 +38,7 @@ function getDataNube(data) {
         });
     });
 
-    var filename = prompt("Ingrese Nombre del Cálculo", "");
+    var filename = prompt("Ingrese Nombre del archivo", "");
     if(filename != "") {
         downloadCSV(dataString, filename);
     } else {

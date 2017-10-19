@@ -792,7 +792,6 @@ function setVariablesByIntensidadCampo(idTipoServicio) {
 	setValueObstaculosCircundantes(idTipoServicio);
 	setValueAlturaAntenaRx(idTipoServicio);
 	setValuePorcentajeTiempo(idTipoServicio);
-	activatePerdidasPorLobuloByRadiales(idTipoServicio);
 }
 
 function setComboIntensidadCampo(idTipoServicio) {
