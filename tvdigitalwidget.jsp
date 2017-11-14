@@ -107,10 +107,6 @@
 					<li style="padding-top: 5px; font-weight: 100; width: 117px; text-align: right;">Recomendaci&oacute;n: </li>
 					<li style="padding-top: 2px; width: 50px;">
 						<select name="recomendacion" id="recomendacion" style="width: 65px;">
-							<option value="370">370</option>
-							<option value="1546" selected="true">1546</option>
-							<option value="1546+">1546+</option>
-							<option value="1812">1812</option>
 						</select>
 					</li>
 				</ul>
@@ -124,7 +120,6 @@
 				<div id="separador"></div>
 				<div id="tab1">
 					<ul>
-					<!-- <li><button type="button" style="font-size: 11px;" id="saveMongoData">Agregar Info a PDF</button></li> -->
 						<li id="concursoLabel"><label style="padding-right: 12px;">Concurso:</label></li>
 						<li id="concursoSelect" style="padding-right: 1px;">
 							<select name="concursos" id="concursos" style="width: 170px"></select>
@@ -199,7 +194,7 @@
 								<div id="separador"></div>
 								<li><input type="radio" id ="normaAnteriorM"  name="normaTecnica" value="normaTecnica370" disabled="disabled">Norma T&eacute;cnica Anterior</input></li>
 								<li id="labelRadioCircuferencia"><label>Radio Circunferencia M&aacute;xima:</label>
-									<input type="text" value="" id="radioCircunferenciaMaxina" style="width: 40px;" checked="true"/>
+									<input type="text" value="" id="radioCircunferenciaMaxina" style="width: 40px;" checked="true" disabled="disabled" />
 									<b>[km]</b>
 								</li>
 								<li id="labelInfoRadiales" style="display: none; text-align: center; width: 220px; margin-top; -3px; ">
@@ -225,17 +220,16 @@
 						<ul>
 							<li><label style="padding-right: 0px;">Intensidad de campo:</label></li>
 							<li>
-								<select id="intensidadCampoM" style="width: 45px; height: 18px;"></select>
+								<select id="intensidadCampoM" style="width: 50px; height: 18px;"></select>
 								<b>[dB(uV/m)]</b>
 							</li>
-							<div id="separador"></div>
 							<li><label style="padding-right: 16px;">Altura Antena Tx:</label></li>
-							<li><input class="number_input" type="text" value="" id="alturaAntenaTransmisoraM" style="width: 40px;"/><b>[m]</b></li>
+							<li><input class="number_input" type="text" value="" id="alturaAntenaTransmisoraM" style="width: 43px;"/><b>[m]</b></li>
 							<li><label style="padding-right: 39px;">P&eacute;rdidas CC:</label></li>
-							<li><input class="number_input" type="text" value="" id="perdidasCablesConectoresM" style="width: 40px;"/><b>[dB]</b></li>
+							<li><input class="number_input" type="text" value="" id="perdidasCablesConectoresM" style="width: 43px;"/><b>[dB]</b></li>
 							<div id="separador"></div>
 							<li><label style="padding-right: 6px;">Divisor de potencia:</label></li>
-							<li><input class="number_input" type="text" value="" id="divisorPotenciaM" style="width: 40px;"/><b>[dB]</b></li>
+							<li><input class="number_input" type="text" value="" id="divisorPotenciaM" style="width: 43px;"/><b>[dB]</b></li>
 						</ul>
 					</div>
 					<div id="subbox2right">
@@ -265,8 +259,11 @@
 							<li><input type="text" value="" id="longitudGradosM" style="width: 30px;" class="number_input"/>&deg</li>
 							<li><input type="text" value="" id="longitudMinutosM" style="width: 30px;" class="number_input"/>'</li>
 							<li><input type="text" value="" id="longitudSegundosM" style="width: 30px;" class="number_input"/>''</li>
-							<li><button type="button" id="cambioUbicacionM" style="width: 20px; height: 20px; padding-top: 0px; padding-left:4px;" title="Cambiar coordenadas PTx"><i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>
-</button></li>
+							<li>
+								<button type="button" id="cambioUbicacionM" style="width: 20px; height: 20px; padding-top: 0px; padding-left:4px;" title="Cambiar coordenadas PTx">
+								<i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>
+								</button>
+							</li>
 						</ul>
 					</div>
 					<div id="subbox2bottom1">
@@ -292,7 +289,7 @@
 						<ul>
 							<li style="text-align: left;" id="opcionesAvanzadasButton"><a href="#">Par&aacute;metros Avanzados</a></li>
 							<li style="width: 110px; text-align: left;"></li>
-							<li><button type="button" id="calculaPoligono" disabled="disabled">Calcular Zona [72 radiales]</button></li>
+							<li><button type="button" id="calculaPoligono">Calcular Zona [72 radiales]</button></li>
 						</ul>
 					</div>
 				</div>
@@ -319,6 +316,9 @@
 								<div id="separador"></div>
 								<li><label>Frecuencia: &nbsp;</label></li>
 								<li style="text-align:left; font-weight: bold"><label id="frecuenciaI"></label><label> Mhz</label></li>
+								<div id="separador"></div>
+								<li><label>Altura del Terreno: &nbsp;</label></li>
+								<li style="font-weight: bold"><label id="alturaI"></label><label> Mts</label></li>
 							</ul>
 						</div>
 					</div>
@@ -338,12 +338,13 @@
 							<div id="separador"></div>
 							<li><button type="button" style="font-size: 11px;" id="verDistancia" class="button_info">Ver Resultado</button></li>
 							<li><button type="button" style="font-size: 11px;" id="verDeltaH" class="button_info">Ver Delta H</button></li>
+							<li><button type="button" style="font-size: 11px;" id="verAlturas" class="button_info">Ver Alturas</button></li>
 							<div id="separador"></div>
 							<li><button type="button" id="exportarKMZ">Exportar a GoogleEarth</button></li>
 							<li><button type="button" id="pdfForm">Agregar Datos</button></li>
 							<li><button type="button" id="imprimirCalculo">Generar PDF</button></li>
 							<div id="separador"></div>
-							<li><button type="button" id="enviarCalculosCNTV" class="button_info" disabled="disabled"><b>Enviar a CNTV</b></button></li>
+							<li><button type="button" id="enviarCalculosCNTV" class="button_info"><b>Enviar a CNTV</b></button></li>
 						</ul>
 					</div>
 				</div>
@@ -481,7 +482,7 @@
 			<div id="distanciaKilometro8">
 				<img id="closeImageDK8" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>
-					<li><label><b><u>Distancia en Kilometros</u></b></label></li>
+					<li><label><b><u>Distancia en [KMs]</u></b></label></li>
 					<div id="separador"></div>
 					<li>&nbsp; &nbsp;  0&deg</li>
 					<li><input type="text" value="0" id="I8DK0" style="width: 40px" disabled="disabled" /></li>
@@ -537,24 +538,24 @@
 					<li><label><b><u>Delta H</u></b></label></li>
 					<div id="separador"></div>
 					<li>&nbsp; &nbsp;  0&deg</li>
-					<li><input type="text" value="0" id="I8DH0" style="width: 40px" disabled="disabled" /></li>
+					<li><input type="text" value="0" id="I8DH0" style="width: 45px" disabled="disabled" /></li>
 					<li>180&deg</li>
-					<li><input type="text" value="0" id="I8DH180" style="width: 40px" disabled="disabled" /></li>
+					<li><input type="text" value="0" id="I8DH180" style="width: 45px" disabled="disabled" /></li>
 					<div id="separador"></div>
 					<li>&nbsp; 45&deg</li>
-					<li><input type="text" value="0" id="I8DH45" style="width: 40px" disabled="disabled" /></li>
+					<li><input type="text" value="0" id="I8DH45" style="width: 45px" disabled="disabled" /></li>
 					<li>225&deg</li>
-					<li><input type="text" value="0" id="I8DH225" style="width: 40px" disabled="disabled" /></li>
+					<li><input type="text" value="0" id="I8DH225" style="width: 45px" disabled="disabled" /></li>
 					<div id="separador"></div>
 					<li>&nbsp; 90&deg</li>
-					<li><input type="text" value="0" id="I8DH90" style="width: 40px" disabled="disabled" /></li>
+					<li><input type="text" value="0" id="I8DH90" style="width: 45px" disabled="disabled" /></li>
 					<li>270&deg</li>
-					<li><input type="text" value="0" id="I8DH270" style="width: 40px" disabled="disabled" /></li>
+					<li><input type="text" value="0" id="I8DH270" style="width: 45px" disabled="disabled" /></li>
 					<div id="separador"></div>
 					<li>135&deg</li>
-					<li><input type="text" value="0" id="I8DH135" style="width: 40px" disabled="disabled" /></li>
+					<li><input type="text" value="0" id="I8DH135" style="width: 45px" disabled="disabled" /></li>
 					<li>315&deg</li>
-					<li><input type="text" value="0" id="I8DH315" style="width: 40px" disabled="disabled" /></li>
+					<li><input type="text" value="0" id="I8DH315" style="width: 45px" disabled="disabled" /></li>
 				</ul>
 			</div>
 			<div id="deltaH18">
@@ -565,7 +566,7 @@
 						<div id="separador"></div>
 						<% for(int iy= 0; iy < 3; iy++) {%>
 						<li style="width: 25px;"><%= (120*iy)+(20*ix) %>&deg</li>
-						<li><input type="text" value="0" id="I18DH<%= (120*iy)+(20*ix) %>" style="width: 40px" disabled="disabled" /></li>
+						<li><input type="text" value="0" id="I18DH<%= (120*iy)+(20*ix) %>" style="width: 45px" disabled="disabled" /></li>
 						<% } %>
 					<% } %>
 				</ul>
@@ -578,11 +579,65 @@
 						<div id="separador"></div>
 						<% for(int iy= 0; iy < 6; iy++) {%>
 							<li style="width: 25px;"><%= (60*iy)+(5*ix) %>&deg</li>
-							<li><input type="text" value="0" id="I72DH<%= (60*iy)+(5*ix) %>" style="width: 40px" disabled="disabled" /></li>
+							<li><input type="text" value="0" id="I72DH<%= (60*iy)+(5*ix) %>" style="width: 45px" disabled="disabled" /></li>
 						<% } %>
 					<% } %>
 				</ul>
 			</div>
+
+			<div id="alturas8">
+				<img id="closeAlturas" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<ul>
+					<li><label><b><u>Alturas</u></b></label></li>
+					<div id="separador"></div>
+					<li>&nbsp; &nbsp;  0&deg</li>
+					<li><input type="text" value="0" id="I8AT0" style="width: 45px" disabled="disabled" /></li>
+					<li>180&deg</li>
+					<li><input type="text" value="0" id="I8AT180" style="width: 45px" disabled="disabled" /></li>
+					<div id="separador"></div>
+					<li>&nbsp; 45&deg</li>
+					<li><input type="text" value="0" id="I8AT45" style="width: 45px" disabled="disabled" /></li>
+					<li>225&deg</li>
+					<li><input type="text" value="0" id="I8AT225" style="width: 45px" disabled="disabled" /></li>
+					<div id="separador"></div>
+					<li>&nbsp; 90&deg</li>
+					<li><input type="text" value="0" id="I8AT90" style="width: 45px" disabled="disabled" /></li>
+					<li>270&deg</li>
+					<li><input type="text" value="0" id="I8AT270" style="width: 45px" disabled="disabled" /></li>
+					<div id="separador"></div>
+					<li>135&deg</li>
+					<li><input type="text" value="0" id="I8AT135" style="width: 45px" disabled="disabled" /></li>
+					<li>315&deg</li>
+					<li><input type="text" value="0" id="I8AT315" style="width: 45px" disabled="disabled" /></li>
+				</ul>
+			</div>
+			<div id="alturas18">
+				<img id="closeAlturas" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<ul>
+					<li><label><b><u>Alturas</u></b></label></li>
+					<% for(int ix = 0; ix < 6; ix++) { %>
+						<div id="separador"></div>
+						<% for(int iy= 0; iy < 3; iy++) {%>
+						<li style="width: 25px;"><%= (120*iy)+(20*ix) %>&deg</li>
+						<li><input type="text" value="0" id="I18AT<%= (120*iy)+(20*ix) %>" style="width: 45px" disabled="disabled" /></li>
+						<% } %>
+					<% } %>
+				</ul>
+			</div>
+			<div id="alturas72">
+				<img id="closeAlturas" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<ul>
+					<li><label><b><u>Alturas</u></b></label></li>
+					<% for(int ix = 0; ix < 12; ix++) { %>
+						<div id="separador"></div>
+						<% for(int iy= 0; iy < 6; iy++) {%>
+							<li style="width: 25px;"><%= (60*iy)+(5*ix) %>&deg</li>
+							<li><input type="text" value="0" id="I72AT<%= (60*iy)+(5*ix) %>" style="width: 45px" disabled="disabled" /></li>
+						<% } %>
+					<% } %>
+				</ul>
+			</div>
+
 			<div id="opcionesAvanzadas">
 				<img id="closeImageOA" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>

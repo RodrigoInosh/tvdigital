@@ -90,7 +90,9 @@ var arrPorcentajeTiempo = {
 };
 
 $(document).ready(function() {
+	console.log("ready");
 	removeDataConcurso();
+
 	$("#72PerdidasLobulos").prop("checked", true);
 	$("#concursoC").prop("checked", true);
 
@@ -127,9 +129,9 @@ $(document).ready(function() {
 		$("#calculaPoligono").text("Calcular Zona [72 radiales]");
 		var interpola72 = null;
 		if(plCheckActual == 8)
-			interpola72 = interpola_8_to_72(perdidasLobulos8Map);
+			interpola72 = interpolarA72(perdidasLobulos8Map, 8);
 		if(plCheckActual ==18)
-			interpola72 = interpola_18_to_72(perdidasLobulos18Map);
+			interpola72 = interpolarA72(perdidasLobulos18Map, 18);
 		set72PerdidasLobulos(interpola72);
 		$("#frame72PerdidasLobulos").show();
 		$("#curtainCaltool").show();
@@ -144,6 +146,8 @@ $(document).ready(function() {
 			interpola18 = interpola_8_to_18(perdidasLobulos8Map);
 		if(plCheckActual == 72)
 			interpola18 = interpola_72_to_18(perdidasLobulos72Map);
+			console.log(interpola18);
+			console.log(interpolacionInferior(perdidasLobulos72Map, 18));
 		set18PerdidasLobulos(interpola18);
 		$("#frame18PerdidasLobulos").show();
 		$("#curtainCaltool").show();
@@ -154,10 +158,14 @@ $(document).ready(function() {
 		$("#8PerdidasLobulos").prop("checked", true);
 		$("#calculaPoligono").text("Calcular Zona [8 radiales]");
 		var interpola8 = null;
+		console.log(plCheckActual);
 		if(plCheckActual == 18)
 			interpola8 = interpola_18_to_8(perdidasLobulos18Map);
 		if(plCheckActual == 72)
 			interpola8 = interpola_72_to_8(perdidasLobulos72Map);
+			console.log(interpola8);
+			console.log(interpolacionInferior(perdidasLobulos72Map, 8));
+
 		set8PerdidasLobulos(interpola8);
 		$("#frame8PerdidasLobulos").show();
 		$("#curtainCaltool").show();
@@ -200,6 +208,10 @@ $(document).ready(function() {
 
 	$("#verDeltaH").click(function() {
 		$("#deltaH"+radialesCalculo).show();
+	});
+
+	$("#verAlturas").click(function() {
+		$("#alturas"+radialesCalculo).show();
 	});
 
 	$("#opcionesAvanzadasButton").click(function(){
@@ -283,12 +295,12 @@ function set18PerdidasLobulos(pLobulos){
 }
 
 function set72PerdidasLobulos(pLobulos){
-	if(pLobulos !=null){
+	if(pLobulos !=null) {
 		for(i=0;i<72;i++){
 			perdidasLobulos72Map["M72PL"+(five*i)] = pLobulos[i];
 			$("#I72PL"+(five*i)).val(pLobulos[i]);
 		}
-	}else{
+	} else {
 		for(i=0;i<72;i++){
 			$("#I72PL"+(five*i)).val(perdidasLobulos72Map["M72PL"+(five*i)]);
 		}
@@ -297,6 +309,7 @@ function set72PerdidasLobulos(pLobulos){
 
 function setOmni(){
 	var r = $("input[name=radialesRadio]:checked").val();
+	console.log("Radiales: "+r);
 	if(r==72){
 		for(i=0;i<72;i++){
 			perdidasLobulos72Map["M72PL"+(five*i)] = 0;
@@ -376,7 +389,7 @@ function changeComboConcurso(data){
 	if(data.features.length == 0){
 		var identificadores = $("#identificadores");
 		identificadores.append(new Option("Seleccione", "seleccione"));
-	}else{
+	} else{
 		$(data.features).each(function(index, value) {
 			identificadores.append(new Option(value.attributes.IDENTIFICADOR, value.attributes.IDENTIFICADOR));
 		});
@@ -386,10 +399,11 @@ function changeComboConcurso(data){
 function changeListaIdentificadores(data){
 	var identificadores = $("#identificadores");
 	identificadores.empty();
+
 	if(data.features.length == 0){
 		var identificadores = $("#identificadores");
 		identificadores.append(new Option("Seleccione", "seleccione"));
-	}else{
+	} else{
 		$(data.features).each(function(index, value) {
 			identificadores.append(new Option(value.attributes.IDENTIFICADOR, value.attributes.IDENTIFICADOR));
 		});
@@ -398,6 +412,8 @@ function changeListaIdentificadores(data){
 
 function setDataIdentificador(data, coords, decimales){
 	interpola = true;
+	latitudM = coords[1];
+	longitudM = coords[0];
 	plCheckActual = $("input[name=radialesRadio]:checked").val();
 	$("#tipoServicio option:contains("+data.TIPO_SERVICIO+")").prop("selected",true);
 	$("#localidadC").val(data.LOCALIDAD);
@@ -406,8 +422,6 @@ function setDataIdentificador(data, coords, decimales){
 	$("#intensidadCampoC").val(data.CAMPO_LIMITE);
 	$("#latitudC").val((coords[1].replace("-", "")).replace(".00",""));
 	$("#longitudC").val((coords[0].replace("-", "")).replace(".00",""));
-	latitudM = coords[1];
-	longitudM = coords[0];
 	$("#radioCircunferenciaMaxina").val(data.RADIO_MAXIMO);
 	$("#72PerdidasLobulos").attr('checked',true);
 
@@ -475,6 +489,7 @@ function setDataPLOB(data){
 
 function setDataRadiales(data, factor) {
 	$("#verRadiales").prop("disabled", false);
+
 	if(numeroRadiales == 72) {
 		for(var ix = 0; ix < 72; ix++) {
 			var radial = 5*ix;
@@ -493,6 +508,7 @@ function setDataReporte(data){
 	var values = data.value.split(",");
 	var radial = $("input[name=radialesRadio]:checked").val();
 	var grados = 360/radial;
+
 	for(i=0;i<radial;i++){
 		distanciaKilometros["MDKPL"+(grados*i)] = values[i];
 	}
@@ -506,10 +522,37 @@ function setDistanciasKilometros(){
 	var radial = $("input[name=radialesRadio]:checked").val();
 	var grados = 360/radial;
 	var size = Object.keys(distanciaKilometros).length;
+
 	for(i=0;i<size;i++){
 		var value = distanciaKilometros["MDKPL"+(grados*i)];
 		$("#I"+radial+"DK"+(grados*i)).val(redondea(value, 2));
 	}
+}
+
+function setDeltaH(data) {
+	var alturas = data.value.split(";");
+	var radial = $("input[name=radialesRadio]:checked").val();
+	var grados = 360/radial;
+
+	for(var ix=0; ix < alturas.length; ix++) {
+		$("#I"+radial+"DH"+(grados*ix)).val(alturas[ix].replace(',', '.'));
+	}
+}
+
+function setDataAlturas(data) {
+	console.log(data);
+	var alturas = data.value.split(";");
+	var radial = $("input[name=radialesRadio]:checked").val();
+	var grados = 360/radial;
+
+	for(var ix=0; ix < alturas.length; ix++) {
+		console.log("#I"+radial+"AT"+(grados*ix) +": "+ alturas[ix].replace(',', '.'));
+		$("#I"+radial+"AT"+(grados*ix)).val(alturas[ix].replace(',', '.'));
+	}
+}
+
+function setAlturaTerreno(data) {
+	$("#alturaI").text(Number(data.value).toLocaleString('de-DE'));
 }
 
 function setPuntoCoordenadas(coords){
@@ -572,12 +615,12 @@ function removeDataConcurso(){
 	$("#divisorPotenciaM").val("");
 	$("#otrasPerdidasM").val("");
 	$("#72PerdidasLobulos").trigger('click');
-	removeDataInforme();
-	showInitPestana();
 }
 
 function setComboRegion(value){
 	removeDataConcurso();
+	removeDataInforme();
+	showInitPestana();
 	if(value){
 		concurso = true;
 
@@ -598,17 +641,6 @@ function setComboRegion(value){
 		$("#labelRadioCircuferencia").hide();
 		$("#labelInfoRadiales").show();
 	}
-}
-
-function setCombosToStart(is_modificacion){
-	$("#regiones").val(0);
-	// $("#tipoServicio").find('option').remove();
-
-	// $("#tipoServicio").append($("<option></option>", {'value':''}).text('...'));
-	// $("#tipoServicio").append($("<option></option>", {'value':'ISDBT'}).text('ISDBT'));
-	// if(is_modificacion) {
-	// 	$("#tipoServicio").append($("<option></option>", {'value':'VHF'}).text('VHF'));
-	// }
 }
 
 function showLoader(value, text){
@@ -644,6 +676,7 @@ function getMapParameters(){
 	localidad = $("#localidadC").val();
 	radioMaximo = $("#radioCircunferenciaMaxina").val();
 	radialesCalculo = radiales;
+	
 	var mapOut = {};
 	mapOut["potenciaM"] = potenciaM;
 	mapOut["gananciaM"] = gananciaM;
@@ -761,9 +794,17 @@ function hidePestanaTab3(){
 }
 
 function showInitPestana(){
-	$("#pestanaTab2").hide();
-	$("#pestanaTab3").hide();
-	$("#tabdatos").tabs({active: 0});
+	if(TIPO_SECCION === "digital" || TIPO_SECCION === "radiodifusion") {
+		$("#pestanaTab1").show();
+		$("#pestanaTab3").hide();
+		$("#pestanaTab2").hide();
+		$("#tabdatos").tabs({active: 0});	
+	} else if (TIPO_SECCION === "servicios") {
+		$("#pestanaTab1").hide();
+		$("#pestanaTab3").hide();
+		$("#pestanaTab2").show();
+		$("#tabdatos").tabs({active: 1});
+	}
 }
 
 function activeAll(){
@@ -784,18 +825,21 @@ function validaCambiosCampos() {
 	{
 		validate = confirm("Si cambia esta opción se perderán los datos ingresados");
 	}
+
 	return validate;
 }
 
-function setVariablesByIntensidadCampo(idTipoServicio) {
+function setVariablesByIntensidadCampo() {
+	var idTipoServicio = getServiceType();
 	setComboIntensidadCampo(idTipoServicio);
 	setValueObstaculosCircundantes(idTipoServicio);
 	setValueAlturaAntenaRx(idTipoServicio);
 	setValuePorcentajeTiempo(idTipoServicio);
+	activatePerdidasPorLobuloByRadiales(idTipoServicio);
 }
 
-function setComboIntensidadCampo(idTipoServicio) {
-	var arr_intensidades = intensidades_campo[idTipoServicio];
+function setComboIntensidadCampo() {
+	var arr_intensidades = intensidades_campo[getServiceType()];
 	$("#intensidadCampoM").empty();
 	arr_intensidades.forEach(function(value){
 		$("#intensidadCampoM").append(new Option(value, value));
@@ -816,21 +860,21 @@ function setValuePorcentajeTiempo(idTipoServicio) {
 }
 
 function activatePerdidasPorLobuloByRadiales(idTipoServicio) {
-	if(idTipoServicio == "AM" || idTipoServicio == "VHF" || idTipoServicio == "UHF") {
+	if(TIPO_SECCION == "servicios") {
 		$("#show8PerdidasLobulos").prop("disabled", false);
 		$("#show18PerdidasLobulos").prop("disabled", true);
 		$("#show72PerdidasLobulos").prop("disabled", true);
 		$("#8PerdidasLobulos").prop("disabled", false);
 		$("#18PerdidasLobulos").prop("disabled", true);
 		$("#72PerdidasLobulos").prop("disabled", true);
-	} else if (idTipoServicio == "FM" || idTipoServicio == "RCC") {
-		$("#show8PerdidasLobulos").prop("disabled", true);
+	} else if (TIPO_SECCION == "radiodifusion") {
+		$("#show8PerdidasLobulos").prop("disabled", false);
 		$("#show18PerdidasLobulos").prop("disabled", false);
 		$("#show72PerdidasLobulos").prop("disabled", true);
-		$("#8PerdidasLobulos").prop("disabled", true);
+		$("#8PerdidasLobulos").prop("disabled", false);
 		$("#18PerdidasLobulos").prop("disabled", false);
 		$("#72PerdidasLobulos").prop("disabled", true);
-	} else if (idTipoServicio == "TVA" || idTipoServicio == "ISDBT") {
+	} else if (TIPO_SECCION === "digital") {
 		$("#show8PerdidasLobulos").prop("disabled", true);
 		$("#show18PerdidasLobulos").prop("disabled", false);
 		$("#show72PerdidasLobulos").prop("disabled", false);
@@ -838,4 +882,18 @@ function activatePerdidasPorLobuloByRadiales(idTipoServicio) {
 		$("#18PerdidasLobulos").prop("disabled", false);
 		$("#72PerdidasLobulos").prop("disabled", false);
 	}
+}
+
+function getServiceType() {
+    var service_type = $("#tipoServicio").val();
+	if(TIPO_SECCION === 'digital'){
+		service_type = "ISDBT";
+	} else if (TIPO_SECCION === 'radiodifusion') {
+		service_type = "FM";
+	} else if (TIPO_SECCION === 'servicios') {
+		service_type = "UHF";
+	}
+    $("#tipoServicio").val(service_type);
+
+    return service_type;
 }

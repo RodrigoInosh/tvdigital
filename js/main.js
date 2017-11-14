@@ -38,8 +38,8 @@ var default8 = "0,0,0,0,0,0,0,0";
 var concursoModificacion = "Concurso";
 var regiones = [];
 var comunas = [];
-var identificadores = null;
-var identificador = "Identificadores2";
+var object_identificadores = null;
+var identificador = "Identificadores3";
 var queryTask1 = null;
 //ListaConcursos (0)
 var identificadores20 = `http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/${identificador}/MapServer/0`;
@@ -116,7 +116,6 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
 
         $(".number_input").keypress(function(evt) {
             var code = evt.which;
-            console.log(code);
             if ((code > 47 && code < 58) || code == 0 || code == 8 || code == 46 || code == 45) {
                 return true;
             } else {
@@ -132,6 +131,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         });
 
         $('input[type="radio"][name="radialesRadio"]').on('change', function(e){
+        	setOmni();
         	var radiales = e.currentTarget.value;
         	$("#calculaPoligono").text(`Calcular Zona [${radiales} radiales]`);
         });
@@ -151,8 +151,8 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
 
         $("#enviarCalculosCNTV").on('click', function() {
             var id_calculo = $("#selectCalculos option:selected").val();
-            var nombre_select = getCalculoName();
             var idIdentificador = $("#identificadores option:selected").text();
+            var nombre_select = getCalculoName();
             var mapParametros = getParametersReport();
 
             mapParametros['form_data'] = form_data;
@@ -234,22 +234,25 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         var cargarDataCalculo = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/ObtenerDatosCalculos/GPServer/Modelo";
 
         //**CAMBIAR LOS SCRIPT DE CALCULO AL CORRESPONDIENTE**//
-        var scriptCalculoPrueba = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/ModelPrueba2/GPServer/CalculoPredictivo72";
         var gpCalculoPredictivoCensal = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Pruebas/CapaCensal/GPServer/CalculoPredictivo72";
         var gpCalculoMatrizCotas = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Pruebas/Test2/GPServer/Test2";
 
         setInitConcursosParametros();
+        setVariablesByIntensidadCampo();
+        showInitPestana();
         setDataCombosRegiones();
+        triggerPerdidasLobulos();
 
         queryTask1 = new QueryTask({
-            url: identificadores.identificador_lista_concursos
+            url: object_identificadores.identificador_lista_concursos
         });
 
         var queryTask2 = new QueryTask({
              url: identificadores22
         });
+        console.log(object_identificadores.identificador_modif);
         var queryTask3 = new QueryTask({
-            url: identificadores23
+            url: object_identificadores.identificador_modif
         });
         var queryTask6 = new QueryTask({
             url: identificadores26
@@ -276,25 +279,25 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
 
         function setInitConcursosParametros() {
             if (TIPO_SECCION == 'digital') {
+            	$("#recomendacion").append(new Option("1546", "1546"));
+            	$("#recomendacion option[value=1546]").prop('selected', true);
                 decimales_frecuencias = 0;
-                $("#recomendacion option[value=1546]").prop('selected', true);
-                $("#8PerdidasLobulos").prop('disabled', true);
-                $("#show8PerdidasLobulos").prop("disabled", true);
-                identificadores = new Identificadores(identificadores21, identificadores23, identificadores27, identificadores28);
+                object_identificadores = new Identificadores(identificadores21, identificadores23, identificadores27, identificadores28);
             } else if (TIPO_SECCION == 'radiodifusion') {
+            	$("#recomendacion").append(new Option("370", "370"));
+				$("#recomendacion").append(new Option("1546+", "1546+"));
+            	$("#saveMongoData").prop('disabled', true);
+            	$("#enviarCalculosCNTV").prop('disabled', true);
             	$("#recomendacion option[value='1546+']").prop('selected', true);
-            	$("#72PerdidasLobulos").prop('disabled', true);
-            	$("#show72PerdidasLobulos").prop("disabled", true);
                 decimales_frecuencias = 1;
-                identificadores = new Identificadores(identificadores20, identificadores24, identificadores29, identificadores210);
-            } else if (TIPO_SECCION == 'servicios') { 
+                object_identificadores = new Identificadores(identificadores20, identificadores24, identificadores29, identificadores210);
+            } else if (TIPO_SECCION == 'servicios') {
+            	$("#recomendacion").append(new Option("370", "370"));
+            	$("#saveMongoData").prop('disabled', true);
+            	$("#enviarCalculosCNTV").prop('disabled', true);
             	$("#recomendacion option[value=370]").prop('selected', true);
-            	$("#18PerdidasLobulos").prop('disabled', true);
-            	$("#72PerdidasLobulos").prop('disabled', true);
-            	$("#show18PerdidasLobulos").prop("disabled", true);
-            	$("#show72PerdidasLobulos").prop("disabled", true);
                 decimales_frecuencias = 3;
-                identificadores = new Identificadores(identificadores20, identificadores25, identificadores211, identificadores212);
+                object_identificadores = new Identificadores(identificadores20, identificadores25, identificadores211, identificadores212);
             }
         }
 
@@ -311,8 +314,8 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 url: "/CalculoTVD/calculoTVD/regiones",
                 type: 'GET',
                 success: function(response) {
+                	comunas = response.comunas;
                     var datos = response.resp;
-                    comunas = response.comunas;
                     var arr = $.parseJSON(datos);
                     arr.forEach(function(val) {
                         regiones.push(val);
@@ -345,44 +348,6 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             }
         }
 
-        function getServiceType() {
-            var service_type = dom.byId("tipoServicio").value;
-        	if(TIPO_SECCION === 'digital'){
-        		service_type = "ISDBT";
-        	} else if (TIPO_SECCION === 'radiodifusion') {
-        		service_type = "FM";
-        	} else if (TIPO_SECCION === 'servicios') {
-        		service_type = "VHF";
-        	}
-            $("#tipoServicio").val(service_type);
-
-            return service_type;
-        }
-
-        function createTaskModificationIdentifiers(idTipoServicio){
-        	// var queryTask;
-
-    		if(idTipoServicio === 'TVA' || idTipoServicio === 'ISDBT') {
-				queryTask3 = new QueryTask ({
-					url: identificadores23
-				});
-    		} else if (idTipoServicio === 'FM' || idTipoServicio === 'RCC') {
-    			queryTask3 = new QueryTask ({
-					url: identificadores24
-				});
-    		} else if (idTipoServicio === 'VHF' || idTipoServicio === 'UHF') {
-    			queryTask3 = new QueryTask ({
-					url: identificadores25
-				});
-    		}
-
-    		queryTask2 = new QueryTask({
-            	url: identificadores22
-        	});
-
-        	// return queryTask;
-        }
-
         function changeComboIdentificadorClick() {
             $("#pestanaTab3").hide();
             concursoC = dom.byId("concursoC").checked;
@@ -400,6 +365,8 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         function changeComboConcursoClick() {
             view.graphics.removeAll();
             removeDataConcurso();
+            removeDataInforme();
+			showInitPestana();
             idConcurso = dom.byId("concursos").value;
             idIdentificador = 0;
             idTipoServicio = getServiceType();
@@ -428,7 +395,9 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             idConcurso = dom.byId("concursos").value;
             idTipoServicio = dom.byId("tipoServicio").value;
             idRegion = dom.byId("regiones").value;
-
+            console.log("idConcurso:"+ idConcurso);
+            console.log("idTipoServicio: "+ idTipoServicio);
+            console.log("idRegion:" + idRegion);
             var query3 = new Query();
             query3.returnGeometry = true;
             query3.outFields = ["IDENTIFICADOR"];
@@ -445,6 +414,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 });
             } else if (modificacionM) {
                 query3.where = "REG=" + idRegion + " AND TIPO_SERVICIO = '" + idTipoServicio + "'";
+                console.log(query3.where);
                 queryTask3.execute(query3).then(function(data) {
                     setIdentificadoresData(data);
                 });
@@ -467,8 +437,10 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 is_form_modal_first_openend = true;
                 view.graphics.removeAll();
                 map.removeAll();
-                setCombosToStart(modificacionM);
+                
                 removeDataConcurso();
+                removeDataInforme();
+				showInitPestana();
 
                 if (concursoC) {
                     concursoModificacion = "Concurso";
@@ -499,28 +471,41 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         }
 
         function changeCambiaNormaClick() {
+        	if (dom.byId("normaActualM").checked) {
+        		object_identificadores.setIdentificarZonasModif1(identificadores29);
+        		object_identificadores.setIdentificarZonasModif2(identificadores210);
+            }
+            if (dom.byId("normaAnteriorM").checked) {
+            	object_identificadores.setIdentificarZonasModif1(identificadores211);
+        		object_identificadores.setIdentificarZonasModif2(identificadores212);
+            }
+
             setIndentificadorRegion();
         }
 
         function triggerPerdidasLobulos() {
             if (TIPO_SECCION == "digital") {
                 $("#72PerdidasLobulos").trigger('click');
-            } else {
+            } else if(TIPO_SECCION == "radiodifusion") {
                 $("#18PerdidasLobulos").trigger('click');
+            } else if(TIPO_SECCION == "servicios") {
+                $("#8PerdidasLobulos").trigger('click');
             }
         }
 
         function changeConcursoRegionesClick() {
             idRegion = dom.byId("regiones").value;
-            idTipoServicio = getServiceType();
+            idTipoServicio = 'VHF';//getServiceType();
+
             var query3 = new Query();
             query3.returnGeometry = true;
             query3.outFields = ["IDENTIFICADOR"];
             query3.where = "REG=" + idRegion + " AND TIPO_SERVICIO = '" + idTipoServicio + "'";
+            console.log(query3.where);
             query3.orderByFields = ["IDENTIFICADOR"];
 
             queryTask3.execute(query3).then(function(data) {
-                // $("#18PerdidasLobulos").trigger('click');
+            	console.log(data);
                 changeListaIdentificadores(data);
                 setIndentificadorRegion();
             });
@@ -542,6 +527,8 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
 
                 if (data.features.length == 0) {
                     removeDataConcurso();
+                    removeDataInforme();
+					showInitPestana();
                 } else {
                     longitud = data.features[0].geometry.x;
                     latitud = data.features[0].geometry.y;
@@ -564,6 +551,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
 
                     map.add(radio);
                     superView.pelota = radio;
+                    
                     var queryData = new Query();
                     queryData.returnGeometry = true;
                     queryData.outFields = ["*"];
@@ -580,17 +568,16 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         }
 
         function setIndentificadorRegion() {
-            var urlRadio1 = "";
-            var urlRadio2 = "";
-            if (dom.byId("normaActualM").checked) {
-                urlRadio1 = identificadores27;
-                urlRadio2 = identificadores28;
-            }
-            if (dom.byId("normaAnteriorM").checked) {
-                urlRadio1 = identificadores211;
-                urlRadio2 = identificadores212;
-            }
-
+            // var urlRadio1 = "";
+            // var urlRadio2 = "";
+            // if (dom.byId("normaActualM").checked) {
+            //     urlRadio1 = object_identificadores.identificar_zonas_modif1;
+            //     urlRadio2 = object_identificadores.identificar_zonas_modif2;
+            // }
+            // if (dom.byId("normaAnteriorM").checked) {
+            //     urlRadio1 = identificadores211;
+            //     urlRadio2 = identificadores212;
+            // }
             var queryCenter = new Query();
             idIdentificador = dom.byId("identificadores").value;
             tipoServicio = dom.byId("tipoServicio").value;
@@ -600,11 +587,14 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             queryCenter.returnGeometry = true;
             queryCenter.outFields = ["*"];
             queryCenter.where = queryString;
+
             queryTask3.execute(queryCenter).then(function(data) {
                 showLoader(true, 'Cargando Datos');
                 map.removeAll();
                 if (data.features.length == 0) {
                     removeDataConcurso();
+                    removeDataInforme();
+					showInitPestana();
                 } else {
                     longitud = data.features[0].geometry.x;
                     latitud = data.features[0].geometry.y;
@@ -612,12 +602,12 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                     var coordsPoint = new GeoPoint(longitud, latitud);
                     var coords = [coordsPoint.lonDeg, coordsPoint.latDeg]
                     pointRegion = new FeatureLayer({
-                        url: identificadores23,
+                        url: object_identificadores.identificador_modif,
                         definitionExpression: queryString
                     });
                     map.add(pointRegion);
                     var radio1 = new FeatureLayer({
-                        url: urlRadio1,
+                        url: object_identificadores.identificar_zonas_modif1,
                         renderer: modificacionRenderer,
                         definitionExpression: "IDENTIFICADOR='" + idIdentificador + "'"
                     });
@@ -629,11 +619,11 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                         superView.zonaMaxima1 = datosExtraidos.features[0].geometry;
                     });
 
-                    ajaxCall1.open("GET", urlRadio1 + "/" + `query?f=json&where=IDENTIFICADOR%3D%27${idIdentificador}%27&returnGeometry=true`);
+                    ajaxCall1.open("GET", object_identificadores.identificar_zonas_modif1 + "/" + `query?f=json&where=IDENTIFICADOR%3D%27${idIdentificador}%27&returnGeometry=true`);
                     ajaxCall1.send();
 
                     var radio2 = new FeatureLayer({
-                        url: urlRadio2,
+                        url:  object_identificadores.identificar_zonas_modif2,
                         renderer: concursoRenderer,
                         definitionExpression: "IDENTIFICADOR='" + idIdentificador + "'"
                     });
@@ -645,7 +635,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                         superView.zonaMaxima2 = datosExtraidos.features[0].geometry;
                     });
 
-                    ajaxCall2.open("GET", urlRadio2 + "/" + `query?f=json&where=IDENTIFICADOR%3D%27${idIdentificador}%27&returnGeometry=true`);
+                    ajaxCall2.open("GET",  object_identificadores.identificar_zonas_modif2 + "/" + `query?f=json&where=IDENTIFICADOR%3D%27${idIdentificador}%27&returnGeometry=true`);
                     ajaxCall2.send();
 
                     var queryData = new Query();
@@ -717,7 +707,6 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             map.remove(capaCalculoPoligonos);
             var mapParametros = getMapParameters();
             geoProcessor = new Geoprocessor(gpCalculoPredictivoCensal);
-            // geoProcessor = new Geoprocessor(scriptCalculoPrueba);
 
             var recomendacion = mapParametros.recomendacion;
             /*PROBABLEMENTE ESTÉ DEPRECADO*/
@@ -754,12 +743,13 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 "env:outSR": 102100,
                 "f": 'json'
             };
-            // console.log(params);
+
             geoProcessor.submitJob(params).then(sendRequestPolygon, showError);
         }
 
         function clickGenerarMatrizCotas() {
             showLoader(true, 'Generando Matriz de Cotas');
+            saveParametrosAvanzados();
             var mapParametros = getMapParameters();
 
             geoProcessor = new Geoprocessor(gpCalculoMatrizCotas);
@@ -817,6 +807,9 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             geoProcessor.getResultData(jobId, "area").then(setPolygon, showError);
             geoProcessor.getResultData(jobId, "distancias").then(setDataReporteOut, showError);
             geoProcessor.getResultData(jobId, "capaCensal").then(getDataCensal, showError);
+            geoProcessor.getResultData(jobId, "deltaH").then(getDeltaH, showError);
+            geoProcessor.getResultData(jobId, "alturaEfectiva").then(getAlturaTerreno, showError);
+            geoProcessor.getResultData(jobId, "altura").then(getAlturas, showError);
         }
 
         function sendRequestCotas(data) {
@@ -839,6 +832,18 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
 
         function getDataCensal(data) {
             setCantidadViviendas(data);
+        }
+
+        function getDeltaH(data) {
+        	setDeltaH(data);
+        }
+
+        function getAlturaTerreno(data) {
+        	setAlturaTerreno(data);
+        }
+
+        function getAlturas(data) {
+        	setDataAlturas(data);
         }
 
         function setPolygon(data) {
