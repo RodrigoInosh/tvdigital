@@ -4,6 +4,7 @@
 
 	<%
 		String token = request.getParameter("token");
+		// System.in.print(token);
 		String userId = request.getParameter("userId");
 		String codigoPostulacion = request.getParameter("codigo");
 		String seccion = "digital";
@@ -288,7 +289,13 @@
 					<div id="subbox2bottom2">
 						<ul>
 							<li style="text-align: left;" id="opcionesAvanzadasButton"><a href="#">Par&aacute;metros Avanzados</a></li>
+							<% if(seccion.equals("digital")) { %>
 							<li style="width: 110px; text-align: left;"></li>
+							<% } else if(seccion.equals("servicios")) { %>
+							<li><button type="button" id="calcularCoCanal">Calcular Co Canal</button></li>
+							<% } else if(seccion.equals("radiodifusion")) { %>
+							<li><button type="button" id="nuevaZonaMaxima">Nueva Zona M&aacute;xima</button></li>
+							<% } %>
 							<li><button type="button" id="calculaPoligono">Calcular Zona [72 radiales]</button></li>
 						</ul>
 					</div>

@@ -472,7 +472,7 @@ function validate_data(mapParametros) {
         alert("Debe ingresar 'Tipo de Emision'");
         return false;
     } else if (mapParametros['form_general_concurso'].plazos.fin_obras == "") {
-        alert("Debe ingresar 'Término de Obras'");
+        alert("Debe ingresar 'Termino de Obras'");
         return false;
     } else if (mapParametros['form_general_concurso'].plazos.ini_serv == "") {
         alert("Debe ingresar 'Inicio de Servicio'");

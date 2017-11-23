@@ -38,7 +38,7 @@ function getDataNube(data) {
         });
     });
 
-    var filename = prompt("Ingrese Nombre del archivo", "");
+    var filename = prompt("Ingrese Nombre del archivo", "Export_Output_");
     if(filename != "") {
         downloadCSV(dataString, filename);
     } else {

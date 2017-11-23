@@ -57,7 +57,7 @@ var intensidades_campo = {
 	"FM": [54],
 	"RCC": [54, 66, 74],
 	"VHF": [24.1],
-	"UHF": [33.4, 38.5],
+	"UHF": [24.1, 33.4, 38.5],
 	"TVA": [48, 55, 65, 66, 69, 72],
 	"ISDBT": [40, 48, 66]
 };
@@ -534,20 +534,22 @@ function setDeltaH(data) {
 	var radial = $("input[name=radialesRadio]:checked").val();
 	var grados = 360/radial;
 
-	for(var ix=0; ix < alturas.length; ix++) {
-		$("#I"+radial+"DH"+(grados*ix)).val(alturas[ix].replace(',', '.'));
+	if(alturas[0] != "-") {
+		for(var ix=0; ix < alturas.length; ix++) {
+			$("#I"+radial+"DH"+(grados*ix)).val(alturas[ix].replace(',', '.'));
+		}
 	}
 }
 
 function setDataAlturas(data) {
-	console.log(data);
 	var alturas = data.value.split(";");
 	var radial = $("input[name=radialesRadio]:checked").val();
 	var grados = 360/radial;
 
-	for(var ix=0; ix < alturas.length; ix++) {
-		console.log("#I"+radial+"AT"+(grados*ix) +": "+ alturas[ix].replace(',', '.'));
-		$("#I"+radial+"AT"+(grados*ix)).val(alturas[ix].replace(',', '.'));
+	if(alturas[0] != "-") {
+		for(var ix=0; ix < alturas.length; ix++) {
+			$("#I"+radial+"AT"+(grados*ix)).val(alturas[ix].replace(',', '.'));
+		}
 	}
 }
 
@@ -884,15 +886,23 @@ function activatePerdidasPorLobuloByRadiales(idTipoServicio) {
 	}
 }
 
-function getServiceType() {
+function getServiceType(concursoModificacion = "Concurso") {
     var service_type = $("#tipoServicio").val();
+    console.log("**************");
 	if(TIPO_SECCION === 'digital'){
-		service_type = "ISDBT";
+		console.log("Seccion digital");
+		console.log(concursoModificacion);
+		if(concursoModificacion == "Concurso") {
+			service_type = "ISDBT";
+		} else if(concursoModificacion == "Modificacion") {
+			service_type = "VHF";
+		}
 	} else if (TIPO_SECCION === 'radiodifusion') {
 		service_type = "FM";
 	} else if (TIPO_SECCION === 'servicios') {
 		service_type = "UHF";
 	}
+	console.log("**************");
     $("#tipoServicio").val(service_type);
 
     return service_type;
