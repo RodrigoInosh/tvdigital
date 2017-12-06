@@ -243,18 +243,6 @@
 							<li><label style="padding-right: 0px;">Intensidad de campo:</label></li>
 							<li>
 								<select id="intensidadCampoM" style="width: 50px; height: 18px;"></select>
-								<!-- <select name="testSelect">
-   <optgroup label="fruits">
-      <option value="apples">Apples</option>
-      <option value="oranges">Oranges</option>
-      <option value="pears">Pears</option>
-   </optgroup>
-   <optgroup label="cars">
-      <option value="ford">ford</option>
-      <option value="toyota">toyota</option>
-      <option value="ferrari">ferrari</option>
-   </optgroup>
-</select> -->
 								<b>[dB(uV/m)]</b>
 							</li>
 							<li><label style="padding-right: 16px;">Altura Antena Tx:</label></li>
@@ -339,24 +327,28 @@
 							<ul>
 								<li><label><b><u>Zona Digital Calculada</u></b></label></li>
 								<div id="separador" style="height: 1px;"></div>
+								<%if(seccion.equals("digital") || seccion.equals("radiodifusion")) {%>
 								<li><label>Localidad: &nbsp;</label></li>
 								<li style="font-weight: bold;"><label id="localidadI"></label></li>
 								<div id="separador"></div>
 								<li><label>Potencia: &nbsp;</label></li>
 								<li style="font-weight: bold"><label id="potenciaI"></label><label> Watts</label></li>
 								<div id="separador"></div>
+								<% } %>
 								<li><label>N&deg; de Viviendas: &nbsp;</label></li>
 								<li style="font-weight: bold"><label id="viviendasI"></label></li>
 							</ul>
 						</div>
 						<div id="subbox3topright">
 							<ul>
+								<%if(seccion.equals("digital") || seccion.equals("radiodifusion")) {%>
 								<li><label>Concurso: &nbsp;</label></li>
 								<li style="font-weight: bold"><label id="identificadorI"></label></li>
 								<div id="separador"></div>
 								<li><label>Frecuencia: &nbsp;</label></li>
 								<li style="text-align:left; font-weight: bold"><label id="frecuenciaI"></label><label> Mhz</label></li>
 								<div id="separador"></div>
+								<% } %>
 								<li><label>Altura del Terreno: &nbsp;</label></li>
 								<li style="font-weight: bold"><label id="alturaI"></label><label> Mts</label></li>
 							</ul>
@@ -377,8 +369,10 @@
 							<li><label><b><u>Proyecto T&eacute;cnico</u></b></label></li>
 							<div id="separador"></div>
 							<li><button type="button" style="font-size: 11px;" id="verDistancia" class="button_info">Ver Resultado</button></li>
+							<%if(seccion.equals("servicios")) { %>
 							<li><button type="button" style="font-size: 11px;" id="verDeltaH" class="button_info">Ver Delta H</button></li>
 							<li><button type="button" style="font-size: 11px;" id="verAlturas" class="button_info">Ver Alturas</button></li>
+							<% } %>
 							<div id="separador"></div>
 							<li><button type="button" id="exportarKMZ">Exportar a GoogleEarth</button></li>
 							<li><button type="button" id="pdfForm">Agregar Datos</button></li>
