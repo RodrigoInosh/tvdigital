@@ -96,15 +96,30 @@
 		<div id="botonHerramientas"><img src="images/terra-globe-icon-png-24.png" width="40" height="40" /></div>
 		<div id="caltool">
 			<div id="titulocaltool" style="height: 3px;">
+				<% if(seccion.equals("digital")) { %>
 				<div style="float: left"><font size=2><u>C&aacute;lculo Predictivo Zona de Servicio TVD</u></font></div>
-				<img id="closeImage1" src="images/close-150192_640.png" width="20" height="20" style="position: relative; float: left; cursor: pointer; top: -5px; left: 150px;">
+				<% } else if(seccion.equals("radiodifusion")) { %>
+				<div style="float: left"><font size=2><u>C&aacute;lculo Predictivo de Servicio Radiodifusi&oacute;n</u></font></div>
+				<% } else if(seccion.equals("servicios")) { %>
+				<div style="float: left"><font size=2><u>C&aacute;lculo Predictivo Zona de Servicio SL y SP</u></font></div>
+				<% } %>
+				<img id="closeImage1" src="images/close-150192_640.png" width="20" height="20" style="position: relative; float: right; cursor: pointer;">
 			</div>
 			<br>
 			<div id="separador" ></div>
 			<div id="selectorconmod">
 				<ul>
-					<li><input type="radio" id="concursoC" name="concursoModificacion" value="concurso">Concurso</input></li>
+					<% if(seccion.equals("digital")) { %>
+					<li style="width: 100px;"><input type="radio" id="concursoC" name="concursoModificacion" value="concurso">Concurso</input></li>
 					<li><input type="radio" id="modificacionM" name="concursoModificacion" value="modificacion">Modificaci&oacute;n</li>
+					<% } else if(seccion.equals("radiodifusion")) { %>
+					<li style="width: 100px;"><input type="radio" id="concursoC" name="concursoModificacion" value="concurso">Concurso</input></li>
+					<li><input type="radio" id="modificacionM" name="concursoModificacion" value="modificacion">Modificaci&oacute;n</li>
+					<% } else if(seccion.equals("servicios")) { %>
+					<li style="width: 100px;"><input type="radio" id="concursoC" name="concursoModificacion" value="concurso">Repetidor</input></li>
+					<li><input type="radio" id="modificacionM" name="concursoModificacion" value="modificacion">Protecci&oacute;n Cocanal</li>
+					<% } %>
+
 					<li style="padding-top: 5px; font-weight: 100; width: 117px; text-align: right;">Recomendaci&oacute;n: </li>
 					<li style="padding-top: 2px; width: 50px;">
 						<select name="recomendacion" id="recomendacion" style="width: 65px;">
@@ -199,13 +214,18 @@
 									<b>[km]</b>
 								</li>
 								<li id="labelInfoRadiales" style="display: none; text-align: center; width: 220px; margin-top; -3px; ">
-									<label>(Zona corresponde al 70% por radial de la zona de servicio original)</label>
+									<% if(seccion.equals("digital") || seccion.equals("servicios")) { %>
+									<label>(Zona segmentada corresponde al 70% por radial de la zona de servicio original)</label>
+									<% } else if(seccion.equals("radiodifusion")) { %>
+									<label>(Zona segmentada corresponde al 100% por radial de la zona de servicio original)</label>
+									<% } %>
 								</li>
 							</ul>
 						</div>
 					</div>
 				</div>
 				<div id="tab2">
+					<% if(seccion.equals("digital")) { %>
 					<div id="divGuardarCalculos">
 					<ul>
 						<li><label>Historial de C&aacutelculos:</label></li>
@@ -217,11 +237,24 @@
 						<li><button type="button" id="saveMongoData">Guardar Datos</button></li>
 					</ul>
 					</div>
+					<% } %>
 					<div id="subbox2left">
 						<ul>
 							<li><label style="padding-right: 0px;">Intensidad de campo:</label></li>
 							<li>
 								<select id="intensidadCampoM" style="width: 50px; height: 18px;"></select>
+								<!-- <select name="testSelect">
+   <optgroup label="fruits">
+      <option value="apples">Apples</option>
+      <option value="oranges">Oranges</option>
+      <option value="pears">Pears</option>
+   </optgroup>
+   <optgroup label="cars">
+      <option value="ford">ford</option>
+      <option value="toyota">toyota</option>
+      <option value="ferrari">ferrari</option>
+   </optgroup>
+</select> -->
 								<b>[dB(uV/m)]</b>
 							</li>
 							<li><label style="padding-right: 16px;">Altura Antena Tx:</label></li>
@@ -289,12 +322,12 @@
 					<div id="subbox2bottom2">
 						<ul>
 							<li style="text-align: left;" id="opcionesAvanzadasButton"><a href="#">Par&aacute;metros Avanzados</a></li>
+							<li style="width: 110px; text-align: left;" id="whiteSpace"></li>
 							<% if(seccion.equals("digital")) { %>
-							<li style="width: 110px; text-align: left;"></li>
 							<% } else if(seccion.equals("servicios")) { %>
-							<li><button type="button" id="calcularCoCanal">Calcular Co Canal</button></li>
+							<li><button type="button" id="calcularCoCanal" class="calculoZona" style="display: none;">Estaci&oacute;n Existente</button></li>
 							<% } else if(seccion.equals("radiodifusion")) { %>
-							<li><button type="button" id="nuevaZonaMaxima">Nueva Zona M&aacute;xima</button></li>
+							<li><button type="button" id="nuevaZonaMaxima" class="calculoZona" style="display: none;">Nueva Zona M&aacute;xima</button></li>
 							<% } %>
 							<li><button type="button" id="calculaPoligono">Calcular Zona [72 radiales]</button></li>
 						</ul>

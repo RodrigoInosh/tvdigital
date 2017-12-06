@@ -103,7 +103,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 this.value = "0";
             } else {
                 value = value.replace(",", ".");
-                this.value = Math.round(value);
+                this.value = redondea(value, decimales_frecuencias);
             }
         });
 
@@ -173,13 +173,18 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
 
         $("#nuevaZonaMaxima").on('click', function(){
             isCalculoZonaMaxima = true;
+            map.removeAll();
             calcularNuevaZonaMaxima();
         });
 
         $("#calcularCoCanal").on('click', function(){
-            console.log("calcularCoCanal");
             isCoCanal = true;
+            map.removeAll ();
             calcularNuevaZonaMaxima();
+        });
+
+        $("#intensidadCampoM").on('change', function(){
+            setFrecuenciaByIntensidad();
         });
 
         var map = new Map({
@@ -251,6 +256,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         var gpCalculoMatrizCotas = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Pruebas/Test2/GPServer/Test2";
 
         setInitConcursosParametros();
+        setComboTipoServicio(TIPO_SECCION, "concurso");
         setVariablesByIntensidadCampo();
         showInitPestana();
         setDataCombosRegiones();
@@ -290,56 +296,6 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             goHome();
         });
 
-        function calcularNuevaZonaMaxima() {
-
-            showLoader(true, 'Calculando Nueva Zona Maxima');
-            map.remove(capaCalculoPoligonos);
-            var mapParametros = getMapParameters();
-            geoProcessor = new Geoprocessor(gpCalculoZonaMaxima);
-
-            var recomendacion = mapParametros.recomendacion;
-
-            if (isCalculoZonaMaxima && dom.byId("normaAnteriorM").checked || isCoCanal) {
-                var recomendacion = '370';
-            } else if (isCalculoZonaMaxima && dom.byId("normaActualM").checked) {
-                var recomendacion = '1546+';
-            }
-
-            cambiaNuevaCoordenada(mapParametros.latitud, mapParametros.longitud);
-            // calculoZonaMaxima = true;
-            superView.puntoNuevo = {
-                "longitud": mapParametros.longitud,
-                "latitud": mapParametros.latitud
-            };
-            var params = {
-                "latitud": mapParametros.latitud,
-                "longitud": mapParametros.longitud,
-                "potencia": mapParametros.potenciaM,
-                "ganancia": mapParametros.gananciaM,
-                "alturaAntenaTx": mapParametros.alturaAntenaTransmisoraM,
-                "alturaAntenaRx": mapParametros.alturaAntenaRx,
-                "perdidaCablesConectores": mapParametros.perdidasCablesConectoresM,
-                "perdidaDivisorPotencia": mapParametros.divisorPotenciaM,
-                "otrasPerdidas": mapParametros.otrasPerdidasM,
-                "perdidasLobulo": setRadiansString(mapParametros),
-                "obtaculosCircundantesTx": mapParametros.obstaculosCircundantesTx,
-                "obstaculosCircundantesRx": mapParametros.obstaculosCircundantesRx,
-                "toleranciaZonasSombra": mapParametros.toleranciaZonasSombras,
-                "resolucionCalculo": mapParametros.resolucionCalculo,
-                "porcentajeTiempo": mapParametros.porcentajeTiempo,
-                "porcentajeUbicacion": mapParametros.porcentajeUbicacion,
-                "frecuencia": mapParametros.frecuenciaM,
-                "intensidadCampoReferencia": mapParametros.intensidadCampoM,
-                "recomendacion": recomendacion,
-                "radiales": mapParametros.radiales,
-                "env:outSR": 102100,
-                "f": 'json'
-            };
-            console.log("params zona maxima");
-            console.log(params);
-            geoProcessor.submitJob(params).then(sendRequestZonaMaxima, showError);
-        }
-
         function setInitConcursosParametros() {
             if (TIPO_SECCION == 'digital') {
             	$("#recomendacion").append(new Option("1546", "1546"));
@@ -349,16 +305,19 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             } else if (TIPO_SECCION == 'radiodifusion') {
             	$("#recomendacion").append(new Option("370", "370"));
 				$("#recomendacion").append(new Option("1546+", "1546+"));
+                $("#recomendacion option[value='1546+']").prop('selected', true);
             	$("#saveMongoData").prop('disabled', true);
             	$("#enviarCalculosCNTV").prop('disabled', true);
-            	$("#recomendacion option[value='1546+']").prop('selected', true);
+            	
                 decimales_frecuencias = 1;
                 object_identificadores = new Identificadores(identificadores20, identificadores24, identificadores29, identificadores210);
             } else if (TIPO_SECCION == 'servicios') {
             	$("#recomendacion").append(new Option("370", "370"));
-            	$("#saveMongoData").prop('disabled', true);
+                $("#recomendacion option[value=370]").prop('selected', true);
+            	$("#frecuenciaM").prop('disabled', true);
+                $("#saveMongoData").prop('disabled', true);
             	$("#enviarCalculosCNTV").prop('disabled', true);
-            	$("#recomendacion option[value=370]").prop('selected', true);
+
                 decimales_frecuencias = 3;
                 object_identificadores = new Identificadores(identificadores20, identificadores25, identificadores211, identificadores212);
             }
@@ -509,13 +468,27 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                     query1.where = "1=1";
                     queryTask1.execute(query1).then(setComboConcursos);
                     setComboRegion(true);
+                    setComboIntensidadCampo(true);
+                    setComboTipoServicio(TIPO_SECCION, "concurso");
+                    if(TIPO_SECCION != 'digital'){
+                        $(".calculoZona").hide();
+                        $("#whiteSpace").show();
+                    }
+
                     $("#verRadiales").prop("disabled", true);
                     $("#label_zona_max").text("Zona de Servicio Máxima");
                 }
                 if (modificacionM) {
                     concursoModificacion = "Modificacion";
                     setComboRegion(false);
-                    $("#normaAnteriorM").prop("disabled", false);
+                    setComboIntensidadCampo(false);
+                    setComboTipoServicio(TIPO_SECCION, "modificacion");
+                    if(TIPO_SECCION != 'digital'){
+                        $(".calculoZona").show();
+                        $("#whiteSpace").hide();
+                        $("#normaAnteriorM").prop("disabled", false);
+                    }
+                    
                     $("#verRadiales").prop("disabled", true);
                     $("#label_zona_max").text("Zona de Servicio Mínima");
                 }
@@ -598,6 +571,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                         url: identificadores22,
                         definitionExpression: queryString
                     });
+
                     map.add(pointConcurso);
                     var radio = new FeatureLayer({
                         title: "CapaPoligonos",
@@ -704,15 +678,6 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             });
         }
 
-        function setPoligonoInMap(identificador_point, queryString) {
-            pointConcurso = new FeatureLayer({
-                title: "CapaPoligonos",
-                url: identificador_point,
-                definitionExpression: queryString
-            });
-            map.add(pointConcurso);
-        }
-
         function cambiaUbicacionClick() {
             nuevaCoordenada = true;
             cursorCross();
@@ -744,7 +709,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             }
         }
 
-        function cambiaNuevaCoordenada(latitud, longitud) {
+        function cambiaNuevaCoordenada(latitud, longitud, markerSymbol) {
             map.remove(capaCalculoPuntos);
             var point = new Point({
                 longitude: longitud,
@@ -752,13 +717,30 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             });
             var newPointGraphic = new Graphic({
                 geometry: point,
-                symbol: markerSymbolUbicacion
+                symbol: markerSymbol
             });
 
             capaCalculoPuntos = new GraphicsLayer({
                 graphics: [newPointGraphic]
             });
             map.add(capaCalculoPuntos);
+        }
+
+        function setNuevoPuntoCentral(latitud, longitud) {
+            map.remove(pointRegion);
+            var point = new Point({
+                longitude: longitud,
+                latitude: latitud
+            });
+            var newPointGraphic = new Graphic({
+                geometry: point,
+                symbol: markerSymbolConcurso
+            });
+
+            pointRegion = new GraphicsLayer({
+                graphics: [newPointGraphic]
+            });
+            map.add(pointRegion);
         }
 
         function clickCalculaPoligonoClick() {
@@ -768,7 +750,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
 
             var mapParametros = getMapParameters();
             var recomendacion = mapParametros.recomendacion;
-            cambiaNuevaCoordenada(mapParametros.latitud, mapParametros.longitud);
+            cambiaNuevaCoordenada(mapParametros.latitud, mapParametros.longitud, markerSymbolUbicacion);
             superView.puntoNuevo = {
                 "longitud": mapParametros.longitud,
                 "latitud": mapParametros.latitud
@@ -797,9 +779,58 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 "env:outSR": 102100,
                 "f": 'json'
             };
-            console.log("params polygon");
-            console.log(params);
+
             geoProcessor.submitJob(params).then(sendRequestPolygon, showError);
+        }
+
+        function calcularNuevaZonaMaxima() {
+
+            showLoader(true, 'Calculando Nueva Zona Maxima');
+            map.remove(pointRegion);
+            map.remove(capaCalculoPoligonos);
+
+            var mapParametros = getMapParameters();
+            geoProcessor = new Geoprocessor(gpCalculoZonaMaxima);
+
+            var recomendacion = mapParametros.recomendacion;
+
+            if (isCalculoZonaMaxima && dom.byId("normaAnteriorM").checked || isCoCanal) {
+                recomendacion = '370';
+            } else if (isCalculoZonaMaxima && dom.byId("normaActualM").checked) {
+                recomendacion = '1546+';
+            }
+
+            setNuevoPuntoCentral(mapParametros.latitud, mapParametros.longitud);
+            superView.puntoNuevo = {
+                "longitud": mapParametros.longitud,
+                "latitud": mapParametros.latitud
+            };
+            var params = {
+                "latitud": mapParametros.latitud,
+                "longitud": mapParametros.longitud,
+                "potencia": mapParametros.potenciaM,
+                "ganancia": mapParametros.gananciaM,
+                "alturaAntenaTx": mapParametros.alturaAntenaTransmisoraM,
+                "alturaAntenaRx": mapParametros.alturaAntenaRx,
+                "perdidaCablesConectores": mapParametros.perdidasCablesConectoresM,
+                "perdidaDivisorPotencia": mapParametros.divisorPotenciaM,
+                "otrasPerdidas": mapParametros.otrasPerdidasM,
+                "perdidasLobulo": setRadiansString(mapParametros),
+                "obtaculosCircundantesTx": mapParametros.obstaculosCircundantesTx,
+                "obstaculosCircundantesRx": mapParametros.obstaculosCircundantesRx,
+                "toleranciaZonasSombra": mapParametros.toleranciaZonasSombras,
+                "resolucionCalculo": mapParametros.resolucionCalculo,
+                "porcentajeTiempo": mapParametros.porcentajeTiempo,
+                "porcentajeUbicacion": mapParametros.porcentajeUbicacion,
+                "frecuencia": mapParametros.frecuenciaM,
+                "intensidadCampoReferencia": mapParametros.intensidadCampoM,
+                "recomendacion": recomendacion,
+                "radiales": mapParametros.radiales,
+                "env:outSR": 102100,
+                "f": 'json'
+            };
+            
+            geoProcessor.submitJob(params).then(sendRequestZonaMaxima, showError);
         }
 
         function clickGenerarMatrizCotas() {
@@ -908,15 +939,11 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         }
 
         function setPolygon(data) {
-            console.log("isCalculoZonaMaxima:" +isCalculoZonaMaxima);
-            console.log("isCoCanal: "+isCoCanal);
             var polygonGraphic1 = null;
             var polygonGraphic2 = null;
             areaCalculo = redondea(Number(data.value.features[0].attributes.area), 2);
 
             if (isCalculoZonaMaxima) {
-                map.removeAll();
-                map.add(pointRegion);
 
                 polygonGraphic1 = new Graphic({
                     geometry: data.value.features[0].geometry,
@@ -935,15 +962,18 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 map.add(layerGraphicsMax);
                 superView.concurso = polygonGraphic2;
             } else if (isCoCanal) {
+
                 polygonGraphic1 = new Graphic({
                     geometry: data.value.features[0].geometry,
-                    symbol: fillSymbolModificacion
+                    symbol: fillSymbolConcurso
                 });
-                capaCalculoPoligonos = new GraphicsLayer({
+
+                layerGraphicsMax = new GraphicsLayer({
                     graphics: [polygonGraphic1]
                 });
-                superView.zonaPropuesta = polygonGraphic1;
-                map.add(capaCalculoPoligonos);
+
+                map.add(layerGraphicsMax);
+                superView.concurso = polygonGraphic1;
             } else {
                 polygonGraphic1 = new Graphic({
                     geometry: data.value.features[0].geometry,

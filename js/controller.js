@@ -46,36 +46,44 @@ var plCheckActual = 0;
 var radialesCalculo = 0;
 /*Parametros avanzados*/
 var alturaAntenaRx = 2;
-var obstaculosCircundantesTx = 20;
-var obstaculosCircundantesRx = 20;
+var obstaculosCircundantesTx = 10;
+var obstaculosCircundantesRx = 10;
 var toleranciaZonasSombras = 20;
 var resolucionCalculo = 500;
 var porcentajeTiempo = 50;
-var porcentajeUbicacion = 50;
-var intensidades_campo = {
-	"AM": [40, 54],
-	"FM": [54],
-	"RCC": [54, 66, 74],
-	"VHF": [24.1],
-	"UHF": [24.1, 33.4, 38.5],
-	"TVA": [48, 55, 65, 66, 69, 72],
-	"ISDBT": [40, 48, 66]
+var porcentajeUbicacion = 90;
+
+var tipos_servicio = {
+	"digital": {"concurso": ["ISDBT"], "modificacion": ["UHF", "VHF", "ISDBT"]},
+	"servicios": {"concurso": ["UHF", "VHF"], "modificacion": ["UHF", "VHF"]},
+	"radiodifusion": {"concurso": ["FM", "AM", "RCC"], "modificacion": ["FM", "AM", "RCC"]}
 };
+
+var intensidades_campo = {
+	"AM": {"Zona de Servicio": [40, 54]},
+	"FM": {"Zona de Servicio": [54,66,74], "Contorno Cocanal": [9, 20, 32, 40], "Z200": [47, 59, 67], "Z400": [74, 86, 94]},
+	"RCC": {"Zona de Servicio": [54, 66, 74]},
+	"VHF": {"Zona de Servicio": [24.1]},
+	"UHF": {"Zona de Servicio": [24.1, 33.4, 38.5], "Contorno Cocanal": [24.1, 23.9, 24.0]},
+	"TVA": {"Zona de Servicio": [48, 55, 65, 66, 69, 72]},
+	"ISDBT": {"Zona de Servicio": [48], "Zona de Cobertura": [40], "Contorno Urbano": [66]}
+};
+
 var arrObstaculosCircundantes = {
 	"AM": 0,
 	"FM": 20,
 	"RCC": 20,
-	"VHF": 0,
-	"UHF": 0,
+	"VHF": 20,
+	"UHF": 20,
 	"TVA": 10,
 	"ISDBT": 10
 };
 var arrAlturasAntenaRx = {
 	"AM": 0,
-	"FM": 1.5,
-	"RCC": 1.5,
-	"VHF": 10,
-	"UHF": 10,
+	"FM": 2,
+	"RCC": 2,
+	"VHF": 2,
+	"UHF": 2,
 	"TVA": 10,
 	"ISDBT": 10
 };
@@ -83,14 +91,22 @@ var arrPorcentajeTiempo = {
 	"AM": 0,
 	"FM": 50,
 	"RCC": 50,
-	"VHF": 0,
-	"UHF": 0,
+	"VHF": 50,
+	"UHF": 50,
 	"TVA": 50,
 	"ISDBT": 50
 };
+var arrPorcentajeUbicacion = {
+	"AM": 0,
+	"FM": 50,
+	"RCC": 50,
+	"VHF": 50,
+	"UHF": 50,
+	"TVA": 90,
+	"ISDBT": 90
+};
 
 $(document).ready(function() {
-	console.log("ready");
 	removeDataConcurso();
 
 	$("#72PerdidasLobulos").prop("checked", true);
@@ -146,8 +162,6 @@ $(document).ready(function() {
 			interpola18 = interpola_8_to_18(perdidasLobulos8Map);
 		if(plCheckActual == 72)
 			interpola18 = interpola_72_to_18(perdidasLobulos72Map);
-			console.log(interpola18);
-			console.log(interpolacionInferior(perdidasLobulos72Map, 18));
 		set18PerdidasLobulos(interpola18);
 		$("#frame18PerdidasLobulos").show();
 		$("#curtainCaltool").show();
@@ -158,13 +172,11 @@ $(document).ready(function() {
 		$("#8PerdidasLobulos").prop("checked", true);
 		$("#calculaPoligono").text("Calcular Zona [8 radiales]");
 		var interpola8 = null;
-		console.log(plCheckActual);
+
 		if(plCheckActual == 18)
 			interpola8 = interpola_18_to_8(perdidasLobulos18Map);
 		if(plCheckActual == 72)
 			interpola8 = interpola_72_to_8(perdidasLobulos72Map);
-			console.log(interpola8);
-			console.log(interpolacionInferior(perdidasLobulos72Map, 8));
 
 		set8PerdidasLobulos(interpola8);
 		$("#frame8PerdidasLobulos").show();
@@ -247,23 +259,44 @@ function cursorDefault(){
 }
 
 function setOpcionesAvanzadas(){
-	$("#obstaculosCircundantesTx").val(obstaculosCircundantesTx);
-    $("#obstaculosCircundantesRx").val(obstaculosCircundantesRx);
-    $("#toleranciaZonasSombras").val(toleranciaZonasSombras);
-    $("#resolucionCalculo").val(resolucionCalculo);
-    $("#porcentajeTiempo").val(porcentajeTiempo);
-    $("#porcentajeUbicacion").val(porcentajeUbicacion);
-	$("#alturaAntenaRx").val(alturaAntenaRx);
+	if(TIPO_SECCION === "servicios") {
+		$("#obstaculosCircundantesTx").val("N/A");
+	    $("#obstaculosCircundantesRx").val("N/A");
+	    $("#toleranciaZonasSombras").val("N/A");
+	    $("#porcentajeTiempo").val("N/A");
+	    $("#porcentajeUbicacion").val("N/A");
+	    $("#resolucionCalculo").val(250);
+	    $("#alturaAntenaRx").val(10);
+	} else {
+		$("#obstaculosCircundantesTx").val(obstaculosCircundantesTx);
+	    $("#obstaculosCircundantesRx").val(obstaculosCircundantesRx);
+	    $("#toleranciaZonasSombras").val(toleranciaZonasSombras);
+	    $("#porcentajeTiempo").val(porcentajeTiempo);
+	    $("#porcentajeUbicacion").val(porcentajeUbicacion);
+	    $("#resolucionCalculo").val(resolucionCalculo);
+	    $("#alturaAntenaRx").val(alturaAntenaRx);
+	}
 }
 
 function saveParametrosAvanzados(){
-	obstaculosCircundantesTx = $("#obstaculosCircundantesTx").val();
-	obstaculosCircundantesRx = $("#obstaculosCircundantesRx").val();
-	toleranciaZonasSombras = $("#toleranciaZonasSombras").val();
-	resolucionCalculo = $("#resolucionCalculo").val();
-	porcentajeTiempo = $("#porcentajeTiempo").val();
-	porcentajeUbicacion = $("#porcentajeUbicacion").val();
-	alturaAntenaRx = $("#alturaAntenaRx").val();
+	if(TIPO_SECCION === "servicios") {
+		obstaculosCircundantesTx = 20;
+		obstaculosCircundantesRx = 20;
+		toleranciaZonasSombras = 20;
+		porcentajeTiempo = 50;
+		porcentajeUbicacion = 50;
+		resolucionCalculo = 250;
+		alturaAntenaRx = 2;
+	} else {
+		obstaculosCircundantesTx = $("#obstaculosCircundantesTx").val();
+		obstaculosCircundantesRx = $("#obstaculosCircundantesRx").val();
+		toleranciaZonasSombras = $("#toleranciaZonasSombras").val();
+		porcentajeTiempo = $("#porcentajeTiempo").val();
+		porcentajeUbicacion = $("#porcentajeUbicacion").val();
+		resolucionCalculo = $("#resolucionCalculo").val();
+		alturaAntenaRx = $("#alturaAntenaRx").val();
+	}
+
 	$("#opcionesAvanzadas").hide();
 	$("#curtainCaltool").hide();
 }
@@ -309,7 +342,7 @@ function set72PerdidasLobulos(pLobulos){
 
 function setOmni(){
 	var r = $("input[name=radialesRadio]:checked").val();
-	console.log("Radiales: "+r);
+
 	if(r==72){
 		for(i=0;i<72;i++){
 			perdidasLobulos72Map["M72PL"+(five*i)] = 0;
@@ -424,21 +457,20 @@ function setDataIdentificador(data, coords, decimales){
 	$("#longitudC").val((coords[0].replace("-", "")).replace(".00",""));
 	$("#radioCircunferenciaMaxina").val(data.RADIO_MAXIMO);
 	$("#72PerdidasLobulos").attr('checked',true);
+	$("#potenciaM").val(data.POTENCIA);
+	$("#frecuenciaM").val(data.FRECUENCIA);
 
-	if(concurso){
-		$("#potenciaM").val(data.POTENCIA);
-		$("#frecuenciaM").val(data.FRECUENCIA);
+	if(concurso){	
 		numeroRadiales = 18;
-		setDataRadiales(data, 1);
 		porcentajeUbicacion = 90;
+		$("#identificadorI").text($("#concursos option:selected").text());
 	}else{
-		$("#potenciaM").val(0);
-		$("#frecuenciaM").val(0);
 		numeroRadiales = data.RADIALES;
-		setDataRadiales(data, 1);
 		porcentajeUbicacion = data.PORCENTAJE_UBICACION
+		$("#identificadorI").text($("#regiones option:selected").text());
 	}
 
+	setDataRadiales(data, 1);
 	setDataPLOB(data);
 	$("#gananciaM").val(data.G_ANT_DBD);
 	$("#intensidadCampoM").val(data.CAMPO_LIMITE);
@@ -453,7 +485,7 @@ function setDataIdentificador(data, coords, decimales){
 	$("#divisorPotenciaM").val("0");
 	$("#otrasPerdidasM").val("0");
 	$("#localidadI").text(data.LOCALIDAD);
-	$("#identificadorI").text($("#concursos option:selected").text());
+	
 	$("#potenciaI").text(data.POTENCIA);
 	$("#frecuenciaI").text(redondea(data.FRECUENCIA, 2));
 	$("#intensidadCampoI").text(data.CAMPO_LIMITE);
@@ -464,12 +496,9 @@ function setDataIdentificador(data, coords, decimales){
 	$("#otrasPerdidasI").text("0");
 	$("#calculaPoligono").prop("disabled", false);
 	$("#pestanaTab2").show();
-	// alturaAntenaRx = 10;
-	// obstaculosCircundantesTx = 10;
-	// obstaculosCircundantesRx = 10;
+
 	toleranciaZonasSombras = data.TOLERANCIA_SOMBRA;
 	resolucionCalculo = data.RESOLUCION_CALCULO;
-	// porcentajeTiempo = 50;
 }
 
 function setDataPLOB(data){
@@ -833,19 +862,68 @@ function validaCambiosCampos() {
 
 function setVariablesByIntensidadCampo() {
 	var idTipoServicio = getServiceType();
-	setComboIntensidadCampo(idTipoServicio);
+
+	setComboIntensidadCampo(true);
 	setValueObstaculosCircundantes(idTipoServicio);
 	setValueAlturaAntenaRx(idTipoServicio);
-	setValuePorcentajeTiempo(idTipoServicio);
+	setValuePorcentajes(idTipoServicio);
+	setValueResolucionCalculo(idTipoServicio);
 	activatePerdidasPorLobuloByRadiales(idTipoServicio);
 }
 
-function setComboIntensidadCampo() {
+function setValueResolucionCalculo(idTipoServicio) {
+	if(idTipoServicio == 'VHF' || idTipoServicio == 'UHF') {
+		resolucionCalculo = 250;
+	} else {
+		resolucionCalculo = 500;
+	}
+}
+
+function setComboIntensidadCampo(isConcurso) {
 	var arr_intensidades = intensidades_campo[getServiceType()];
+
 	$("#intensidadCampoM").empty();
-	arr_intensidades.forEach(function(value){
-		$("#intensidadCampoM").append(new Option(value, value));
-	});
+
+	if(isConcurso && TIPO_SECCION != 'digital') {
+		var label = "Zona de Servicio";
+		var optgroup = $('<optgroup>');
+
+		arr_intensidades = arr_intensidades[label];
+		optgroup.attr('label', label).appendTo($("#intensidadCampoM"));
+		arr_intensidades.forEach(function(value){
+			optgroup.append(new Option(value, value));
+		});
+	} else {
+		for(var label in arr_intensidades) {
+			var optgroup = $('<optgroup>');
+			optgroup.attr('label', label).appendTo($("#intensidadCampoM"));
+			arr_intensidades[label].forEach(function(value){
+				optgroup.append(new Option(value, value));
+			});
+		}
+	}
+	setFrecuenciaByIntensidad();
+}
+
+function setFrecuenciaByIntensidad() {
+	var intensidad = $("#intensidadCampoM").val();
+
+	if(TIPO_SECCION == 'servicios') {
+		if(intensidad == 24.1) {
+			$("#frecuenciaM").val(150);
+		} else if(intensidad == 33.4 || intensidad == 23.9) {
+			$("#frecuenciaM").val(550);
+		} else if(intensidad == 38.5 || intensidad == 24.0) {
+			$("#frecuenciaM").val(800);
+		}
+	} else if (TIPO_SECCION == "radiodifusion") {
+		var label=$('#intensidadCampoM :selected').closest('optgroup').attr('label');
+		if(label == "Zona de Servicio") {
+			toleranciaZonasSombras = 20;
+		} else {
+			toleranciaZonasSombras = 1;
+		}
+	}
 }
 
 function setValueObstaculosCircundantes(idTipoServicio) {
@@ -857,8 +935,9 @@ function setValueAlturaAntenaRx(idTipoServicio) {
 	alturaAntenaRx = arrAlturasAntenaRx[idTipoServicio];
 }
 
-function setValuePorcentajeTiempo(idTipoServicio) {
+function setValuePorcentajes(idTipoServicio) {
 	porcentajeTiempo = arrPorcentajeTiempo[idTipoServicio];
+	porcentajeUbicacion = arrPorcentajeUbicacion[idTipoServicio];
 }
 
 function activatePerdidasPorLobuloByRadiales(idTipoServicio) {
@@ -869,6 +948,14 @@ function activatePerdidasPorLobuloByRadiales(idTipoServicio) {
 		$("#8PerdidasLobulos").prop("disabled", false);
 		$("#18PerdidasLobulos").prop("disabled", true);
 		$("#72PerdidasLobulos").prop("disabled", true);
+
+		$("#obstaculosCircundantesTx").prop("disabled", true);
+		$("#obstaculosCircundantesRx").prop("disabled", true);
+		$("#toleranciaZonasSombras").prop("disabled", true);
+		$("#resolucionCalculo").prop("disabled", true);
+		$("#porcentajeTiempo").prop("disabled", true);
+		$("#porcentajeUbicacion").prop("disabled", true);
+		$("#alturaAntenaRx").prop("disabled", true);
 	} else if (TIPO_SECCION == "radiodifusion") {
 		$("#show8PerdidasLobulos").prop("disabled", false);
 		$("#show18PerdidasLobulos").prop("disabled", false);
@@ -888,10 +975,8 @@ function activatePerdidasPorLobuloByRadiales(idTipoServicio) {
 
 function getServiceType(concursoModificacion = "Concurso") {
     var service_type = $("#tipoServicio").val();
-    console.log("**************");
+
 	if(TIPO_SECCION === 'digital'){
-		console.log("Seccion digital");
-		console.log(concursoModificacion);
 		if(concursoModificacion == "Concurso") {
 			service_type = "ISDBT";
 		} else if(concursoModificacion == "Modificacion") {
@@ -902,8 +987,21 @@ function getServiceType(concursoModificacion = "Concurso") {
 	} else if (TIPO_SECCION === 'servicios') {
 		service_type = "UHF";
 	}
-	console.log("**************");
+
     $("#tipoServicio").val(service_type);
 
     return service_type;
+}
+
+function setComboTipoServicio(seccion, servicio) {
+	console.log("seccion: "+ seccion);
+	console.log("servicio: "+ servicio);
+	var servicio_seccion = tipos_servicio[seccion];
+	var lista_servicios = servicio_seccion[servicio];
+	
+	$("#tipoServicio").empty();
+	$("#tipoServicio").append(new Option("...", ""));
+	lista_servicios.forEach(function(value){
+		$("#tipoServicio").append(new Option(value, value));
+	});
 }
