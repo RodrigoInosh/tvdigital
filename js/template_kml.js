@@ -5,7 +5,7 @@ function getTemplateKML ( datos )  {
 	<name>${datos.general.localidad}_${datos.general.frecuencia}</name>
 	<open>1</open>
 	<Document>
-		<name>${datos.general.nombre}</name>
+		<name>Calculo${datos.general.nombre}</name>
 		<open>1</open>
 		<Style id="s_ylw-pushpin_hl">
 			<IconStyle>
@@ -171,7 +171,7 @@ function getTemplateKML ( datos )  {
 			</PolyStyle>
 		</Style>
 		<Placemark>
-			<name>Zona Digital</name>
+			<name>Zona Propuesta</name>
 			<styleUrl>#failed2</styleUrl>
 			<Polygon>
 				<extrude>1</extrude>
@@ -200,7 +200,12 @@ function getKMLelements(datos) {
 	if (datos.general.concursoModificacion == 'Concurso') {
 		kml_elements = kml_elements + getPtxZones(datos) + getMaxZone(datos);
 	} else if(datos.general.concursoModificacion == 'Modificacion') {
-		kml_elements = kml_elements + getPtxZones(datos) + getServiceZoneRestriction(datos) + getAnalogZonePlus30(datos) + getAnalogZoneMinus30(datos);
+		if(datos.general.seccion == 'digital') {
+			kml_elements = kml_elements + getPtxZones(datos) + getServiceZoneRestriction(datos) + getAnalogZonePlus30(datos) + getAnalogZoneMinus30(datos);	
+		} else {
+			kml_elements = kml_elements + getPtxZones(datos) + getAnalogZonePlus30(datos) + getAnalogZoneMinus30(datos);
+		}
+		
 	}
 
 	return kml_elements;
@@ -209,7 +214,7 @@ function getKMLelements(datos) {
 function getPtxZones(datos) {
 	console.log("generando ptx");
 	var ptx_zones = `<Placemark>
-			<name>PTx Original</name>
+			<name>PTx Existente</name>
 			<LookAt>
 				<longitude>${datos.puntos.existente.longitud}</longitude>
 				<latitude>${datos.puntos.existente.latitud}</latitude>
@@ -228,7 +233,7 @@ function getPtxZones(datos) {
 			</Point>
 		</Placemark>
 		<Placemark>
-			<name>PTx Nueva</name>
+			<name>PTx Propuesta</name>
 			<LookAt>
 				<longitude>${datos.puntos.nuevo.longitud}</longitude>
 				<latitude>${datos.puntos.nuevo.latitud}</latitude>
@@ -270,7 +275,7 @@ function getServiceZoneRestriction(datos) {
 
 function getAnalogZonePlus30(datos) {
 	var analog_zone = `<Placemark>
-			<name>Zona Analogica +30%</name>
+			<name>Zona Existente +30%</name>
 			<styleUrl>#msn_ylw-pushpin</styleUrl>
 			<Polygon>
 				<extrude>1</extrude>
@@ -290,7 +295,7 @@ function getAnalogZonePlus30(datos) {
 
 function getAnalogZoneMinus30(datos) {
 	var analog_zone = `<Placemark>
-			<name>Zona Analogica -30%</name>
+			<name>Zona Existente -30%</name>
 			<styleUrl>#failed3</styleUrl>
 			<Polygon>
 				<extrude>1</extrude>

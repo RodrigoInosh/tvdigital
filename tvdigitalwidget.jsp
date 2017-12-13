@@ -97,11 +97,11 @@
 		<div id="caltool">
 			<div id="titulocaltool" style="height: 3px;">
 				<% if(seccion.equals("digital")) { %>
-				<div style="float: left"><font size=2><u>C&aacute;lculo Predictivo Zona de Servicio TVD</u></font></div>
+				<div style="float: left"><font size=2><u>C&aacute;lculo Predictivo Zona de Servicio para TVD</u></font></div>
 				<% } else if(seccion.equals("radiodifusion")) { %>
-				<div style="float: left"><font size=2><u>C&aacute;lculo Predictivo de Servicio Radiodifusi&oacute;n</u></font></div>
+				<div style="float: left"><font size=2><u>C&aacute;lculo Predictivo de Servicio para RD</u></font></div>
 				<% } else if(seccion.equals("servicios")) { %>
-				<div style="float: left"><font size=2><u>C&aacute;lculo Predictivo Zona de Servicio SL y SP</u></font></div>
+				<div style="float: left"><font size=2><u>C&aacute;lculo Predictivo Zona de Servicio para SL y SP</u></font></div>
 				<% } %>
 				<img id="closeImage1" src="images/close-150192_640.png" width="20" height="20" style="position: relative; float: right; cursor: pointer;">
 			</div>
@@ -325,7 +325,11 @@
 					<div id="subbox3top">
 						<div id="subbox3topleft">
 							<ul>
+								<%if(seccion.equals("servicios")) {%>
+								<li><label><b><u>Zona Calculada</u></b></label></li>
+								<% } else {%>
 								<li><label><b><u>Zona Digital Calculada</u></b></label></li>
+								<% } %>
 								<div id="separador" style="height: 1px;"></div>
 								<%if(seccion.equals("digital") || seccion.equals("radiodifusion")) {%>
 								<li><label>Localidad: &nbsp;</label></li>
@@ -356,7 +360,11 @@
 					</div>
 					<div id="subbox3bottom1">
 						<ul>
+							<%if(seccion.equals("servicios")) {%>
+							<li><label><b><u>Coordenadas de Ubicaci&oacute;n para Planta TxWGS84</u></b></label></li>
+							<% } else {%>
 							<li><label><b><u>Coordenadas de Ubicaci&oacute;n Digital para Planta TxWGS84</u></b></label></li>
+							<% } %>
 							<div id="separador"></div>
 							<li><label>Latitud:</label></li>
 							<li><input id="latitudI" type="text" value="" style="width: 100px;" disabled="disabled"/></li>

@@ -15,6 +15,8 @@ var modificacionM = 0;
 var geoProcessor = null;
 var printTaskRepore = null;
 var geoScriptExportarKMZ = null;
+var longitud_ptx = 0;
+var latitud_ptx = 0;
 var longitud = 0;
 var latitud = 0;
 var radiales8 = 0;
@@ -88,7 +90,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         TIPO_SECCION = $("#seccion").val();
 
         $("#exportarKMZ").on('click', function() {
-            showLoader(true, 'Generando Archivo KML');
+            // showLoader(true, 'Generando Archivo KML');
             exportKMZClick(true);
         });
 
@@ -184,6 +186,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         });
 
         $("#intensidadCampoM").on('change', function(){
+            getKMLNameSite();
             setFrecuenciaByIntensidad();
         });
 
@@ -349,25 +352,6 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 }
             });
 
-        }
-
-        // Conversion de coordenadas de arcgis a geograficas reales
-        function toGeographic(xMercator, yMercator) {
-            if (Math.abs(xMercator) < 180 && Math.abs(yMercator) < 90)
-                return null;
-            if ((Math.abs(xMercator) > 20037508.3427892) || (Math.abs(yMercator) > 20037508.3427892))
-                return null;
-            var x = xMercator;
-            var y = yMercator;
-            var w1 = x = x / 6378137.0;
-            var w2 = x * 57.295779513082323;
-            var w3 = Math.floor((x + 180.0) / 360.0);
-            x = w2 - (w3 * 360.0);
-            y = (1.5707963267948966 - (2.0 * Math.atan(Math.exp((-1.0 * y) / 6378137.0)))) * 57.295779513082323;
-            return {
-                x: x,
-                y: y
-            }
         }
 
         function changeComboIdentificadorClick() {
@@ -625,6 +609,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                         url: object_identificadores.identificador_modif,
                         definitionExpression: queryString
                     });
+                    //Punto central
                     map.add(pointRegion);
 
                     //Corresponde al polígono a la zona -30%
@@ -741,6 +726,9 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 graphics: [newPointGraphic]
             });
             map.add(pointRegion);
+
+            superView.punto.features[0].geometry.longitude = longitud
+            superView.punto.features[0].geometry.latitude = latitud;
         }
 
         function clickCalculaPoligonoClick() {
@@ -941,9 +929,11 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         function setPolygon(data) {
             var polygonGraphic1 = null;
             var polygonGraphic2 = null;
+
             areaCalculo = redondea(Number(data.value.features[0].attributes.area), 2);
 
             if (isCalculoZonaMaxima) {
+
 
                 polygonGraphic1 = new Graphic({
                     geometry: data.value.features[0].geometry,
@@ -961,6 +951,14 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
 
                 map.add(layerGraphicsMax);
                 superView.concurso = polygonGraphic2;
+
+                datos_pol1 = data.value.features[0].geometry.rings;
+                datos_pol2 = data.value.features[1].geometry.rings;
+                var zonaM1 = {rings: createNewPolygonCoordinates(datos_pol1)};
+                var zonaM2 = {rings: createNewPolygonCoordinates(datos_pol2)};
+
+                superView.zonaMaxima1 = zonaM1;
+                superView.zonaMaxima2 = zonaM2;
             } else if (isCoCanal) {
 
                 polygonGraphic1 = new Graphic({
@@ -1003,7 +1001,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
 
         function imprimirCalculoClick(download) {
             var pdfDocGenerator = getPDFFile();
-            var pdf_name = getFileName($("#identificadores").val(), form_data.carac_tecnicas.sist_radiante, $("#intensidadCampoM").val());
+            var pdf_name = getFileName($("#identificadores").val(), form_data.carac_tecnicas.sist_radiante, getKMLNameSite());
             pdfDocGenerator.download(pdf_name + '.pdf');
         }
 
@@ -1087,13 +1085,15 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             datos.general.localidad = form_data.localidad;
             datos.general.frecuencia = form_data.frecuenciaM;
             datos.general.intensidad = form_data.intensidadCampoM;
-            datos.general.nombre = getKMLNameSite(form_data.intensidadCampoM);
+            datos.general.seccion = TIPO_SECCION;
+            datos.general.nombre =  getKMLNameSite();
 
             var poligono1 = "";
             var poligono2 = "";
             var poligonoM1 = "";
             var poligonoM2 = "";
             var poligonoMaxZone = "";
+
             var ubicacion = {
                 x: superView.punto.features[0].geometry.longitude,
                 y: superView.punto.features[0].geometry.latitude
@@ -1116,15 +1116,16 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 poligonoMaxZone += x[0] + "," + x[1] + ",10 \n";
             });
 
+            console.log("zonaMaxima1");
+            console.log(superView.zonaMaxima1);
             if (superView.zonaMaxima1 != null) {
                 superView.zonaMaxima1.rings[0].map(x => {
-                    //result = toGeographic(x[0], x[1]);
                     poligonoM1 += x[0] + "," + x[1] + ",10 \n";
                 });
             }
+            console.log(superView.zonaMaxima2);
             if (superView.zonaMaxima2 != null) {
                 superView.zonaMaxima2.rings[0].map(x => {
-                    //result = toGeographic(x[0], x[1]);
                     poligonoM2 += x[0] + "," + x[1] + ",10 \n";
                 });
             }
@@ -1134,15 +1135,18 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 poligono2 += result.x + "," + result.y + ",10 \n";
             });
 
-            datos.poligonos.zonaServicio = poligono2;
-            datos.poligonos.zonaRestriccionServicio = poligono1;
-            datos.poligonos.zonaMaxima = poligonoMaxZone;
-            datos.poligonos.zonaMaximaExistente = poligonoM1;
-            datos.poligonos.zonaMaximaExistenteExtendida = poligonoM2;
-            datos.puntos.existente.longitud = ubicacion.x;
-            datos.puntos.existente.latitud = ubicacion.y;
-            datos.puntos.nuevo.longitud = superView.puntoNuevo.longitud;
-            datos.puntos.nuevo.latitud = superView.puntoNuevo.latitud;
+            // console.log("compare");
+            // console.log(poligonoM1);
+            // console.log(poligonoM2);
+            datos.poligonos.zonaServicio = poligono2; //poligono zona de servicio
+            datos.poligonos.zonaRestriccionServicio = poligono1; // poligono zona de restriccion 60km
+            datos.poligonos.zonaMaxima = poligonoMaxZone; //poligono zona maxima
+            datos.poligonos.zonaMaximaExistente = poligonoM1; //poligono zona maxima -30% o 100% (para los casos de radiodifusion)
+            datos.poligonos.zonaMaximaExistenteExtendida = poligonoM2; //poligono zona maxima +30% 
+            datos.puntos.existente.longitud = ubicacion.x; //PTx existente
+            datos.puntos.existente.latitud = ubicacion.y; //PTx existente
+            datos.puntos.nuevo.longitud = superView.puntoNuevo.longitud; //Ptx nueva
+            datos.puntos.nuevo.latitud = superView.puntoNuevo.latitud; //Ptx nueva
 
             var kml = getTemplateKML(datos);
             var data = new Blob([kml]);
@@ -1151,7 +1155,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             if (download == true) {
                 var a = URL.createObjectURL(data);
                 var name = $("#identificadores").val();
-                var name2 = getFileName($("#identificadores").val(), $("#sistRadiante").val(), $("#intensidadCampoM").val())
+                var name2 = getFileName($("#identificadores").val(), $("#sistRadiante").val(), datos.general.nombre)
                 var link = document.createElement('a');
                 link.style = 'position: fixed; left -10000px;'; // making it invisible
                 link.href = a; //'data:application/octet-stream,' + encodeURIComponent(address); // forcing content type
@@ -1162,7 +1166,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 link.click();
                 document.body.removeChild(link);
 
-                showLoader(false, '');
+                // showLoader(false, '');
             } else {
                 return encodedData;
             }
@@ -1335,19 +1339,6 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             }
         }
 
-        function getKMLNameSite(intensidad) {
-            var name = "";
-            if (intensidad == "48") {
-                name = "CalculoZonaServicio";
-            } else if (intensidad == "40") {
-                name = "CalculoZonaCobertura";
-            } else if (inteisdad = "55") {
-                name = "CalculoContornoUrbano";
-            }
-
-            return name;
-        }
-
         function resetSelect(select_name, new_value) {
             $("#" + select_name).val(new_value);
         }
@@ -1405,6 +1396,4 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         on(dom.byId("regiones"), "change", changeConcursoRegionesClick);
         on(dom.byId("calculaPoligono"), "click", clickCalculaPoligonoClick);
         on(dom.byId("generarMatrizCotas"), "click", clickGenerarMatrizCotas);
-        // on(dom.byId("imprimirCalculo"), "click", imprimirCalculoClick);
-        // on(dom.byId("exportarKMZ"), "click", exportKMZClick);
     });

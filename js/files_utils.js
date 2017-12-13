@@ -232,3 +232,37 @@ function generateBase64Files() {
     var kml_base64 = exportKMZClick(false);
     getPDFBase64File(kml_base64);
 }
+
+function getKMLNameSite() {
+    var name = "";
+    var label = $('#intensidadCampoM :selected').parent().attr('label');
+    var intensidadCampoM = $("#intensidadCampoM").val();
+    var label_array = label.split(" ");
+
+    if ($.inArray("Servicio", label_array) > -1) {
+        name = "ZonaServicio";
+    } else if ($.inArray("Cobertura", label_array) > -1) {
+        name = "ZonaCobertura";
+    } else if ($.inArray("Urbano", label_array) > -1) {
+        name = "ContornoUrbano";
+    } else if ($.inArray("Cocanal", label_array) > -1) {
+        name = "ContornoCocanal";
+    } else if ($.inArray("Z200", label_array) > -1) {
+        name = "ContornoAdyacente200Khz";
+    } else if ($.inArray("Z400", label_array) > -1) {
+        name = "ContornoAdyacente400Khz";
+    }
+
+    if(TIPO_SECCION == "servicios") {
+        if(intensidadCampoM == 24.1) {
+            name += "VHF";
+        } else if(intensidadCampoM == 33.4 || intensidadCampoM == 23.9) {
+            name += "UHF";
+        } else if(intensidadCampoM == 38.5 || intensidadCampoM == 24.0) {
+            name += "800";
+        }
+    }
+
+    console.log(name);
+    return name;
+}

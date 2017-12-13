@@ -146,7 +146,7 @@ function getRadialsTableRowData(title, form_elements, init_grade, added_grades, 
     return aux;
 }
 
-function getFileName(identificator, sist_radiante, intensidad_campo) {
+function getFileName(identificator, sist_radiante, intensidad_zone_name) {
 
     var date_in_milis = new Date();
 
@@ -156,7 +156,7 @@ function getFileName(identificator, sist_radiante, intensidad_campo) {
     var hour = date_in_milis.getHours();
     var minutes = date_in_milis.getMinutes();
     var type_sist_radiant = getSistRadiantType(sist_radiante);
-    var intensidad_zone_name = getNameZone(intensidad_campo);
+    // var intensidad_zone_name = getNameZone(intensidad_campo);
 
     month = month < 10 ? '0'+month : month;
     day = day < 10 ? '0'+day : day;

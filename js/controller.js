@@ -994,8 +994,6 @@ function getServiceType(concursoModificacion = "Concurso") {
 }
 
 function setComboTipoServicio(seccion, servicio) {
-	console.log("seccion: "+ seccion);
-	console.log("servicio: "+ servicio);
 	var servicio_seccion = tipos_servicio[seccion];
 	var lista_servicios = servicio_seccion[servicio];
 	
@@ -1004,4 +1002,45 @@ function setComboTipoServicio(seccion, servicio) {
 	lista_servicios.forEach(function(value){
 		$("#tipoServicio").append(new Option(value, value));
 	});
+}
+
+function createNewPolygonCoordinates(poligono_coordenadas) {
+	var polygon = [];
+	var polygon_coordinates = [];
+	poligono_coordenadas[0].map(x => {
+        try{
+        	var result = toGeographic(x[0], x[1]);
+        	var aux = [];
+        	aux.push(result.x);
+        	aux.push(result.y);
+        	// console.log(aux);
+        	polygon_coordinates.push(aux);
+        	// console.log(polygon_coordinates);
+    	}catch(err){
+    		console.log(err);
+    	}
+    });
+
+    polygon.push(polygon_coordinates);
+    // console.log(polygon);
+    return polygon;
+}
+
+// Conversion de coordenadas de arcgis a geograficas reales
+function toGeographic(xMercator, yMercator) {
+    if (Math.abs(xMercator) < 180 && Math.abs(yMercator) < 90)
+        return null;
+    if ((Math.abs(xMercator) > 20037508.3427892) || (Math.abs(yMercator) > 20037508.3427892))
+        return null;
+    var x = xMercator;
+    var y = yMercator;
+    var w1 = x = x / 6378137.0;
+    var w2 = x * 57.295779513082323;
+    var w3 = Math.floor((x + 180.0) / 360.0);
+    x = w2 - (w3 * 360.0);
+    y = (1.5707963267948966 - (2.0 * Math.atan(Math.exp((-1.0 * y) / 6378137.0)))) * 57.295779513082323;
+    return {
+        x: x,
+        y: y
+    }
 }
