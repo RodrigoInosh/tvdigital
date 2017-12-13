@@ -1013,16 +1013,14 @@ function createNewPolygonCoordinates(poligono_coordenadas) {
         	var aux = [];
         	aux.push(result.x);
         	aux.push(result.y);
-        	// console.log(aux);
         	polygon_coordinates.push(aux);
-        	// console.log(polygon_coordinates);
     	}catch(err){
     		console.log(err);
     	}
     });
 
     polygon.push(polygon_coordinates);
-    // console.log(polygon);
+
     return polygon;
 }
 

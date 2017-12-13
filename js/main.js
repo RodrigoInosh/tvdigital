@@ -726,9 +726,12 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 graphics: [newPointGraphic]
             });
             map.add(pointRegion);
-
-            superView.punto.features[0].geometry.longitude = longitud
-            superView.punto.features[0].geometry.latitude = latitud;
+            console.log("new longitud: "+longitud);
+            console.log("new latitud: "+latitud);
+            longitud_ptx = longitud;
+            latitud_ptx = latitud;
+            // superView.punto.features[0].geometry.longitude = longitud
+            // superView.punto.features[0].geometry.latitude = latitud;
         }
 
         function clickCalculaPoligonoClick() {
@@ -789,10 +792,10 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             }
 
             setNuevoPuntoCentral(mapParametros.latitud, mapParametros.longitud);
-            superView.puntoNuevo = {
-                "longitud": mapParametros.longitud,
-                "latitud": mapParametros.latitud
-            };
+            // superView.puntoNuevo = {
+            //     "longitud": mapParametros.longitud,
+            //     "latitud": mapParametros.latitud
+            // };
             var params = {
                 "latitud": mapParametros.latitud,
                 "longitud": mapParametros.longitud,
@@ -970,8 +973,12 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                     graphics: [polygonGraphic1]
                 });
 
+                datos_pol1 = data.value.features[0].geometry.rings;
+                var zonaM1 = {rings: createNewPolygonCoordinates(datos_pol1)};
+
                 map.add(layerGraphicsMax);
                 superView.concurso = polygonGraphic1;
+                superView.zonaMaxima1 = zonaM1;
             } else {
                 polygonGraphic1 = new Graphic({
                     geometry: data.value.features[0].geometry,
@@ -1095,8 +1102,8 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             var poligonoMaxZone = "";
 
             var ubicacion = {
-                x: superView.punto.features[0].geometry.longitude,
-                y: superView.punto.features[0].geometry.latitude
+                x: longitud_ptx,
+                y: latitud_ptx
             };
             var circleGeometry = new Circulo([superView.puntoNuevo.longitud, superView.puntoNuevo.latitud], {
                 "radius": 60000,
@@ -1107,7 +1114,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 poligono1 += x[0] + "," + x[1] + ",10 \n";
             });
 
-            var circleMaxZone = new Circulo([superView.punto.features[0].geometry.longitude, superView.punto.features[0].geometry.latitude], {
+            var circleMaxZone = new Circulo([longitud_ptx, latitud_ptx], {
                 "radius": radioMaximo * 1000,
                 geodesic: true
             });
@@ -1116,14 +1123,12 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 poligonoMaxZone += x[0] + "," + x[1] + ",10 \n";
             });
 
-            console.log("zonaMaxima1");
-            console.log(superView.zonaMaxima1);
             if (superView.zonaMaxima1 != null) {
                 superView.zonaMaxima1.rings[0].map(x => {
                     poligonoM1 += x[0] + "," + x[1] + ",10 \n";
                 });
             }
-            console.log(superView.zonaMaxima2);
+
             if (superView.zonaMaxima2 != null) {
                 superView.zonaMaxima2.rings[0].map(x => {
                     poligonoM2 += x[0] + "," + x[1] + ",10 \n";
@@ -1135,9 +1140,6 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 poligono2 += result.x + "," + result.y + ",10 \n";
             });
 
-            // console.log("compare");
-            // console.log(poligonoM1);
-            // console.log(poligonoM2);
             datos.poligonos.zonaServicio = poligono2; //poligono zona de servicio
             datos.poligonos.zonaRestriccionServicio = poligono1; // poligono zona de restriccion 60km
             datos.poligonos.zonaMaxima = poligonoMaxZone; //poligono zona maxima
@@ -1157,11 +1159,9 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 var name = $("#identificadores").val();
                 var name2 = getFileName($("#identificadores").val(), $("#sistRadiante").val(), datos.general.nombre)
                 var link = document.createElement('a');
-                link.style = 'position: fixed; left -10000px;'; // making it invisible
-                link.href = a; //'data:application/octet-stream,' + encodeURIComponent(address); // forcing content type
-                // link.download = name.indexOf('.kml') < 0 ? name + '.kml' : name;
+                link.style = 'position: fixed; left -10000px;';
+                link.href = a;
                 link.download = name2 + ".kml";
-                /* file extension is very important! */
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
