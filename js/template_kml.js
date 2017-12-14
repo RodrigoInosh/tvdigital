@@ -198,12 +198,18 @@ return kml;
 function getKMLelements(datos) {
 	var kml_elements = "";
 	if (datos.general.concursoModificacion == 'Concurso') {
-		kml_elements = kml_elements + getPtxZones(datos) + getMaxZone(datos);
+		if(datos.general.seccion == 'servicios') {
+			kml_elements = kml_elements + getPtxPropuesta(datos);
+		} else {
+			kml_elements = kml_elements + getPtxExistente(datos) + getPtxPropuesta(datos) + getMaxZone(datos);
+		}
 	} else if(datos.general.concursoModificacion == 'Modificacion') {
 		if(datos.general.seccion == 'digital') {
-			kml_elements = kml_elements + getPtxZones(datos) + getServiceZoneRestriction(datos) + getAnalogZonePlus30(datos) + getAnalogZoneMinus30(datos);	
+			kml_elements = kml_elements + getPtxExistente(datos) + getPtxPropuesta(datos) + getServiceZoneRestriction(datos) + getAnalogZonePlus30(datos) + getAnalogZoneMinus30(datos);	
+		} else if(datos.general.seccion == 'radiodifusion') {
+			kml_elements = kml_elements + getPtxExistente(datos) + getPtxPropuesta(datos) + getAnalogZonePlus30(datos) + getAnalogZoneMinus30(datos);
 		} else {
-			kml_elements = kml_elements + getPtxZones(datos) + getAnalogZonePlus30(datos) + getAnalogZoneMinus30(datos);
+			kml_elements = kml_elements + getPtxExistente(datos) + getPtxPropuesta(datos) + getAnalogZoneMinus30(datos);
 		}
 		
 	}
@@ -211,8 +217,7 @@ function getKMLelements(datos) {
 	return kml_elements;
 } 
 
-function getPtxZones(datos) {
-	console.log("generando ptx");
+function getPtxExistente(datos) {
 	var ptx_zones = `<Placemark>
 			<name>PTx Existente</name>
 			<LookAt>
@@ -231,8 +236,13 @@ function getPtxZones(datos) {
 					${datos.puntos.existente.longitud},${datos.puntos.existente.latitud},0
 				</coordinates>
 			</Point>
-		</Placemark>
-		<Placemark>
+		</Placemark>`;
+
+	return ptx_zones;
+}
+
+function getPtxPropuesta(datos) {
+	var ptx_zones = `<Placemark>
 			<name>PTx Propuesta</name>
 			<LookAt>
 				<longitude>${datos.puntos.nuevo.longitud}</longitude>

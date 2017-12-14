@@ -263,6 +263,5 @@ function getKMLNameSite() {
         }
     }
 
-    console.log(name);
     return name;
 }

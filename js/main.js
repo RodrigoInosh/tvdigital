@@ -546,6 +546,8 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 } else {
                     longitud = data.features[0].geometry.x;
                     latitud = data.features[0].geometry.y;
+                    longitud_ptx = longitud;
+                    latitud_ptx = latitud;
                     view.center = [longitud, latitud];
                     var coordsPoint = new GeoPoint(longitud, latitud);
                     var coords = [coordsPoint.lonDeg, coordsPoint.latDeg]
@@ -574,6 +576,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                     queryTask2.execute(queryData).then(function(data) {
                         superView.punto = data;
                         setDataIdentificador(data.features[0].attributes, coords, decimales_frecuencias);
+                        console.log(data.features[0].attributes);
                         view.zoom = setZoom(data.features[0].attributes);
                     });
                 }
@@ -602,6 +605,8 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 } else {
                     longitud = data.features[0].geometry.x;
                     latitud = data.features[0].geometry.y;
+                    longitud_ptx = longitud;
+                    latitud_ptx = latitud;
                     view.center = [longitud, latitud];
                     var coordsPoint = new GeoPoint(longitud, latitud);
                     var coords = [coordsPoint.lonDeg, coordsPoint.latDeg]
@@ -709,6 +714,8 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 graphics: [newPointGraphic]
             });
             map.add(capaCalculoPuntos);
+            view.center = [longitud, latitud];
+            view.zoom = 9;
         }
 
         function setNuevoPuntoCentral(latitud, longitud) {
@@ -726,12 +733,10 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 graphics: [newPointGraphic]
             });
             map.add(pointRegion);
-            console.log("new longitud: "+longitud);
-            console.log("new latitud: "+latitud);
+            view.center = [longitud, latitud];
+            view.zoom = 9;
             longitud_ptx = longitud;
             latitud_ptx = latitud;
-            // superView.punto.features[0].geometry.longitude = longitud
-            // superView.punto.features[0].geometry.latitude = latitud;
         }
 
         function clickCalculaPoligonoClick() {
@@ -792,10 +797,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             }
 
             setNuevoPuntoCentral(mapParametros.latitud, mapParametros.longitud);
-            // superView.puntoNuevo = {
-            //     "longitud": mapParametros.longitud,
-            //     "latitud": mapParametros.latitud
-            // };
+
             var params = {
                 "latitud": mapParametros.latitud,
                 "longitud": mapParametros.longitud,
@@ -1101,10 +1103,20 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             var poligonoM2 = "";
             var poligonoMaxZone = "";
 
+            console.log("longitud_ptx: "+longitud_ptx);
+            console.log("latitud_ptx: "+latitud_ptx);
+
+            if(longitud_ptx == 0 && latitud_ptx == 0) {
+                longitud_ptx = superView.puntoNuevo.longitud;
+                latitud_ptx = superView.puntoNuevo.latitud;
+            }
+
             var ubicacion = {
                 x: longitud_ptx,
                 y: latitud_ptx
             };
+
+             console.log(ubicacion);
             var circleGeometry = new Circulo([superView.puntoNuevo.longitud, superView.puntoNuevo.latitud], {
                 "radius": 60000,
                 geodesic: true

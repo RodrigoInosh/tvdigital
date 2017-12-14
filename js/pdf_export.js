@@ -147,23 +147,21 @@ function getRadialsTableRowData(title, form_elements, init_grade, added_grades, 
 }
 
 function getFileName(identificator, sist_radiante, intensidad_zone_name) {
-
     var date_in_milis = new Date();
-
     var year = date_in_milis.getFullYear();
     var month = date_in_milis.getMonth()+1;
     var day = date_in_milis.getUTCDate();
     var hour = date_in_milis.getHours();
     var minutes = date_in_milis.getMinutes();
     var type_sist_radiant = getSistRadiantType(sist_radiante);
-    // var intensidad_zone_name = getNameZone(intensidad_campo);
+    var identificator_name = getIdentificadorName(identificator);
 
     month = month < 10 ? '0'+month : month;
     day = day < 10 ? '0'+day : day;
     hour = hour < 10 ? '0'+hour : hour;
     minutes = minutes < 10 ? '0'+minutes : minutes;
 
-    return intensidad_zone_name + '_' + type_sist_radiant + '_' + identificator +'_'+ year + month + day + hour + minutes;
+    return intensidad_zone_name + '_' + type_sist_radiant + '_' + identificator_name + '_' + year + month + day + hour + minutes;
 }
 
 function isTilt(tilt_value) {
@@ -172,6 +170,17 @@ function isTilt(tilt_value) {
     } else {
         return false;
     }
+}
+
+function getIdentificadorName(identificator) {
+    var name = "";
+    if(identificator == 'seleccione' || identificator == null) {
+        name = "SSPP-SSLL";
+    } else {
+        name = identificator;
+    }
+
+    return name;
 }
 
 function getCanalByFrecuencia(tipo_frecuencia, frecuencia) {
@@ -198,16 +207,4 @@ function getSistRadiantType(sist_radiante) {
     }
 
     return sist_radiant_name;
-}
-
-function getNameZone(intensidad_campo) {
-    zone_name = "ZonaServicio";
-    if(zone_service_intensity == intensidad_campo) {
-        zone_name = "ZonaServicio";
-    } else if(zone_hedge_intensity == intensidad_campo) {
-        zone_name = "ZonaCobertura";
-    } else if(zone_urban_intensity == intensidad_campo) {
-        zone_name = "ZonaUrbana";
-    }
-    return zone_name;
 }
