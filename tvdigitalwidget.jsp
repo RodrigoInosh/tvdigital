@@ -68,8 +68,10 @@
 <script src="js/geopoint.js"></script>
 <script src="js/zoom.js?v=<%= System.currentTimeMillis() %>"></script>
 <script src="js/interpolacion.js"></script>
-<script src="js/concurso_pdf_export.js?v=<%= System.currentTimeMillis() %>"></script>
-<script src="js/modificacion_pdf_export.js?v=<%= System.currentTimeMillis() %>"></script>
+<script src="js/pdf_tvd_concurso.js?v=<%= System.currentTimeMillis() %>"></script>
+<script src="js/pdf_tvd_modificacion.js?v=<%= System.currentTimeMillis() %>"></script>
+<script src="js/pdf_radio_modificacion.js?v=<%= System.currentTimeMillis() %>"></script>
+<script src="js/pdf_servicios_modificacion.js?v=<%= System.currentTimeMillis() %>"></script>
 <script src="js/jquery.sha1.js"></script>
 </head>
 <body>

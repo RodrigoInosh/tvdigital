@@ -180,13 +180,26 @@ function rellenarPerdidasLobuloByCSV(file, fileReader, tabla_perdidas) {
 
  function getPDFFile() {
     var mapReporte = getParametersReport();
-    var form_pdf_data = getFormData(concursoModificacion);
+    var form_pdf_data = [];
     var pdfDocGenerator;
-    if (concursoModificacion == 'Concurso') {
-        pdfDocGenerator = getPDFConcurso(mapReporte, form_pdf_data);
-    } else {
+
+    if(TIPO_SECCION == 'servicios') {
+        form_pdf_data = getFormData("Modificacion");
         pdfDocGenerator = getPDFModificacion(mapReporte, form_pdf_data);
+    } else if(TIPO_SECCION == 'radiodifusion') {
+        console.log("ASFASF");
+        form_pdf_data = getFormData("Modificacion");
+        // pdfDocGenerator = getPdfRadioModificacion(mapReporte, form_pdf_data);
+        pdfDocGenerator = Radio.getPdf(mapReporte, form_pdf_data);
+    } else {
+        form_pdf_data = getFormData(concursoModificacion);
+        if (concursoModificacion == 'Concurso') {
+            pdfDocGenerator = getPdfTvdConcurso(mapReporte, form_pdf_data);
+        } else {
+            pdfDocGenerator = getPdfTvdModificacion(mapReporte, form_pdf_data);
+        }
     }
+
     return pdfDocGenerator;
 }
 

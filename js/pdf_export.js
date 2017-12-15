@@ -172,6 +172,13 @@ function isTilt(tilt_value) {
     }
 }
 
+function getValue(value) {
+    if(typeof value != 'undefined')
+        return value;
+    else
+        return '';
+}
+
 function getIdentificadorName(identificator) {
     var name = "";
     if(identificator == 'seleccione' || identificator == null) {
