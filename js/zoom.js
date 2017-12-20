@@ -33,3 +33,19 @@ function ComponeCoordenadaNumero(g, m, s){
 	coordenada = Math.round(coordenada*10000000000000.00)/10000000000000.00;
 	return coordenada*-1;
 }
+
+
+function gramise(coordenada) {	
+	coordenada = Math.abs(Math.round(coordenada * 1000000.));
+	
+	var grades = (Math.floor(coordenada / 1000000));
+	var minutes = Math.floor(((coordenada / 1000000) - Math.floor(coordenada / 1000000)) * 60);
+	var seconds = (Math.floor(((((coordenada / 1000000) - Math.floor(coordenada / 1000000)) * 60) - Math.floor(((coordenada / 1000000) - Math.floor(coordenada / 1000000)) * 60)) * 100000) * 60 / 100000);
+
+	grades = Math.round(grades);
+	minutes = Math.round(minutes);
+	seconds = Math.round(seconds);
+    coordenada_geo = (grades + '° ' + minutes + '\' ' + seconds + '\"');
+    
+    return coordenada_geo;
+}

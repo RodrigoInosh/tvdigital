@@ -6,27 +6,46 @@ var zone_service_intensity = "48";
 var zone_hedge_intensity = "40";
 var zone_urban_intensity = "66";
 
-function getRadialsTable(radials, form_elements) {
+function getRadialsTable(radials, form_elements, isServicios = false) {
     var table;
-    if (radials === "18") {
-        table = createRadialsTable(form_elements, 2, 180, 20);
+
+    if (radials === "8") {
+        table = createRadialsTable(form_elements, 1, 360, 45, isServicios);
+    } else if (radials === "18") {
+        table = createRadialsTable(form_elements, 2, 180, 20, isServicios);
     } else if (radials === "72") {
-        table = createRadialsTable(form_elements, 8, 45, 5);
+        table = createRadialsTable(form_elements, 8, 45, 5, isServicios);
     }
 
     return table;
 }
 
-function createRadialsTable(form_elements, cicles, vertical_grades, horizontal_grades) {
+function createRadialsTable(form_elements, cicles, vertical_grades, horizontal_grades, isServicios) {
 
-    var radials_table = [{
-        colSpan: 4,
-        border: [true, false, true, true],
-        table: {
-            widths: [170, 30, 30, 30, 30, 30, 30, 30, 30, 30],
-            body: createRadialsTableBody(cicles, form_elements, vertical_grades, horizontal_grades)
-        },
-    }, {}, {}, {}];
+    if(isServicios) {
+        var radials_table = [
+        {
+            colSpan: 4,
+            border: [true, false, true, true],
+            table: {
+                widths: [172, 34, 34, 34, 34, 34, 34, 34, 34],
+                body: createRadialsTableBody(cicles, form_elements, vertical_grades, horizontal_grades, isServicios)
+            },
+         }, {}, {}, {}
+         ];
+    } else {
+        var radials_table = [
+        {
+            colSpan: 4,
+            border: [true, false, true, true],
+            table: {
+                widths: [170, 30, 30, 30, 30, 30, 30, 30, 30, 30],
+                body: createRadialsTableBody(cicles, form_elements, vertical_grades, horizontal_grades, isServicios)
+            },
+         }, {}, {}, {}
+         ];
+    }
+    
 
     return radials_table;
 }
@@ -60,30 +79,51 @@ function getFormattedCellText(txt) {
     var style = [{
         text: txt,
         alignment: 'center',
-        fontSize: 10
+        fontSize: 9.5
     }];
 
     return style;
 }
 
-function createRadialsTableBody(cicles, form_elements, vertical_grades, horizontal_grades) {
+function createRadialsTableBody(cicles, form_elements, vertical_grades, horizontal_grades, isServicios) {
     var aux = [];
     var radials = form_elements.radiales;
+    var column_count = vertical_grades/horizontal_grades;
 
-    aux.push([{
-        text: ' ',
-        border: [false, false, false, true]
-    }, {
-        text: 'RADIALES',
-        colSpan: 9,
-        alignment: 'center',
-        bold: true
-    }, {}, {}, {}, {}, {}, {}, {}, {}]);
+    if(column_count == 9) {
+        aux.push([{
+            text: ' ',
+            border: [false, false, false, true]
+        }, {
+            text: 'RADIALES',
+            colSpan: column_count,
+            alignment: 'center',
+            bold: true
+        }, {}, {}, {}, {}, {}, {}, {}, {}]);
+    } else {
+        aux.push([{
+            text: ' ',
+            border: [false, false, false, true]
+        }, {
+            text: 'RADIALES',
+            colSpan: column_count,
+            alignment: 'center',
+            bold: true
+        }, {}, {}, {}, {}, {}, {}, {}]);
+    }
 
     for (x = 0; x < cicles; x++) {
-        aux.push(getRadialsTableRowHeaders('Acimut (°)', vertical_grades * x, horizontal_grades));
-        aux.push(getRadialsTableRowData('Perd. por lóbulo (dB)', form_elements, vertical_grades * x, horizontal_grades, 'M' + radials + 'PL'));
-        aux.push(getRadialsTableRowData('Distancia Zona Servicio (km)', form_elements, vertical_grades * x, horizontal_grades, 'DIS'));
+        aux.push(getRadialsTableRowHeaders('Acimut (°)', vertical_grades * x, horizontal_grades, column_count));
+        aux.push(getRadialsTableRowData('Perd. por lóbulo (dB)', form_elements, vertical_grades * x, horizontal_grades, 'M' + radials + 'PL', column_count));
+        aux.push(getRadialsTableRowData('Distancia Zona Servicio (km)', form_elements, vertical_grades * x, horizontal_grades, 'DIS', column_count));
+        if(isServicios) {
+            console.log('Distancia Estación Existente (km)');
+            aux.push(getRadialsTableRowData('DeltaH Zona Servicio (m)', form_elements, vertical_grades * x, horizontal_grades, 'DH', column_count));
+            aux.push(getRadialsTableRowData('Hi Zona Servicio (m)', form_elements, vertical_grades * x, horizontal_grades, 'AT', column_count));
+            aux.push(getRadialsTableRowData('Distancia Estación Existente (km)', form_elements, vertical_grades * x, horizontal_grades, 'DEE', column_count));
+            aux.push(getRadialsTableRowData('Hi Estación Existente (m)', form_elements, vertical_grades * x, horizontal_grades, 'ATEE', column_count));
+            aux.push(getRadialsTableRowData('DeltaH Estación Existente (m)', form_elements, vertical_grades * x, horizontal_grades, 'DHEE', column_count));
+        }
     }
 
     return aux;
@@ -121,25 +161,27 @@ function getColumnData(data_antenas_fixes, row) {
     return column_numero;
 }
 
-function getRadialsTableRowHeaders(title, vertical_grades, horizontal_grades) {
+function getRadialsTableRowHeaders(title, vertical_grades, horizontal_grades, column_count) {
 
     var aux = [];
     aux.push(getFormattedCellTitle(title));
 
-    for (ix = 0; ix < 9; ix++) {
+    for (ix = 0; ix < column_count; ix++) {
         aux.push(getFormattedCellTitle((vertical_grades + horizontal_grades * ix) + '°'));
     }
 
     return aux;
 }
 
-function getRadialsTableRowData(title, form_elements, init_grade, added_grades, parameter) {
+function getRadialsTableRowData(title, form_elements, init_grade, added_grades, parameter, column_count) {
 
     var aux = [];
     aux.push(getFormattedCellText(title));
-    for (ix = 0; ix < 9; ix++) {
+    for (ix = 0; ix < column_count; ix++) {
+        var value = form_elements[parameter + (init_grade + added_grades * ix)];
+        value = typeof value == 'undefined' ? '-' : value; 
         aux.push(getFormattedCellText({
-            text: form_elements[parameter + (init_grade + added_grades * ix)]
+            text: value
         }));
     }
 

@@ -38,7 +38,12 @@ var perdidasLobulos18Map = {};
 var perdidasLobulos8Map = {};
 var radiales18Map = {};
 var radiales72Map = {};
+var deltaH = {};
+var deltaHExistente = {};
+var alturas = {};
+var alturasExistente = {};
 var distanciaKilometros = {};
+var distanciaEstacionExistente = {};
 var twenty = 20;
 var fortyFive = 45;
 var five = 5;
@@ -213,17 +218,21 @@ $(document).ready(function() {
 			$("#frame72Radiales").show();
 	});
 
-	$("#verDistancia").click(function() {
-		setDistanciasKilometros();
-		$("#distanciaKilometro"+radialesCalculo).show();
-	});
-
-	$("#verDeltaH").click(function() {
-		$("#deltaH"+radialesCalculo).show();
-	});
-
-	$("#verAlturas").click(function() {
-		$("#alturas"+radialesCalculo).show();
+	$(".button_info").click(function() {
+		var id = this.id;
+		if(id == 'verDeltaH') {
+			$("#deltaH"+radialesCalculo).show();
+		} else if(id == 'verDeltaHExistente') {
+			$("#deltaHExistente"+radialesCalculo).show();
+		} else if(id == 'verAlturasExistente') {
+			$("#alturasExistente"+radialesCalculo).show();
+		} else if(id == 'verAlturas') {
+			$("#alturas"+radialesCalculo).show();
+		} else if (id == 'verDistancia') {
+			$("#distanciaKilometro"+radialesCalculo).show();
+		} else if (id == 'verDistanciaExtistente') {
+			$("#distanciaExistente"+radialesCalculo).show();
+		}
 	});
 
 	$("#opcionesAvanzadasButton").click(function(){
@@ -533,13 +542,19 @@ function setDataRadiales(data, factor) {
 	}
 }
 
-function setDataReporte(data){
+function setDataReporte(data, isExistente){
 	var values = data.value.split(",");
 	var radial = $("input[name=radialesRadio]:checked").val();
 	var grados = 360/radial;
 
 	for(i=0;i<radial;i++){
-		distanciaKilometros["MDKPL"+(grados*i)] = values[i];
+		if(isExistente){
+			distanciaEstacionExistente["MDKPL"+(grados*i)] = values[i];
+			$("#EE"+radial+"DK"+(grados*i)).val(redondea(values[i], 2));
+		} else {
+			distanciaKilometros["MDKPL"+(grados*i)] = values[i];
+			$("#I"+radial+"DK"+(grados*i)).val(redondea(values[i], 2));
+		}
 	}
 }
 
@@ -558,26 +573,40 @@ function setDistanciasKilometros(){
 	}
 }
 
-function setDeltaH(data) {
+function setDeltaH(data, isExistente) {
 	var alturas = data.value.split(";");
 	var radial = $("input[name=radialesRadio]:checked").val();
 	var grados = 360/radial;
+	var existente = isExistente ? "EE" : "";
 
 	if(alturas[0] != "-") {
 		for(var ix=0; ix < alturas.length; ix++) {
-			$("#I"+radial+"DH"+(grados*ix)).val(alturas[ix].replace(',', '.'));
+			var valor_deltaH = redondea(alturas[ix].replace(',', '.'), 3);
+			if(isExistente){
+				deltaHExistente["DH"+(grados*ix)] = valor_deltaH;
+			} else {
+				deltaH["DH"+(grados*ix)] = valor_deltaH;
+			}
+			$("#I"+radial+"DH"+existente+(grados*ix)).val(valor_deltaH);
 		}
 	}
 }
 
-function setDataAlturas(data) {
-	var alturas = data.value.split(";");
+function setDataAlturas(data, isExistente) {
+	var datos_alturas = data.value.split(";");
 	var radial = $("input[name=radialesRadio]:checked").val();
 	var grados = 360/radial;
+	var existente = isExistente ? "EE" : "";
 
-	if(alturas[0] != "-") {
-		for(var ix=0; ix < alturas.length; ix++) {
-			$("#I"+radial+"AT"+(grados*ix)).val(alturas[ix].replace(',', '.'));
+	if(datos_alturas[0] != "-") {
+		for(var ix=0; ix < datos_alturas.length; ix++) {
+			var valor_altura = redondea(datos_alturas[ix].replace(',', '.'), 3);
+			if(isExistente){
+				alturasExistente["AT"+(grados*ix)] = valor_altura;
+			} else {
+				alturas["AT"+(grados*ix)] = valor_altura;
+			}
+			$("#I"+radial+"AT"+existente+(grados*ix)).val(valor_altura);
 		}
 	}
 }
@@ -782,6 +811,8 @@ function getParametersReport(){
 	mapOut["pRegion"] = $("#iregion").val();
 	mapOut["pRut"] = $("#irutRazon").val();
 	mapOut["frecuenciaAnaloga"] = $("#frecuenciaC").val();
+	mapOut["longitudPTx"] = longitud_ptx_geo;
+	mapOut["latitudPTx"] = latitud_ptx_geo;
 
 	var radial = $("input[name=radialesRadio]:checked").val();
 	mapOut["radiales"] = radial;
@@ -790,6 +821,11 @@ function getParametersReport(){
 
 	for(i=0;i<radial;i++){
 		mapOut["DIS"+grados*i] = redondea(distanciaKilometros["MDKPL"+(grados*i)],2);
+		mapOut["DEE"+grados*i] = redondea(distanciaEstacionExistente["MDKPL"+(grados*i)],2);
+		mapOut["DH"+grados*i] = deltaH["DH"+grados*i];
+		mapOut["DHEE"+grados*i] = deltaHExistente["DH"+grados*i];
+		mapOut["AT"+grados*i] = alturas["AT"+grados*i];
+		mapOut["ATEE"+grados*i] =alturasExistente["AT"+grados*i];
 	}
 
 	var llave ="";
@@ -836,6 +872,8 @@ function showInitPestana(){
 		$("#pestanaTab2").show();
 		$("#tabdatos").tabs({active: 1});
 	}
+
+	$("#botonHerramientas").css("pointer-events", 'all');
 }
 
 function activeAll(){
@@ -912,7 +950,7 @@ function setFrecuenciaByIntensidad() {
 		if(intensidad == 24.1) {
 			$("#frecuenciaM").val(150);
 		} else if(intensidad == 33.4 || intensidad == 23.9) {
-			$("#frecuenciaM").val(550);
+			$("#frecuenciaM").val(470);
 		} else if(intensidad == 38.5 || intensidad == 24.0) {
 			$("#frecuenciaM").val(800);
 		}

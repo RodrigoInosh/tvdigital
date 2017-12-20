@@ -24,6 +24,13 @@ function getPage(title, form_elements) {
     var estudio_princ = form_pdf_data.estudio_principal;
     var estudio_alter = form_pdf_data.estudio_alternativo;
     var frecuencia_digital = getCanalByFrecuencia("digital", form_elements.pFrecuencia);
+    var comunaPtx = getValue(estudio_princ.comunaName);
+    var regionPtx = getValue(estudio_princ.regionName);
+    var comunaPtxAlt = getValue(estudio_alter.comunaName);
+    var regionPtxAlt = getValue(estudio_alter.regionName);
+    var comunaNamePTx = getValue(form_pdf_data.carac_tecnicas.comunaNamePTx);
+    var regionNamePTx = getValue(form_pdf_data.carac_tecnicas.regionNamePTx);
+    var domicilioPTx = getValue(form_pdf_data.carac_tecnicas.domicilioPTx);
     var obj = [{
             text: title,
             style: 'header',
@@ -121,7 +128,7 @@ function getPage(title, form_elements) {
                             text: 'Localidad o Nombre de la Estación:   ' + form_elements.pLocalidad,
                             colSpan: 3,
                             fontSize: 10,
-                            border: [false, false, false, false]
+                            border: [false, false, true, false]
                         },
                         {}, {}
                     ],
@@ -176,7 +183,7 @@ function getPage(title, form_elements) {
                             border: [true, false, false, false]
                         }, {},
                         {
-                            text: 'Comuna: ' + estudio_princ.comunaName,
+                            text: 'Comuna: ' + comunaPtx,
                             fontSize: 10,
                             colSpan: 2,
                             border: [false, false, true, false]
@@ -188,7 +195,7 @@ function getPage(title, form_elements) {
                         fontSize: 10,
                         border: [true, false, false, false]
                     }, {}, {
-                        text: 'Región: ' + estudio_princ.regionName,
+                        text: 'Región: ' + regionPtx,
                         fontSize: 10,
                         colSpan: 2,
                         border: [false, false, true, false]
@@ -224,7 +231,7 @@ function getPage(title, form_elements) {
                             border: [true, false, false, false]
                         }, {},
                         {
-                            text: 'Comuna: ' + estudio_alter.comunaName,
+                            text: 'Comuna: ' + comunaPtxAlt,
                             fontSize: 10,
                             colSpan: 2,
                             border: [false, false, true, false]
@@ -236,7 +243,7 @@ function getPage(title, form_elements) {
                         fontSize: 10,
                         border: [true, false, false, false]
                     }, {}, {
-                        text: 'Región: ' + estudio_alter.regionName,
+                        text: 'Región: ' + regionPtxAlt,
                         fontSize: 10,
                         colSpan: 2,
                         border: [false, false, true, false]
@@ -265,13 +272,13 @@ function getPage(title, form_elements) {
                         border: [true, false, true, false]
                     }, {}, {}, {}],
                     [{
-                            text: 'Domicilio Calle: ' + form_pdf_data.carac_tecnicas.domicilioPTx,
+                            text: 'Domicilio Calle: ' + domicilioPTx,
                             colSpan: 2,
                             fontSize: 10,
                             border: [true, false, false, false]
                         }, {},
                         {
-                            text: 'Comuna: ' + form_pdf_data.carac_tecnicas.comunaNamePTx,
+                            text: 'Comuna: ' + comunaNamePTx,
                             fontSize: 10,
                             colSpan: 2,
                             border: [false, false, true, false]
@@ -283,7 +290,7 @@ function getPage(title, form_elements) {
                         fontSize: 10,
                         border: [true, false, false, false]
                     }, {}, {
-                        text: 'Región: ' + form_pdf_data.carac_tecnicas.regionNamePTx,
+                        text: 'Región: ' + regionNamePTx,
                         fontSize: 10,
                         colSpan: 2,
                         border: [false, false, true, false]

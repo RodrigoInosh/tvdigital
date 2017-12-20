@@ -28,6 +28,7 @@ button{
 }
 
 #botonHerramientas{
+	pointer-events: none;
 	position: absolute;
 	left: 10px;
 	top: 170px;
@@ -672,7 +673,7 @@ button{
 	height: 18px;
 }
 
-#distanciaKilometro8, #deltaH8, #alturas8 {
+#distanciaKilometro8, #distanciaExistente8, #deltaH8, #alturas8, #alturasExistente8, #deltaHExistente8 {
 	height: 155px;
 	width: 180px;
 	display: none;
@@ -686,7 +687,7 @@ button{
 	padding: 7px;
 }
 
-#distanciaKilometro8 ul, #deltaH8 ul, #alturas8 ul {
+#distanciaKilometro8 ul, #distanciaExistente8 ul, #deltaH8 ul, #alturas8 ul, #alturasExistente8 ul, #deltaHExistente8 ul {
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
@@ -695,7 +696,7 @@ button{
 	font-weight: bold;
 }
 
-#distanciaKilometro8 ul li, #deltaH8 ul li, #alturas8 ul li {
+#distanciaKilometro8 ul li, #distanciaExistente8 ul li, #deltaH8 ul li, #alturas8 ul li, #alturasExistente8 ul li, #deltaHExistente8 ul li {
 	float: left;
 	padding: 3px;
 }

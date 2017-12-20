@@ -4,40 +4,46 @@
 
 	<%
 		String token = request.getParameter("token");
-		// System.in.print(token);
 		String userId = request.getParameter("userId");
 		String codigoPostulacion = request.getParameter("codigo");
 		String seccion = "digital";
-		if(request.getParameter("seccion") == null) {
-			seccion = "digital";
-		} else {
+		String seccion_original = request.getParameter("seccion");
+
+		if(seccion_original != null) {
 			seccion = request.getParameter("seccion");
 		}
 	%>
+
 	<script src="js/jquery-3.2.0.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
 	<script src="js/jquery.soap.js"></script>
 	<script language="javascript">
-		   var token ="<%=token%>";
-		   var userId ="<%=userId%>";
-		   var codigoPostulacion ="<%=codigoPostulacion%>";
-		   var seccion = "<%=seccion%>";
-		 //   if (seccion == "digital") {
-			//    data = {"usuario_id": parseInt(userId), "token": token, "codigo": codigoPostulacion};
-			// 	$.ajax({
-			// 		data: data,
-			// 		url: "/CalculoTVD/calculoTVD/tvdpage",
-			// 		type: 'POST',
-			// 		success: function(response) {
-			// 			if(response == "NOK") {
-			// 				window.location.replace('error_page.jsp');
-			// 			}
-			// 		},
-			// 		error: function(error) {
-			// 			window.location.replace('error_page.jsp');
-			// 		}
-			// 	});
-			// }
+	    var token = "<%=token%>";
+	    var userId = "<%=userId%>";
+	    var codigoPostulacion = "<%=codigoPostulacion%>";
+	    var seccion = "<%=seccion%>";
+	    var seccion_original = "<%=seccion_original%>";
+
+	    if (seccion_original == "null") {//Esta validacion se hace ya que desde el CNTV no se envía la seccion (no existia), solo si viene desde el cntv se validan credenciales.
+	        data = {
+	            "usuario_id": parseInt(userId),
+	            "token": token,
+	            "codigo": codigoPostulacion
+	        };
+	        $.ajax({
+	            data: data,
+	            url: "/CalculoTVD/calculoTVD/tvdpage",
+	            type: 'POST',
+	            success: function(response) {
+	                if (response == "NOK") {
+	                    window.location.replace('error_page.jsp');
+	                }
+	            },
+	            error: function(error) {
+	                window.location.replace('error_page.jsp');
+	            }
+	        });
+	    }
 	</script>
 <head>
 <meta charset="utf-8">
@@ -314,17 +320,23 @@
 							<li style="text-align: left;" id="opcionesAvanzadasButton"><a href="#">Par&aacute;metros Avanzados</a></li>
 							<li style="width: 110px; text-align: left;" id="whiteSpace"></li>
 							<% if(seccion.equals("digital")) { %>
+							<li><button type="button" id="calculaPoligono">Calcular Zona [72 radiales]</button></li>
 							<% } else if(seccion.equals("servicios")) { %>
 							<li><button type="button" id="calcularCoCanal" class="calculoZona" style="display: none;">Estaci&oacute;n Existente</button></li>
+							<li><button type="button" id="calculaPoligono">Calcular Zona [8 radiales]</button></li>
 							<% } else if(seccion.equals("radiodifusion")) { %>
 							<li><button type="button" id="nuevaZonaMaxima" class="calculoZona" style="display: none;">Nueva Zona M&aacute;xima</button></li>
+							<li><button type="button" id="calculaPoligono">Calcular Zona [18 radiales]</button></li>
 							<% } %>
-							<li><button type="button" id="calculaPoligono">Calcular Zona [72 radiales]</button></li>
 						</ul>
 					</div>
 				</div>
 				<div id="tab3">
+					<% if(seccion.equals("servicios")) { %>
+					<div id="subbox3top" style="height: 55px;">
+					<% } else { %>
 					<div id="subbox3top">
+					<% } %>
 						<div id="subbox3topleft">
 							<ul>
 								<%if(seccion.equals("servicios")) {%>
@@ -362,7 +374,7 @@
 					</div>
 					<div id="subbox3bottom1">
 						<ul>
-							<%if(seccion.equals("servicios")) {%>
+							<% if(seccion.equals("servicios")) {%>
 							<li><label><b><u>Coordenadas de Ubicaci&oacute;n para Planta TxWGS84</u></b></label></li>
 							<% } else {%>
 							<li><label><b><u>Coordenadas de Ubicaci&oacute;n Digital para Planta TxWGS84</u></b></label></li>
@@ -374,21 +386,39 @@
 							<li><input id="longitudI" type="text" value="" style="width: 100px;" disabled="disabled"/></li>
 						</ul>
 					</div>
+					<% if(seccion.equals("servicios")) { %>
+					<div id="datospostulante" style="height: 130px;">
+					<% } else {%>
 					<div id="datospostulante">
+					<% } %>
+						<% if(seccion.equals("servicios")) { %>
+						<ul>
+							<li><label><b><u>Estaci&oacute;n Existente</u></b></label></li>
+							<div id="separador"></div>
+							<li><button type="button" style="font-size: 11px;" id="verDistanciaExtistente" class="button_info">Ver Resultado</button></li>
+							<%if(seccion.equals("servicios")) { %>
+							<li><button type="button" style="font-size: 11px;" id="verDeltaHExistente" class="button_info">Ver Delta H</button></li>
+							<li><button type="button" style="font-size: 11px;" id="verAlturasExistente" class="button_info">Ver Hi</button></li>
+							<div id="separador"></div>
+							<% } %>
+						</ul>
+						<% } %>
 						<ul>
 							<li><label><b><u>Proyecto T&eacute;cnico</u></b></label></li>
 							<div id="separador"></div>
 							<li><button type="button" style="font-size: 11px;" id="verDistancia" class="button_info">Ver Resultado</button></li>
 							<%if(seccion.equals("servicios")) { %>
 							<li><button type="button" style="font-size: 11px;" id="verDeltaH" class="button_info">Ver Delta H</button></li>
-							<li><button type="button" style="font-size: 11px;" id="verAlturas" class="button_info">Ver Alturas</button></li>
+							<li><button type="button" style="font-size: 11px;" id="verAlturas" class="button_info">Ver Hi</button></li>
 							<% } %>
 							<div id="separador"></div>
 							<li><button type="button" id="exportarKMZ">Exportar a GoogleEarth</button></li>
 							<li><button type="button" id="pdfForm">Agregar Datos</button></li>
 							<li><button type="button" id="imprimirCalculo">Generar PDF</button></li>
+							<%if(seccion.equals("digital")) { %>
 							<div id="separador"></div>
 							<li><button type="button" id="enviarCalculosCNTV" class="button_info"><b>Enviar a CNTV</b></button></li>
+							<% } %>
 						</ul>
 					</div>
 				</div>
@@ -549,6 +579,32 @@
 					<li><input type="text" value="0" id="I8DK315" style="width: 40px" disabled="disabled" /></li>
 				</ul>
 			</div>
+			<div id="distanciaExistente8">
+				<img id="closeImageDK8" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<ul>
+					<li><label><b><u>Distancia en [KMs]</u></b></label></li>
+					<div id="separador"></div>
+					<li>&nbsp; &nbsp;  0&deg</li>
+					<li><input type="text" value="0" id="EE8DK0" style="width: 40px" disabled="disabled" /></li>
+					<li>180&deg</li>
+					<li><input type="text" value="0" id="EE8DK180" style="width: 40px" disabled="disabled" /></li>
+					<div id="separador"></div>
+					<li>&nbsp; 45&deg</li>
+					<li><input type="text" value="0" id="EE8DK45" style="width: 40px" disabled="disabled" /></li>
+					<li>225&deg</li>
+					<li><input type="text" value="0" id="EE8DK225" style="width: 40px" disabled="disabled" /></li>
+					<div id="separador"></div>
+					<li>&nbsp; 90&deg</li>
+					<li><input type="text" value="0" id="EE8DK90" style="width: 40px" disabled="disabled" /></li>
+					<li>270&deg</li>
+					<li><input type="text" value="0" id="EE8DK270" style="width: 40px" disabled="disabled" /></li>
+					<div id="separador"></div>
+					<li>135&deg</li>
+					<li><input type="text" value="0" id="EE8DK135" style="width: 40px" disabled="disabled" /></li>
+					<li>315&deg</li>
+					<li><input type="text" value="0" id="EE8DK315" style="width: 40px" disabled="disabled" /></li>
+				</ul>
+			</div>
 			<div id="distanciaKilometro18">
 				<img id="closeImageDK18" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>
@@ -602,6 +658,32 @@
 					<li><input type="text" value="0" id="I8DH315" style="width: 45px" disabled="disabled" /></li>
 				</ul>
 			</div>
+			<div id="deltaHExistente8">
+				<img id="closeDeltaH" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<ul>
+					<li><label><b><u>Delta H</u></b></label></li>
+					<div id="separador"></div>
+					<li>&nbsp; &nbsp;  0&deg</li>
+					<li><input type="text" value="0" id="I8DHEE0" style="width: 45px" disabled="disabled" /></li>
+					<li>180&deg</li>
+					<li><input type="text" value="0" id="I8DHEE180" style="width: 45px" disabled="disabled" /></li>
+					<div id="separador"></div>
+					<li>&nbsp; 45&deg</li>
+					<li><input type="text" value="0" id="I8DHEE45" style="width: 45px" disabled="disabled" /></li>
+					<li>225&deg</li>
+					<li><input type="text" value="0" id="I8DHEE225" style="width: 45px" disabled="disabled" /></li>
+					<div id="separador"></div>
+					<li>&nbsp; 90&deg</li>
+					<li><input type="text" value="0" id="I8DHEE90" style="width: 45px" disabled="disabled" /></li>
+					<li>270&deg</li>
+					<li><input type="text" value="0" id="I8DHEE270" style="width: 45px" disabled="disabled" /></li>
+					<div id="separador"></div>
+					<li>135&deg</li>
+					<li><input type="text" value="0" id="I8DHEE135" style="width: 45px" disabled="disabled" /></li>
+					<li>315&deg</li>
+					<li><input type="text" value="0" id="I8DHEE315" style="width: 45px" disabled="disabled" /></li>
+				</ul>
+			</div>
 			<div id="deltaH18">
 				<img id="closeDeltaH" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>
@@ -628,7 +710,6 @@
 					<% } %>
 				</ul>
 			</div>
-
 			<div id="alturas8">
 				<img id="closeAlturas" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
 				<ul>
@@ -653,6 +734,32 @@
 					<li><input type="text" value="0" id="I8AT135" style="width: 45px" disabled="disabled" /></li>
 					<li>315&deg</li>
 					<li><input type="text" value="0" id="I8AT315" style="width: 45px" disabled="disabled" /></li>
+				</ul>
+			</div>
+			<div id="alturasExistente8">
+				<img id="closeAlturas" class="close" src="images/close-150192_640.png" width="20" height="20" style="float: right; cursor: pointer;">
+				<ul>
+					<li><label><b><u>Alturas</u></b></label></li>
+					<div id="separador"></div>
+					<li>&nbsp; &nbsp;  0&deg</li>
+					<li><input type="text" value="0" id="I8ATEE0" style="width: 45px" disabled="disabled" /></li>
+					<li>180&deg</li>
+					<li><input type="text" value="0" id="I8ATEE180" style="width: 45px" disabled="disabled" /></li>
+					<div id="separador"></div>
+					<li>&nbsp; 45&deg</li>
+					<li><input type="text" value="0" id="I8ATEE45" style="width: 45px" disabled="disabled" /></li>
+					<li>225&deg</li>
+					<li><input type="text" value="0" id="I8ATEE225" style="width: 45px" disabled="disabled" /></li>
+					<div id="separador"></div>
+					<li>&nbsp; 90&deg</li>
+					<li><input type="text" value="0" id="I8ATEE90" style="width: 45px" disabled="disabled" /></li>
+					<li>270&deg</li>
+					<li><input type="text" value="0" id="I8ATEE270" style="width: 45px" disabled="disabled" /></li>
+					<div id="separador"></div>
+					<li>135&deg</li>
+					<li><input type="text" value="0" id="I8ATEE135" style="width: 45px" disabled="disabled" /></li>
+					<li>315&deg</li>
+					<li><input type="text" value="0" id="I8ATEE315" style="width: 45px" disabled="disabled" /></li>
 				</ul>
 			</div>
 			<div id="alturas18">
@@ -718,9 +825,9 @@
 	<div id="openModal" class="modalForm"><jsp:include page="form_pdf.jsp" />
 	</div>
 	<div id="info_user" style="display: none;">
-		<input type="text" id="id" value='<%=request.getParameter("userId")%>'>
-		<input type="text" id="codigo" value='<%=request.getParameter("codigo")%>' text="">
-		<input type="text" id="seccion" value='<%=request.getParameter("seccion")%>' text="">
+		<input type="text" id="id" value="<%=userId%>">
+		<input type="text" id="codigo" value="<%=codigoPostulacion%>" text="">
+		<input type="text" id="seccion" value="<%=seccion%>" text="">
 		<input type="text" id="idomicilio" value="" text="">
 		<input type="text" id="iemail" value="">
 		<input type="text" id="ifono" value="">

@@ -35,8 +35,20 @@ function getPage1(title, form_elements) {
     var frecuencia_analoga = getCanalByFrecuencia("analoga", form_elements.frecuenciaAnaloga);
     var frecuencia_digital = getCanalByFrecuencia("digital", form_elements.pFrecuencia);
 
+    var regionPrinc = getValue(estudio_princ.regionName);
+    var comunaPtx = getValue(form_pdf_data.carac_tecnicas.comunaNamePTx);
+    var regionNamePTx = getValue(form_pdf_data.carac_tecnicas.regionNamePTx);
+    var domicilioPtx = getValue(form_pdf_data.carac_tecnicas.domicilioPTx);
+
     ptx_adic1 = form_pdf_data.ptx_adicional1;
     ptx_adic2 = form_pdf_data.ptx_adicional2;
+
+    var comunaPtxAlt = getValue(ptx_adic1.comunaName);
+    var regionPtxAlt = getValue(ptx_adic1.regionName);
+    var domicilioPtxAlt = getValue(ptx_adic1.domicilio);
+    var comunaPtxAlt2 = getValue(ptx_adic2.comunaName);
+    var regionPtxAlt2 = getValue(ptx_adic2.regionName);
+    var domicilioPtxAlt2 = getValue(ptx_adic2.domicilio);
 
     var obj = [{
             text: title,
@@ -262,7 +274,7 @@ function getPage1(title, form_elements) {
                         fontSize: 10,
                         border: [true, false, false, false]
                     }, {}, {
-                        text: 'Región:    ' + estudio_princ.regionName,
+                        text: 'Región:    ' + regionPrinc,
                         fontSize: 10,
                         colSpan: 2,
                         border: [false, false, true, false]
@@ -339,13 +351,13 @@ function getPage1(title, form_elements) {
                         border: [true, false, true, false]
                     }, {}, {}, {}],
                     [{
-                            text: 'Domicilio Calle: ' +  form_pdf_data.carac_tecnicas.domicilioPTx,
+                            text: 'Domicilio Calle: ' +  domicilioPtx,
                             colSpan: 2,
                             fontSize: 10,
                             border: [true, false, false, false]
                         }, {},
                         {
-                            text: 'Comuna: ' + form_pdf_data.carac_tecnicas.comunaNamePTx,
+                            text: 'Comuna: ' + comunaPtx,
                             fontSize: 10,
                             colSpan: 2,
                             border: [false, false, true, false]
@@ -357,7 +369,7 @@ function getPage1(title, form_elements) {
                         fontSize: 10,
                         border: [true, false, false, false]
                     }, {}, {
-                        text: 'Región: ' + form_pdf_data.carac_tecnicas.regionNamePTx,
+                        text: 'Región: ' + regionNamePTx,
                         fontSize: 10,
                         colSpan: 2,
                         border: [false, false, true, false]
@@ -387,13 +399,13 @@ function getPage1(title, form_elements) {
                         border: [true, false, true, false]
                     }, {}, {}, {}],
                     [{
-                            text: 'Domicilio Calle:    ' + ptx_adic1.domicilio,
+                            text: 'Domicilio Calle:    ' + domicilioPtxAlt,
                             colSpan: 2,
                             fontSize: 10,
                             border: [true, false, false, false]
                         }, {},
                         {
-                            text: 'Comuna:    ' + ptx_adic1.comunaName,
+                            text: 'Comuna:    ' + comunaPtxAlt,
                             fontSize: 10,
                             colSpan: 2,
                             border: [false, false, true, false]
@@ -405,7 +417,7 @@ function getPage1(title, form_elements) {
                         fontSize: 10,
                         border: [true, false, false, false]
                     }, {}, {
-                        text: 'Región:    ' + ptx_adic1.regionName,
+                        text: 'Región:    ' + regionPtxAlt,
                         fontSize: 10,
                         colSpan: 2,
                         border: [false, false, true, false]
@@ -434,13 +446,13 @@ function getPage1(title, form_elements) {
                         border: [true, false, true, false]
                     }, {}, {}, {}],
                     [{
-                            text: 'Domicilio Calle:    ' + ptx_adic2.domicilio,
+                            text: 'Domicilio Calle:    ' + domicilioPtxAlt2,
                             colSpan: 2,
                             fontSize: 10,
                             border: [true, false, false, false]
                         }, {},
                         {
-                            text: 'Comuna:    ' + ptx_adic2.comunaName,
+                            text: 'Comuna:    ' + comunaPtxAlt2,
                             fontSize: 10,
                             colSpan: 2,
                             border: [false, false, true, false]
@@ -452,7 +464,7 @@ function getPage1(title, form_elements) {
                         fontSize: 10,
                         border: [true, false, false, false]
                     }, {}, {
-                        text: 'Región:    ' + ptx_adic2.regionName,
+                        text: 'Región:    ' + regionPtxAlt2,
                         fontSize: 10,
                         colSpan: 2,
                         border: [false, false, true, false]

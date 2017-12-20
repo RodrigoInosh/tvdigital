@@ -17,6 +17,8 @@ var printTaskRepore = null;
 var geoScriptExportarKMZ = null;
 var longitud_ptx = 0;
 var latitud_ptx = 0;
+var longitud_ptx_geo = "";
+var latitud_ptx_geo = "";
 var longitud = 0;
 var latitud = 0;
 var radiales8 = 0;
@@ -89,8 +91,15 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         codigo = $("#codigo").val();
         TIPO_SECCION = $("#seccion").val();
 
+        setInitConcursosParametros();
+        setComboTipoServicio(TIPO_SECCION, "concurso");
+        setVariablesByIntensidadCampo();
+        showInitPestana();
+        setDataCombosRegiones();
+        triggerPerdidasLobulos();
+
         $("#exportarKMZ").on('click', function() {
-            // showLoader(true, 'Generando Archivo KML');
+            showLoader(true, 'Generando Archivo KML');
             exportKMZClick(true);
         });
 
@@ -257,13 +266,6 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         var gpCalculoPredictivoCensal = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Pruebas/CapaCensal/GPServer/CalculoPredictivo72";
         var gpCalculoZonaMaxima = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Pruebas/CalculoZonaMaxima/GPServer/Modelo";
         var gpCalculoMatrizCotas = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Pruebas/Test2/GPServer/Test2";
-
-        setInitConcursosParametros();
-        setComboTipoServicio(TIPO_SECCION, "concurso");
-        setVariablesByIntensidadCampo();
-        showInitPestana();
-        setDataCombosRegiones();
-        triggerPerdidasLobulos();
 
         queryTask1 = new QueryTask({
             url: object_identificadores.identificador_lista_concursos
@@ -548,6 +550,8 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                     latitud = data.features[0].geometry.y;
                     longitud_ptx = longitud;
                     latitud_ptx = latitud;
+                    longitud_ptx_geo = $("#longitudGradosM").val() + "° "+ $("#longitudMinutosM").val() + "' " + $("#longitudSegundosM").val() + "''";
+                    latitud_ptx_geo = $("#latitudGradosM").val() + "° "+ $("#latitudMinutosM").val() + "' " + $("#latitudSegudosM").val() + "''";
                     view.center = [longitud, latitud];
                     var coordsPoint = new GeoPoint(longitud, latitud);
                     var coords = [coordsPoint.lonDeg, coordsPoint.latDeg]
@@ -576,7 +580,6 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                     queryTask2.execute(queryData).then(function(data) {
                         superView.punto = data;
                         setDataIdentificador(data.features[0].attributes, coords, decimales_frecuencias);
-                        console.log(data.features[0].attributes);
                         view.zoom = setZoom(data.features[0].attributes);
                     });
                 }
@@ -607,6 +610,8 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                     latitud = data.features[0].geometry.y;
                     longitud_ptx = longitud;
                     latitud_ptx = latitud;
+                    longitud_ptx_geo = $("#longitudGradosM").val() + "° "+ $("#longitudMinutosM").val() + "' " + $("#longitudSegundosM").val() + "''";
+                    latitud_ptx_geo = $("#latitudGradosM").val() + "° "+ $("#latitudMinutosM").val() + "' " + $("#latitudSegudosM").val() + "''";
                     view.center = [longitud, latitud];
                     var coordsPoint = new GeoPoint(longitud, latitud);
                     var coords = [coordsPoint.lonDeg, coordsPoint.latDeg]
@@ -737,6 +742,8 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             view.zoom = 9;
             longitud_ptx = longitud;
             latitud_ptx = latitud;
+            longitud_ptx_geo = $("#longitudGradosM").val() + "° "+ $("#longitudMinutosM").val() + "' " + $("#longitudSegundosM").val() + "''";
+            latitud_ptx_geo = $("#latitudGradosM").val() + "° "+ $("#latitudMinutosM").val() + "' " + $("#latitudSegudosM").val() + "''";
         }
 
         function clickCalculaPoligonoClick() {
@@ -895,6 +902,9 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             var jobId = data.jobId;
             var MAX_VALUE = 100000;
             geoProcessor.getResultData(jobId, "area").then(setPolygon, showError);
+            geoProcessor.getResultData(jobId, "distancias").then(setDistanciasEstacionExistente, showError);
+            geoProcessor.getResultData(jobId, "deltaH").then(getDeltaHEstacionExistente, showError);
+            geoProcessor.getResultData(jobId, "altura").then(getAlturasEstacionExistente, showError);
         }
 
         function sendRequestCotas(data) {
@@ -920,7 +930,11 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         }
 
         function getDeltaH(data) {
-        	setDeltaH(data);
+        	setDeltaH(data, false);
+        }
+
+        function getDeltaHEstacionExistente(data) {
+            setDeltaH(data, true);
         }
 
         function getAlturaTerreno(data) {
@@ -928,7 +942,11 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         }
 
         function getAlturas(data) {
-        	setDataAlturas(data);
+        	setDataAlturas(data, false);
+        }
+
+        function getAlturasEstacionExistente(data) {
+            setDataAlturas(data, true);
         }
 
         function setPolygon(data) {
@@ -1001,7 +1019,12 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         }
 
         function setDataReporteOut(data) {
-            setDataReporte(data);
+            setDataReporte(data, false);
+        }
+
+        function setDistanciasEstacionExistente(data) {
+            console.log("Dgsgs");
+            setDataReporte(data, true);
         }
 
         function setZoom(value) {
@@ -1103,9 +1126,6 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             var poligonoM2 = "";
             var poligonoMaxZone = "";
 
-            console.log("longitud_ptx: "+longitud_ptx);
-            console.log("latitud_ptx: "+latitud_ptx);
-
             if(longitud_ptx == 0 && latitud_ptx == 0) {
                 longitud_ptx = superView.puntoNuevo.longitud;
                 latitud_ptx = superView.puntoNuevo.latitud;
@@ -1116,7 +1136,6 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 y: latitud_ptx
             };
 
-             console.log(ubicacion);
             var circleGeometry = new Circulo([superView.puntoNuevo.longitud, superView.puntoNuevo.latitud], {
                 "radius": 60000,
                 geodesic: true
@@ -1178,7 +1197,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                 link.click();
                 document.body.removeChild(link);
 
-                // showLoader(false, '');
+                showLoader(false, '');
             } else {
                 return encodedData;
             }

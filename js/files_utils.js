@@ -185,11 +185,9 @@ function rellenarPerdidasLobuloByCSV(file, fileReader, tabla_perdidas) {
 
     if(TIPO_SECCION == 'servicios') {
         form_pdf_data = getFormData("Modificacion");
-        pdfDocGenerator = getPDFModificacion(mapReporte, form_pdf_data);
+        pdfDocGenerator = Servicios.getPdf(mapReporte, form_pdf_data);
     } else if(TIPO_SECCION == 'radiodifusion') {
-        console.log("ASFASF");
         form_pdf_data = getFormData("Modificacion");
-        // pdfDocGenerator = getPdfRadioModificacion(mapReporte, form_pdf_data);
         pdfDocGenerator = Radio.getPdf(mapReporte, form_pdf_data);
     } else {
         form_pdf_data = getFormData(concursoModificacion);
@@ -206,6 +204,7 @@ function rellenarPerdidasLobuloByCSV(file, fileReader, tabla_perdidas) {
 function getPDFBase64File(kml_base64) {
     var pdfDocGenerator = getPDFFile();
     var pdf_base64_file;
+    
     pdfDocGenerator.getBase64(function(data) {
         pdf_base64_file = data;
         sendBase64Files(kml_base64, data);
