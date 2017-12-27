@@ -353,7 +353,7 @@
 								<li style="font-weight: bold"><label id="potenciaI"></label><label> Watts</label></li>
 								<div id="separador"></div>
 								<% } %>
-								<li><label>N&deg; de Viviendas: &nbsp;</label></li>
+								<li><label>N&deg; de Habitantes: &nbsp;</label></li>
 								<li style="font-weight: bold"><label id="viviendasI"></label></li>
 							</ul>
 						</div>
@@ -392,7 +392,7 @@
 					<div id="datospostulante">
 					<% } %>
 						<% if(seccion.equals("servicios")) { %>
-						<ul>
+						<ul id="ulestacionexistente" style="display: none">
 							<li><label><b><u>Estaci&oacute;n Existente</u></b></label></li>
 							<div id="separador"></div>
 							<li><button type="button" style="font-size: 11px;" id="verDistanciaExtistente" class="button_info">Ver Resultado</button></li>
@@ -421,6 +421,11 @@
 							<% } %>
 						</ul>
 					</div>
+				</div>
+				<div id="version">
+					<label>
+						V2.0 - 21/12/2017
+					</label>
 				</div>
 			</div>
 			<div id="curtainCaltool"></div>

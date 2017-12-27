@@ -681,9 +681,9 @@ function setComboRegion(value){
 	removeDataConcurso();
 	removeDataInforme();
 	showInitPestana();
+
 	if(value){
 		concurso = true;
-
 		$("#concursoLabel").show();
 		$("#concursoSelect").show();
 		$("#regionesLabel").hide();

@@ -255,7 +255,8 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             }
         });
 
-        var gpCalculoPredictivo = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/calculozona/GPServer/CalculoPredictivo72";
+        var gpCalculoPredictivo = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/CalculoPredictivo/GPServer/CalculoPredictivo72";
+        var gpCalculoZonaMaxima = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/CalculoZonaMaxima/GPServer/Modelo";
         var ptReporte = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/Imprimir/GPServer/Imprimir";
         var gpScriptExportarKMZ = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Cobertura_Radio/ScriptExportarKMZ/GPServer/ScriptExportarKMZ/";
         var guardarDataCalculos = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/GuardarCalculos/GPServer/Modelo";
@@ -263,8 +264,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         var cargarDataCalculo = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/DDT/ObtenerDatosCalculos/GPServer/Modelo";
 
         //**CAMBIAR LOS SCRIPT DE CALCULO AL CORRESPONDIENTE**//
-        var gpCalculoPredictivoCensal = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Pruebas/CapaCensal/GPServer/CalculoPredictivo72";
-        var gpCalculoZonaMaxima = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Pruebas/CalculoZonaMaxima/GPServer/Modelo";
+        
         var gpCalculoMatrizCotas = "http://copahue.subtel.gob.cl:6080/arcgis/rest/services/Pruebas/Test2/GPServer/Test2";
 
         queryTask1 = new QueryTask({
@@ -460,11 +460,13 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                         $(".calculoZona").hide();
                         $("#whiteSpace").show();
                     }
-
+                    console.log("A");
                     $("#verRadiales").prop("disabled", true);
+                    $("#ulestacionexistente").hide();
                     $("#label_zona_max").text("Zona de Servicio Máxima");
                 }
                 if (modificacionM) {
+                    console.log("B");
                     concursoModificacion = "Modificacion";
                     setComboRegion(false);
                     setComboIntensidadCampo(false);
@@ -476,13 +478,18 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
                     }
                     
                     $("#verRadiales").prop("disabled", true);
+                    $("#ulestacionexistente").show();
                     $("#label_zona_max").text("Zona de Servicio Mínima");
                 }
             } else {
                 if (concursoC) {
+                    console.log("A2");
+                    $("#ulestacionexistente").hide();
                     $("#modificacionM").prop("checked", true);
                 }
                 if (modificacionM) {
+                    console.log("B2");
+                    $("#ulestacionexistente").show();
                     $("#concursoC").prop("checked", true);
                 }
             }
@@ -749,7 +756,7 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
         function clickCalculaPoligonoClick() {
             showLoader(true, 'Calculando Zona de Propagación');
             map.remove(capaCalculoPoligonos);
-            geoProcessor = new Geoprocessor(gpCalculoPredictivoCensal);
+            geoProcessor = new Geoprocessor(gpCalculoPredictivo);
 
             var mapParametros = getMapParameters();
             var recomendacion = mapParametros.recomendacion;
@@ -918,6 +925,10 @@ require(["esri/Map", "esri/Basemap", "esri/views/MapView", "esri/geometry/Circle
             setPosicionTools();
             hidePestanaTab3();
             showLoader(false, '');
+        }
+
+        function getDataNube(data) {
+            exportDataMatrizCota(data);
         }
 
         function showErrorCalculosGuardados(data) {

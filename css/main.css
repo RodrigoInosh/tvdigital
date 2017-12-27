@@ -161,7 +161,7 @@ button{
 
 #tab1 {
 	border: solid 1px #C0C0C0;
-	height: 265px;
+	height: 280px;
 	position: relative;
 	width: 423px;
 }
@@ -293,7 +293,7 @@ button{
 
 #tab2 {
 	border: solid 1px #C0C0C0;
-	height: 279px;
+	height: 280px;
 	padding-top: 10x;
 	position: relative;
 	width: 423px;
@@ -329,7 +329,7 @@ button{
 
 #tab3 {
 	border: solid 1px #C0C0C0;
-	height: 290px;
+	height: 280px;
 	width: 423px;
 }
 
@@ -948,4 +948,14 @@ button{
     height: 2px;
     background-color: #0f69b4;
     margin-top: -2px;
+}
+
+#version {
+	text-align: right;
+	padding-right: 17px;
+}
+
+#version label {
+	font-size: 11px;
+	font-weight: bold;
 }

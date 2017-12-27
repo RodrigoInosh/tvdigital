@@ -21,7 +21,7 @@ $(document).ready(function() {
     });
 });
 
-function getDataNube(data) {
+function exportDataMatrizCota(data) {
     showLoader(false, '');
     var fields = data.value.features;
     var csv_data = ["angulo", "distancia", "Z"];
